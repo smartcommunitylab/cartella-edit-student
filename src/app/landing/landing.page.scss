@@ -1,0 +1,44 @@
+
+ion-content {
+    --background: #0073E6;
+    .container {
+        color: white;
+        text-align: center;
+        font-family: Titillium Web;
+    
+        .heading-1 {
+            font-size: x-large;
+            font-weight: 900;
+        }
+        
+        .text {
+            font-size: large;
+        }
+    
+        .icon {
+            width:95px;
+            height: 90px;
+        }
+
+        .button {
+            background-color: white;
+            color: #0073E6;
+            font-weight: bold;
+            text-transform: none;
+        }
+
+        .text2 {
+            font-style: italic;
+        }
+
+        .text3 {
+            font-size: large;
+            text-decoration: underline;
+        }
+    
+    }
+    
+    
+
+}
+

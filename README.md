@@ -1,1 +1,16 @@
 # cartella-edit-student
+
+Ionic CLI 6.10.1
+Node v12.13.1
+Angular CLI 6.0.3
+
+## Running the Application
+1. Install `Node.js 12.13.1` or higher. *IMPORTANT: The server uses ES2015 features AND the Angular CLI so you need Node 6.11 or higher!!!!*
+
+1. Run `npm i` from project root to install app dependencies
+
+2. Configure AAC client properties in environment.ts or envrionment.prod.ts file
+
+3. Run `ng serve --port 4300` in a separate terminal window to build the TypeScript, watch for changes and launch the web server
+
+1. Go to http://localhost:4300 in your browser 
