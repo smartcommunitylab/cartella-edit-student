@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
@@ -8,12 +8,16 @@ import { IonicStorageModule } from '@ionic/storage';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
+import { registerLocaleData } from '@angular/common';
+import localeIt from '@angular/common/locales/it';
+
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core/core.module';
 import { ExploreContainerComponentModule } from './explore-container/explore-container.module';
 
+registerLocaleData(localeIt, 'it-IT');
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -28,6 +32,7 @@ import { ExploreContainerComponentModule } from './explore-container/explore-con
     ExploreContainerComponentModule
   ],
   providers: [
+    { provide: LOCALE_ID, useValue: 'it-IT' },
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

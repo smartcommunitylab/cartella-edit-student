@@ -14,6 +14,7 @@ import { DataService } from '../core/services/data.service';
 export class Tab1Page {
   userInfo: IUserInfo;
   data: any;
+  studente;
 
   constructor(
     private auth: AuthService,
@@ -28,6 +29,7 @@ export class Tab1Page {
         this.navCtrl.navigateRoot('landing');
       }
     });
+    this.getProfile();
   }
 
   signOut() {
@@ -65,9 +67,20 @@ export class Tab1Page {
               ids.push(k);
         } 
         this.dataService.setStudenteId(ids[0]);
+        this.dataService.getStudedente(ids[0]).subscribe(resp => { 
+          this.studente = resp;
+          this.dataService.setIstitutoId(this.studente.istitutoId);
+          this.getIstitutoName(this.studente.istitutoId);
+        })
         
       }
     });
   }
+
+  getIstitutoName(id) {
+    this.dataService.getIstitutoById(id).subscribe(istituto => {
+        this.studente.istitutoName = istituto.name;
+    })
+}
 
 }

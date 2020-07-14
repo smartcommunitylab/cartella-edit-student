@@ -1,15 +1,25 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+// import { Observable } from 'rxjs';
 import { forkJoin, of } from 'rxjs';
+import 'rxjs/add/operator/timeout';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { Studente } from 'src/app/models/Studente';
 
+import { Observable } from 'rxjs/Observable';
+// import { forkJoin } from 'rxjs';
+// import { catchError, map, } from 'rxjs/operators';
+// import { IPagedCompetenze } from '../../shared/classes/IPagedCompetenze.class';
+// import { GrowlerService, GrowlerMessageType } from '../growler/growler.service';
+// import { Studente } from '../../shared/interfaces';
+// import { serverAPIConfig } from '../serverAPIConfig'
 
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
+// const httpOptions = {
+//   headers: new HttpHeaders(
+//     { 'Content-Type': 'application/json' }
+//   )
+// };
 
 @Injectable()
 export class DataService {
@@ -19,16 +29,6 @@ export class DataService {
   listIstituteIds = [];
   istituto: string = "Centro Formazione Professionale Agrario - S. Michele all'Adige'";
   host: string = environment.apiEndpoint;
-  private corsiStudio = this.host + '/corsiDiStudio/';
-  private reportStudentiByPiano = this.host + "/programmazione";
-  private reportClasse = this.host + "/report";
-  private attivitaGiornalieraListaEndpoint = this.host + '/attivitaGiornaliera';
-  private attivitaGiornalieraStudentiStatusEndpoint = this.host + '/attivitaGiornaliera/esperienze/report'
-  private attivitaAlternanzaEndpoint = this.host + '/attivitaAlternanza';
-  private studentiProfiles = this.host + '/studenti/profiles';
-  private classiRegistration = this.host + '/registration/classi';
-  private solveEccezioni = this.host + '/eccezioni/attivita';
-  private esperienzaEndPoint = this.host + '/esperienzaSvolta/details';
   corsoDiStudioAPIUrl: string = '/corsi';
   esperienzaSvoltaAPIUrl: string = '/esperienzaSvolta';
   attiitaAlternanzaAPIUrl: string = '/attivitaAlternanza'
@@ -103,6 +103,7 @@ export class DataService {
         catchError(this.handleError)
       );
   }
+  
 
   getSchoolYear(istitutoId, dataInizio): Observable<any> {
     let url = this.host + '/schoolYear/' + istitutoId;
@@ -124,20 +125,7 @@ export class DataService {
       );
   }
 
-  // getListaStudentiByIds(ids: any): any {
-  //   let singleObservables = ids.map((singleIds: string, urlIndex: number) => {
-  //     return this.getStudedente(singleIds)
-  //       // .timeout(this.timeout)
-  //       .map(single => single as Studente)
-  //       .catch((error: any) => {
-  //         console.error('Error loading Single, singleUrl: ' + singleIds, 'Error: ', error);
-  //         return Observable.of(null);
-  //       });
-  //   });
-
-  //   return forkJoin(singleObservables);
-  // }
-
+  
   private studenteEndpoint = this.host + '/studente';
 
   getStudedente(singleId: string): Observable<Studente> {
@@ -149,31 +137,18 @@ export class DataService {
       // .timeout(this.timeout)
       .pipe(
         map(res => {
-          let competenza = res.body as Studente;
-          return competenza
+          let studente = res.body as Studente;
+          return studente
         }));
   };
 
   private attivitaStudenteEndpoint = this.host + '/studente/attivita';
   
-  getAttivitaStudenteList(page, pageSize, studenteId, filters) {
+  getAttivitaStudenteList(page, pageSize, studenteId) {
     let params = new HttpParams();
     params = params.append('page', page);
     params = params.append('size', pageSize);
     params = params.append('studenteId', studenteId);
-
-    if (filters) {
-      if (filters.filterText)
-        params = params.append('filterText', filters.filterText);
-      if (filters.dataInizio)
-        params = params.append('dataInizio', filters.dataInizio);
-      if (filters.dataFine)
-        params = params.append('dataFine', filters.dataFine);
-      if (filters.stato)
-        params = params.append('stato', filters.stato);
-      if (filters.Tipologia)
-        params = params.append('Tipologia', filters.Tipologia);
-    }
 
     return this.http.get<any>(
       this.attivitaStudenteEndpoint,
@@ -228,369 +203,149 @@ export class DataService {
       );
   }
 
+  getIstitutoById(id: any): Observable<any> {
+    let url = this.host + '/istituto/' + id;
+
+    return this.http.get<any>(url,
+      {
+        observe: 'response'
+      })
+      // .timeout(this.timeout)
+      .pipe(
+        map(res => {
+          return res.body;
+        }),
+        catchError(this.handleError)
+      );
+  }
+
+  getStudenteSummary() : Observable<any> {
+    let url = this.host + '/studente/attivita/sommario';
+    let params = new HttpParams();
+    params = params.append('studenteId', this.studenteId);
+
+    return this.http.get<any>(url,
+      {
+        observe: 'response',
+        params: params
+      })
+      // .timeout(this.timeout)
+      .pipe(
+        map(res => {
+          return res.body;
+        }),
+        catchError(this.handleError)
+      );
+  }
   
-  /** ACTIVITES/ESPERIENZA SVOLTA API BLOCK. */
+  getAttivitaDocumenti(uuid): Observable<any> {
+    let url = this.host + '/download/document/risorsa/' + uuid + '/studente/' + this.studenteId;
 
-  // //GET /esperienzaSvolta/
-  // getEsperienzaSvoltaAPI(dataInizio: any, dataFine: any, stato: any, tipologia: any, filterText: any, terminata: any, nomeStudente: any, page: any, pageSize: any): Observable<IPagedES> {
+    return this.http.get(
+      url,
+      {
+        observe: 'response',
+      }
+    )
+      .timeout(this.timeout)
+      .pipe(
+        map(res => {
+          return res.body;
+        }),
+        catchError(this.handleError));
+  }
 
-  //   let url = this.host + this.esperienzaSvoltaAPIUrl + "/istituto/" + this.istitutoId;
+  uploadDocumentToRisorsa(file: File, uuid: string): Observable<any> {
+    let url = this.host + '/upload/document/risorsa/' + uuid + '/studente/' + this.studenteId;
+    let formData: FormData = new FormData();
+    formData.append('data', file, file.name);
+    let headers = new Headers();
 
-  //   let headers = new HttpHeaders();
-  //   let params = new HttpParams();
+    return this.http.post<any>(url, formData)
+      .timeout(this.timeout)
+      .pipe(
+        map(res => {
+          return res;
+        }),
+        catchError(this.handleError)
+      )
+  }
 
-  //   if (dataInizio)
-  //     params = params.append('dataInizio', dataInizio);
-  //   if (dataFine)
-  //     params = params.append('dataFine', dataFine);
-  //   if (stato)
-  //     params = params.append('stato', stato);
-  //   if (tipologia)
-  //     params = params.append('tipologia', tipologia);
-  //   if (filterText)
-  //     params = params.append('filterText', filterText);
-  //   if (terminata != null) {
-  //     params = params.append('terminata', terminata);
-  //   }
-  //   if (nomeStudente) {
-  //     params = params.append('nomeStudente', nomeStudente);
-  //   }
+  downloadRisorsaDocumenti(id: any): Observable<any> {
 
-  //   // force individuale to true (students only)
-  //   params = params.append('individuale', 'true');
-  //   params = params.append('page', page);
-  //   params = params.append('size', pageSize);
+    let url = this.host + '/download/document/risorsa/' + id + '/studente/' + this.studenteId;
 
-  //   return this.http.get<IPagedES>(
-  //     url,
-  //     {
-  //       headers: headers,
-  //       params: params,
-  //       observe: 'response'
-  //     })
-  //     .timeout(this.timeout)
-  //     .pipe(
-  //       map(res => {
-  //         return (res.body as IPagedES);
+    return this.http.get<any>(url,
+      {
+        observe: 'response'
+      })
+      .timeout(this.timeout)
+      .pipe(
+        map(res => {
+          return res.body;
+        }),
+        catchError(this.handleError)
+      );
+  }
 
-  //       }),
-  //       catchError(this.handleError)
-  //     );
-  // }
+  openDocument(doc) {
+    let url = this.host + '/download/document/' + doc.uuid + '/studente/' + this.studenteId;
 
-  // //GET /esperienzaSvolta/details/{id}
-  // getEsperienzaSvoltaByIdAPI(id: any): Observable<EsperienzaSvolta> {
+    this.http.get(url, {
+      responseType: 'arraybuffer'
+    }
+    ).subscribe(response => this.downLoadFile(response, doc.formatoDocumento));
 
-  //   let url = this.host + this.esperienzaSvoltaAPIUrl + "/" + this.istitutoId + "/details/" + id;
+  }
 
-  //   return this.http.get<EsperienzaSvolta>(url,
-  //     {
-  //       observe: 'response'
-  //     })
-  //     .timeout(this.timeout)
-  //     .pipe(
-  //       map(res => {
-  //         let attivita = res.body as EsperienzaSvolta;
-  //         return attivita;
-  //       }),
-  //       catchError(this.handleError)
-  //     );
-  // }
+  downLoadFile(data: any, type: string) {
+    let blob = new Blob([data], { type: type });
+    let url = window.URL.createObjectURL(blob);
+    let pwa = window.open(url);
 
-  // //GET /attivitaAlternanza/{id}
-  // getAttivitaAlternanzaByIdAPI(id: any): Observable<AttivitaAlternanza> {
+    if (!pwa || pwa.closed || typeof pwa.closed == 'undefined') {
+      alert('Please disable your Pop-up blocker and try again.');
+    }
+  }
 
-  //   let url = this.host + this.attiitaAlternanzaAPIUrl + '/' + id;
+  deleteDocument(id: any): Observable<any> {
+    let url = this.host + '/remove/document/' + id + '/studente/' + this.studenteId;
 
-  //   return this.http.get<AttivitaAlternanza>(url,
-  //     {
-  //       observe: 'response'
-  //     })
-  //     .timeout(this.timeout)
-  //     .pipe(
-  //       map(res => {
-  //         let attivita = res.body as AttivitaAlternanza;
-  //         return attivita;
-  //       }),
-  //       catchError(this.handleError)
-  //     );
-  // }
-  // //PUT
-  // completaAttivitaAlternanza(id: any, upldatedES: any): any {
-  //   let url = this.host + this.attiitaAlternanzaAPIUrl + '/' + id + '/completa';
+    return this.http.delete(url,
+      {
+        observe: 'response'
+      })
+      .timeout(this.timeout)
+      .pipe(
+        map(res => {
+          return res.body;
+        }),
+        catchError(this.handleError)
+      );
 
-  //   return this.http.put<IApiResponse>(
-  //     url,
-  //     upldatedES,
-  //     { observe: 'response', }
-  //   )
-  //     .timeout(this.timeout)
-  //     .pipe(
-  //       map(res => {
-  //         if (res.ok)
-  //           return true;
-  //         else
-  //           return res;
-  //       }),
-  //       catchError(this.handleError));
-  // }
+  }
 
-
-  // // GET /download/schedaValutazioneAzienda/{es_id}
-  // downloadschedaValutazione(id: any): Observable<Valutazione> {
-
-  //   let url = this.host + '/download/schedaValutazioneScuola/' + this.istitutoId + '/es/' + id;
-
-  //   return this.http.get<Valutazione>(url,
-  //     {
-  //       observe: 'response'
-  //     })
-  //     .timeout(this.timeout)
-  //     .pipe(
-  //       map(res => {
-  //         return res.body as Valutazione;
-  //       }),
-  //       catchError(this.handleError)
-  //     );
-  // }
-
-  // apiFormat(D) {
-  //   var yyyy = D.getFullYear().toString();
-  //   var mm = (D.getMonth() + 1).toString(); // getMonth() is zero-based         
-  //   var dd = D.getDate().toString();
-
-  //   return yyyy + '-' + (mm[1] ? mm : "0" + mm[0]) + '-' + (dd[1] ? dd : "0" + dd[0]);
-  // }
-
-  // // GET /opportunita/{aziendaId}
-  // getPagedOppurtunitaAPI(dataInizio: any, dataFine: any, tipologia: any, filterText: any, page: any, pageSize: any): Observable<IPagedOffers> {
-
-  //   let url = this.host + this.opportunitaAPIUrl;
-
-  //   let params = new HttpParams();
-
-  //   params = params.append('istitutoId', this.istitutoId);
-  //   if (dataInizio)
-  //     params = params.append('dataInizio', dataInizio);
-  //   if (dataFine)
-  //     params = params.append('dataFine', dataFine);
-
-  //   params = params.append('page', page);
-  //   params = params.append('size', pageSize);
-  //   if (tipologia)
-  //     params = params.append('tipologia', tipologia);
-  //   if (filterText)
-  //     params = params.append('filterText', filterText);
-
-
-  //   return this.http.get<IPagedOffers>(
-  //     url,
-  //     {
-  //       params: params,
-  //       observe: 'response',
-  //     }
-  //   )
-  //     .timeout(this.timeout)
-  //     .pipe(
-  //       map(res => {
-  //         return (res.body as IPagedOffers);
-  //       }),
-  //       catchError(this.handleError)
-  //     );
-  // }
-
-  // // GET /opportunita/details/{id}
-  // getOppurtunitaDetailAPI(id: any) {
-
-  //   let url = this.host + this.opportunitaAPIUrl + "/" + this.istitutoId + '/details/' + id;
-
-  //   return this.http.get<IOffer>(
-  //     url,
-  //     {
-  //       observe: 'response',
-  //     }
-  //   )
-  //     .timeout(this.timeout)
-  //     .pipe(
-  //       map(res => {
-  //         let offer = res.body as IOffer;
-  //         return offer;
-  //       }),
-  //       catchError(this.handleError)
-  //     );
-  // }
-
-
-  // // POST/opportunita/details/
-  // insertOppurtunitaAPI(offer: IOffer): Observable<any> {
-  //   let url = this.host + this.opportunitaAPIUrl + "/" + this.istitutoId + '/details/';
-  //   return this.http.post<IOffer>(
-  //     url,
-  //     offer,
-  //     { observe: 'response', }
-  //   )
-  //     .timeout(this.timeout)
-  //     .pipe(
-  //       map(res => {
-  //         if (res.ok) {
-  //           return (res.body as IOffer);
-  //         } else
-  //           return res;
-  //       }
-  //       ),
-  //       catchError(this.handleError))
-  // }
-
-  // // DELETE /opportunita/{id}
-  // deleteOppurtunita(id: number): Observable<any> {
-  //   let url = this.host + this.opportunitaAPIUrl + "/" + this.istitutoId + "/" + id;
-  //   return this.http.delete(
-  //     url,
-  //     {
-  //       observe: 'response',
-  //       responseType: 'text'
-  //     }
-  //   )
-  //     .timeout(this.timeout)
-  //     .pipe(
-  //       map(res => {
-  //         return res;
-  //       }),
-  //       catchError(this.handleError)
-  //     );
-  // }
-
-  // // PUT/opportunita/details/{id}
-  // updateOppurtunita(offer: IOffer) {
-  //   let url = this.host + this.opportunitaAPIUrl + "/" + this.istitutoId + '/details/' + offer.id;
-  //   return this.http.put(
-  //     url,
-  //     offer,
-  //     {
-  //       observe: 'response',
-  //       responseType: 'text'
-  //     }
-  //   )
-  //     .timeout(this.timeout)
-  //     .pipe(
-  //       map(res => {
-  //         return res;
-  //       }),
-  //       catchError(this.handleError))
-  // }
-
-
-  // //DIVERSO
-  // // PUT /opportunita/{id}/competenze
-  // updateCompetenzeAzienda(id: any, listComptenze: any) {
-  //   let url = this.host + this.opportunitaAPIUrl + '/' + this.istitutoId + '/' + id + "/competenze";
-  //   return this.http.put<IApiResponse>(
-  //     url,
-  //     listComptenze,
-  //     { observe: 'response', }
-  //   )
-  //     .timeout(this.timeout)
-  //     .pipe(
-  //       map(res => {
-  //         if (res.ok)
-  //           return true;
-  //         else
-  //           return res;
-  //       }),
-  //       catchError(this.handleError))
-
-  // }
-
-
-  // // PUT /opportunita/competenze/{id}
-  // updateRiferente(id: any, rId: any): Observable<IOffer> {
-  //   let url = this.host + this.opportunitaAPIUrl + '/' + id + "/referenteAzienda/" + rId;
-  //   return this.http.put<IOffer>(
-  //     url,
-  //     { observe: 'response', }
-  //   )
-  //     .timeout(this.timeout)
-  //     .pipe(
-  //       map(res => {
-  //         if (res) {
-  //           return (res as IOffer);
-  //         } else
-  //           return res;
-  //       }
-  //       ),
-  //       catchError(this.handleError))
-
-  // }
-
-  // getAttivitaTipologieAzienda(): Observable<object[]> {
-  //   return this.http.get<object[]>(this.host + "/tipologieTipologiaAttivita")
-  //     .pipe(
-  //       map(tipologie => {
-  //         return tipologie;
-  //       },
-  //         catchError(this.handleError)
-  //       )
-  //     );
-  // }
-
-  // //DIVERSO
-  // saveAttivitaGiornaliereStudentiPresenzeAzienda(presenzeObject) {
-  //   return this.http.put(this.attivitaGiornalieraListaEndpoint + '/calendario', presenzeObject,
-  //     {
-  //       observe: 'response',
-  //       responseType: 'text'
-  //     }
-  //   )
-  //     .timeout(this.timeout)
-  //     .pipe(
-  //       map(studenti => {
-  //         return studenti
-  //       },
-  //         catchError(this.handleError)
-  //       )
-  //     );
-  // }
-
-  // addConsent(): Observable<any> {
-  //   let url = this.host + '/consent/add';
-
-  //   return this.http.put(
-  //     url,
-  //     {
-  //       observe: 'response',
-  //     }
-  //   )
-  //     .timeout(this.timeout)
-  //     .pipe(
-  //       map(res => {
-  //         return res;
-  //       }),
-  //       catchError(this.handleError))
-  // }
 
   private handleError(error: HttpErrorResponse) {
     let errMsg = "Errore del server! Prova a ricaricare la pagina.";
 
-    // if (error.name === 'TimeoutError') {
-    //   errMsg = error.message;
-    // }
-    // else if (error.error) {
-    //   if (error.error.message) {
-    //     errMsg = error.error.message;
-    //   } else if (error.error.ex) {
-    //     errMsg = error.error.ex;
-    //   } else if (typeof error.error === "string") {
-    //     try {
-    //       let errore = JSON.parse(error.error);
-    //       if (errore.ex) {
-    //         errMsg = errore.ex;
-    //       }
-    //     }
-    //     catch (e) {
-    //       console.error('server error:', errMsg);
-    //     }
-    //   }
-    // }
+   if (error.error) {
+      if (error.error.message) {
+        errMsg = error.error.message;
+      } else if (error.error.ex) {
+        errMsg = error.error.ex;
+      } else if (typeof error.error === "string") {
+        try {
+          let errore = JSON.parse(error.error);
+          if (errore.ex) {
+            errMsg = errore.ex;
+          }
+        }
+        catch (e) {
+          console.error('server error:', errMsg);
+        }
+      }
+    }
 
     console.error('server error:', errMsg);
 
