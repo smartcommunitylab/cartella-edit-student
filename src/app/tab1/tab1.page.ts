@@ -69,6 +69,8 @@ export class Tab1Page {
         this.dataService.setStudenteId(ids[0]);
         this.dataService.getStudedente(ids[0]).subscribe(resp => { 
           this.studente = resp;
+          this.dataService.setStudenteNome(this.studente.name);
+          this.dataService.setStudenteCognome(this.studente.surname);
           this.dataService.setIstitutoId(this.studente.istitutoId);
           this.getIstitutoName(this.studente.istitutoId);
         })

@@ -1,9 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { DataService } from '../core/services/data.service'
 import { Router, ActivatedRoute } from '@angular/router';
-import { IonInfiniteScroll } from '@ionic/angular';
 import * as moment from 'moment';
-moment['locale']('it');
+import 'moment/locale/it';
 
 @Component({
   selector: 'app-tab2',
@@ -11,28 +10,54 @@ moment['locale']('it');
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page {
+  aa;
+  tipologie;
+  pageSize: number = 20;
+  stato: string = 'in_corso';
+  oggi;
+  constructor(private dataService: DataService, private route: ActivatedRoute, private router: Router) {
+    this.oggi = moment().format('DD-MM-YYYY');
+  }
 
-  @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
-  
-  presenze = [];
-  viewDate: Date; //set this date to starting point of period.
-  viewEndDate: Date;
-  constructor(private dataService: DataService, private route: ActivatedRoute, private router: Router) {}
-  
   ngOnInit(): void {
-    this.getAttivitaDetails();
-  }
-  getAttivitaDetails() {
-    let id = 231;
-    this.viewDate = new Date('2020-04-22');
-    this.viewEndDate = new Date('2020-04-29');
-    this.dataService.getStudenteAttivitaGiornalieraCalendario(id, this.dataService.studenteId, moment(this.viewDate).format('YYYY-MM-DD'), moment(this.viewEndDate).format('YYYY-MM-DD')).subscribe((resp: any) => {
-      this.presenze = resp;
-      }
-        ,
-        (err: any) => console.log(err),
-        () => console.log('get attivita studente'));
+    this.dataService.getAttivitaTipologie().subscribe((res) => {
+      this.tipologie = res;
+      this.gestioneStudenteAttivita(1);
+    },
+      (err: any) => console.log(err),
+      () => console.log('getAttivitaTipologie'));
   }
 
-  
+  gestioneStudenteAttivita(page) {
+    this.dataService.getAttivitaStudenteList(this.stato, page - 1, 20).subscribe(resp => {
+ 
+      if (resp.totalElements == 1) {
+        // based on attivita type.
+        this.aa = resp.content;
+        this.tipologie.filter(tipo => {
+          if (tipo.id == this.aa.tipologia) {
+            this.aa.individuale = tipo.individuale;
+          }
+          if (this.aa.individuale) {
+            this.router.navigateByUrl('/presenze/gruppo/' + this.aa.id);
+          } else {
+            this.router.navigateByUrl('/presenze/individuale/' + this.aa.id);
+          }
+        });
+      } else {
+          this.aa = resp.content;
+      }
+    },
+      (err: any) => console.log(err),
+      () => console.log('getAttivitaIncorso'));
+  }
+
+  openPresenze(esp) {
+    if (esp.individuale) {
+      this.router.navigate(['../presenze/individuale/', esp.esperienzaSvoltaId], { relativeTo: this.route });
+    } else {
+      this.router.navigate(['../presenze/gruppo/', esp.esperienzaSvoltaId], { relativeTo: this.route });
+      }
+  }
+
 }

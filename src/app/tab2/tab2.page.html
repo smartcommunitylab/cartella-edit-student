@@ -1,56 +1,35 @@
-<ion-content [fullscreen]="true">
-  <ion-grid>
-     <ion-row>
-       <ion-col size="8">
-         <ion-row><span class="heading">Le mie esperienze</span></ion-row>
-         <br/>
-         <ion-row><span class="attributes">Ore totali: </span><span class="attributes-value">50/100</span></ion-row>
-         <ion-row><span class="attributes">13 esperienze concluse</span></ion-row>
-         <ion-row><span class="attributes">1 esperienza in corso</span></ion-row>
-       </ion-col>
-       <!-- <ion-col size="4">
-         <span class="sub-div-circle">
-           <circle-progress [percent]="60" [radius]="100" [outerStrokeWidth]="30" [innerStrokeWidth]="50" [space]="-30"
-             [outerStrokeColor]="'#4882c2'" [innerStrokeColor]="'#e7e8ea'" [titleFontSize]="30" [unitsFontSize]="24"
-             [showSubtitle]="true" [animation]="true" [animationDuration]="300" [startFromZero]="false" [responsive]="true"
-             [subtitle]="23/50" [subtitleFontSize]="20">
-           </circle-progress>
-         </span>
-       </ion-col> -->
-     </ion-row>
-     <ion-row>
-       <ion-col>
-         <ion-list>
-           <div class="item" *ngFor="let esp of attivitaStudente" (click)="openDetail(esp)">
-             <ion-grid>
-               <ion-row>
-                 <ion-col size="6"><span class="titolo">{{esp.titolo}}</span></ion-col>
-                 <ion-col size="6"><span class="stato">Stato: <span
-                       [style.color]="esp.terminata ? '#43A047' : '#D32F2F'">{{ getStatoNome(esp.stato) }}</span></span>
-                 </ion-col>
-               </ion-row>
-               <ion-row>
-                 <ion-col><span class="attributes">Ore svolte:</span><span
-                     class="attributes-value">{{esp.oreValidate}}/{{esp.oreTotali}}</span></ion-col>
-               </ion-row>
-               <ion-row>
-                 <ion-col><span class="attributes">Periodo:</span><span
-                     class="attributes-value">{{esp.dataInizio | date: 'dd/MM/yyyy' }} -
-                     {{esp.dataFine | date: 'dd/MM/yyyy' }}</span></ion-col>
-               </ion-row>
-               <ion-row>
-                 <ion-col><span class="attributes">Presso:</span><span class="attributes-value">{{esp.nomeEnte}}</span>
-                 </ion-col>
-               </ion-row>
-             </ion-grid>
-           </div>
-         </ion-list>
-         <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
-           <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
-           </ion-infinite-scroll-content>
-         </ion-infinite-scroll>
-       </ion-col>      
-     </ion-row>
-   </ion-grid>
- </ion-content>
+<ion-content fullscreen="true">
+  <ion-grid *ngIf="aa" class="container">
+    <br>
+    <div padding>
+      <ion-icon class="icon" src="./assets/icon/landing-icon.svg"></ion-icon>
+    </div>
+    <br>
+    <div padding>
+      <label class="heading-1">Benvenuto*  {{dataService.studenteNome }} &nbsp; {{ dataService.studenteCognome}}</label>
+    </div>
+    <br>
+    <div>
+      <label class="text">Hai {{aa.length}} esperienze programma per oggi</label>
+    </div>
+    <br>
+    <div>
+      <label class="data">{{oggi}}</label>
+    </div>
+    <br>
+    <div *ngIf="aa.length > 0">
+      <label class="text">Seleziona l'esperienze e inserisci le ore svolte</label>
+      <br>
+      <div class="item-container">
+        <div class="item" *ngFor="let esp of aa" (click)="openPresenze(esp)">
+          <span class="titolo">{{esp.titolo}}
+            <span *ngIf="esp.nomeEnte" class="attributes">
+              <br><br>Presso:<span class="attributes-value">{{esp.nomeEnte}}</span>
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+   </ion-grid>  
+</ion-content>
  

@@ -14,7 +14,7 @@ import { Tab2PageRoutingModule } from './tab2-routing.module';
     FormsModule,
     ExploreContainerComponentModule,
     RouterModule.forChild([{ path: '', component: Tab2Page }]),
-    Tab2PageRoutingModule,
+    Tab2PageRoutingModule
   ],
   declarations: [Tab2PageRoutingModule.components]
 })
