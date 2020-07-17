@@ -6,10 +6,10 @@
         <ion-col size="6">
           <ion-icon class="icon" name="md-contact"></ion-icon>
         </ion-col>
-        <ion-col *ngIf="studente" size="6">
-          <ion-row><span class="titolo ion-text-uppercase">{{studente.name}} {{studente.surname}}</span></ion-row>
-          <ion-row><span class="titolo ion-text-uppercase">{{studente.classroom}}</span></ion-row>
-          <ion-row><span class="normal ion-text-capitalize">{{studente.istitutoName}}</span></ion-row>
+        <ion-col size="6">
+          <ion-row><span class="titolo text-bold ion-text-uppercase">{{dataService.studenteNome}} {{dataService.studenteCognome}}</span></ion-row>
+          <ion-row><span class="titolo text-bold ion-text-uppercase">{{dataService.classe}}</span></ion-row>
+          <ion-row><span class="ion-text-capitalize">{{dataService.istituto}}</span></ion-row>
         </ion-col>
       </ion-row>
       <br>

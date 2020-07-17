@@ -36,8 +36,10 @@ export class DataService {
   opportunitaAPIUrl: string = '/opportunita';
   timeout: number = 120000;
   coorindateIstituto;
-
   studenteId = '';
+  studenteNome = '';
+  studenteCognome = '';
+  classe = '';
 
   constructor(
     private http: HttpClient) {
@@ -89,6 +91,24 @@ export class DataService {
       this.studenteId = id;
     }
   }
+
+  setStudenteCognome(surname) {
+    if (surname) {
+      this.studenteCognome= surname;
+    }
+  }
+  
+  setStudenteNome(name) {
+    if (name) {
+      this.studenteNome = name;
+    }
+  }
+
+  setClasse(classRoom) {
+    if (classRoom) {
+      this.classe = classRoom;
+    }
+  } 
 
   getProfile(): Observable<any> {
     let url = this.host + '/profile';
@@ -142,21 +162,25 @@ export class DataService {
         }));
   };
 
-  private attivitaStudenteEndpoint = this.host + '/studente/attivita';
   
-  getAttivitaStudenteList(page, pageSize, studenteId) {
+  getAttivitaStudenteList(stato, page, pageSize) {
     let params = new HttpParams();
     params = params.append('page', page);
     params = params.append('size', pageSize);
-    params = params.append('studenteId', studenteId);
+    params = params.append('studenteId', this.studenteId);
+    if (stato) {
+        params = params.append('stato', stato);
+    }
 
+    let url = this.host + '/studente/attivita';
+  
     return this.http.get<any>(
-      this.attivitaStudenteEndpoint,
+      url,
       {
         params: params,
         observe: 'response'
       })
-      // .timeout(this.timeout)
+      .timeout(this.timeout)
       .pipe(
         map(res => {
           return (res.body);
@@ -325,6 +349,31 @@ export class DataService {
 
   }
 
+  getAttivitaTipologie(): Observable<object[]> {
+    let url = this.host + '/tipologieTipologiaAttivita';
+    
+    return this.http.get<object[]>(url)
+      .timeout(this.timeout)
+      .pipe(
+        map(tipologie => {
+          return tipologie;
+        },
+          catchError(this.handleError)
+        )
+      );
+  }
+
+  saveAttivitaGiornaliereStudentiPresenze(presenzeObject, esperienzaSvoltaId) {
+    let url = this.host + '/studente/' + this.studenteId + '/esperienza/' + esperienzaSvoltaId + '/presenze';
+    return this.http.post(url, presenzeObject)
+      .timeout(this.timeout)
+      .pipe(
+        map(studenti => {
+          return studenti
+        },
+          catchError(this.handleError))
+      );
+  }
 
   private handleError(error: HttpErrorResponse) {
     let errMsg = "Errore del server! Prova a ricaricare la pagina.";
@@ -362,5 +411,6 @@ export class DataService {
     return Observable.throw(errMsg);
 
   }
+  
 
 }
