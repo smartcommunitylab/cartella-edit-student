@@ -1,29 +1,26 @@
 .heading {
-    color:#637587;
-    font-size: x-large;
-    font-weight: 600;
+    color:#0066CC;
+    font-size: 24px;
 }
 .item {
-    background-color: #E7E6FF;
-    border: 5px solid white;
+    background-color: #F0F6FC;
+    border: 1px solid #7FB2E5;
+    margin: 10px 0;
 }
 .titolo {
     color: #0073E6;
-    font-size: large;
-    font-weight: 600;
+    font-size: 16px;
 }
 .stato {
-    float: right;
+    color: #5C6F82;
 }
 .attributes {
-    font-weight: 700;
     color: #5C6F82;
 }
 .attributes-value {
     color: #5C6F82;
 }
 .sub-div-circle {
-    height: 150px;
-    width: 150px;
+    height: 130px;
     float: right;
 }

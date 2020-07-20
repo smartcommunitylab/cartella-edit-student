@@ -1,20 +1,34 @@
-<!-- <ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true">
  <ion-grid>
-    <ion-row>
-      <ion-col size="8">
-        <ion-row><span class="heading">Le mie esperienze</span></ion-row>
-        <br/>
-        <ion-row><span class="attributes">Ore totali: </span><span class="attributes-value">50/100</span></ion-row>
-        <ion-row><span class="attributes">13 esperienze concluse</span></ion-row>
-        <ion-row><span class="attributes">1 esperienza in corso</span></ion-row>
+    <ion-row *ngIf="summary">
+      <ion-col class="attributes-value" size="8">
+        <ion-row><span class="heading text-bold">Le mie esperienze</span></ion-row>
+        <br>
+        <ion-row><span>Ore totali:&nbsp;</span><span>{{summary.oreValidate}}/{{summary.oreTotali}}</span></ion-row>
+        <br>
+        <ion-row><span>{{summary.esperienzeConcluse}}&nbsp;esperienze concluse</span></ion-row>
+        <br>
+        <ion-row><span>{{summary.esperienzeConcluse}}&nbsp;esperienze in corso</span></ion-row>
       </ion-col>
       <ion-col size="4">
         <span class="sub-div-circle">
-          <circle-progress [percent]="60" [radius]="100" [outerStrokeWidth]="30" [innerStrokeWidth]="50" [space]="-30"
-            [outerStrokeColor]="'#4882c2'" [innerStrokeColor]="'#e7e8ea'" [titleFontSize]="30" [unitsFontSize]="24"
-            [showSubtitle]="true" [animation]="true" [animationDuration]="300" [startFromZero]="false" [responsive]="true"
-            [subtitle]="23/50" [subtitleFontSize]="20">
-          </circle-progress>
+          <circle-progress 
+          [percent]="percentage"
+          [radius]="100"
+          [outerStrokeWidth]="50"
+          [innerStrokeWidth]="50"
+          [space] = "-30"
+          [outerStrokeColor]="'#0073E6'"
+          [innerStrokeColor]="'#e7e8ea'"
+          [titleFontSize]= "40"
+          [unitsFontSize]= "30"
+          [showSubtitle] = "false"
+          [animation]="true"
+          [animationDuration]="300"
+          [startFromZero]="false"
+          [responsive]="true"
+          [subtitle]=""
+          [subtitleFontSize]="20"></circle-progress>
         </span>
       </ion-col>
     </ion-row>
@@ -24,32 +38,35 @@
           <div class="item" *ngFor="let esp of attivitaStudente" (click)="openDetail(esp)">
             <ion-grid>
               <ion-row>
-                <ion-col size="6"><span class="titolo">{{esp.titolo}}</span></ion-col>
-                <ion-col size="6"><span class="stato">Stato: <span
-                      [style.color]="esp.terminata ? '#43A047' : '#D32F2F'">{{ getStatoNome(esp.stato) }}</span></span>
+                <ion-col size="8"><span class="titolo ion-text-capitalize text-bold">{{esp.titolo}}</span></ion-col>
+                <ion-col size="4" class>
+                  <span class="float-right">
+                    <span class="stato text-bold">Stato:&nbsp;</span>
+                    <span [style.color]="esp.stato=='in_corso' ? '#00CF86' : '#D32F2F'">{{ getStatoNome(esp.stato) }}</span>
+                  </span>                  
                 </ion-col>
               </ion-row>
               <ion-row>
-                <ion-col><span class="attributes">Ore svolte:</span><span
+                <ion-col><span class="attributes text-bold">Ore svolte:&nbsp;</span><span
                     class="attributes-value">{{esp.oreValidate}}/{{esp.oreTotali}}</span></ion-col>
               </ion-row>
               <ion-row>
-                <ion-col><span class="attributes">Periodo:</span><span
+                <ion-col><span class="attributes text-bold">Periodo:&nbsp;</span><span
                     class="attributes-value">{{esp.dataInizio | date: 'dd/MM/yyyy' }} -
                     {{esp.dataFine | date: 'dd/MM/yyyy' }}</span></ion-col>
               </ion-row>
-              <ion-row>
-                <ion-col><span class="attributes">Presso:</span><span class="attributes-value">{{esp.nomeEnte}}</span>
+              <ion-row *ngIf="esp.nomeEnte">
+                <ion-col><span class="attributes text-bold">Presso:&nbsp;</span><span class="attributes-value ion-text-capitalize">{{esp.nomeEnte}}</span>
                 </ion-col>
               </ion-row>
             </ion-grid>
           </div>
         </ion-list>
         <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
-          <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+          <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Caricamento...">
           </ion-infinite-scroll-content>
         </ion-infinite-scroll>
       </ion-col>      
     </ion-row>
   </ion-grid>
-</ion-content> -->
+</ion-content>
