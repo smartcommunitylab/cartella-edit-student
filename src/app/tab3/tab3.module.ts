@@ -6,7 +6,6 @@ import { FormsModule } from '@angular/forms';
 import { Tab3Page } from './tab3.page';
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
-
 import { Tab3PageRoutingModule } from './tab3-routing.module'
 
 @NgModule({
