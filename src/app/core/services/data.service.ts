@@ -115,7 +115,7 @@ export class DataService {
     return this.http.get<any>(url, {
       observe: 'response'
     })
-      // .timeout(this.timeout)
+      .timeout(this.timeout)
       .pipe(
         map(res => {
           return res.body;
