@@ -48,7 +48,7 @@
                 <ion-col size="4" class>
                   <span class="float-right stato">
                     <span class="text-semibold">Stato:&nbsp;</span>
-                    <span [style.color]="esp.stato=='in_corso' ? '#00CF86' : '#D32F2F'">{{ getStatoNome(esp.stato) }}</span>
+                    <span [style.color]="getColor(esp)">{{ getStatoNome(esp.stato) }}</span>
                   </span>                  
                 </ion-col>
               </ion-row>

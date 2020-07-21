@@ -18,7 +18,7 @@ export class Tab3Page {
   attivitaStudente;
   summary;
   percentage;
-  stati = [{ "name": "In attesa", "value": "in_attesa" }, { "name": "In corso", "value": "in_corso" }, { "name": "Revisionare", "value": "revisione" }, { "name": "Archiviata", "value": "archiviata" }];
+  stati = [{ "name": "In attesa", "value": "in_attesa" }, { "name": "In corso", "value": "in_corso" }, { "name": "Revisione", "value": "revisione" }, { "name": "Archiviata", "value": "archiviata" }];
   constructor(private dataService: DataService, private toastController: ToastController, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
@@ -88,6 +88,18 @@ export class Tab3Page {
       position: 'bottom'
     })
     toast.present();
+  }
+
+  getColor(esp) {
+    if (esp.stato == "in_corso") {
+      return '#00CF86';
+    } else if (esp.stato == "in_attesa") {
+      return '#7FB2E5';
+    } else if (esp.stato == 'revisione') {
+      return '#F83E5A';
+    } else if (esp.stato == 'archiviata') {
+      return '#A2ADB8';
+    }
   }
 
 }
