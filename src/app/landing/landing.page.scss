@@ -1,36 +1,27 @@
-
 ion-content {
     --background: #0073E6;
     .container {
         color: white;
         text-align: center;
-        // font-family: Titillium Web;
-    
-        .heading-1 {
-            font-size: x-large;
-            font-weight: 900;
+       .heading-1 {
+            font-size: 30px;
         }
-        
         .text {
-            font-size: large;
-        }
-    
+            font-size: 18px;
+        }    
         .icon {
             width:95px;
             height: 90px;
         }
-
         .button {
             background-color: white;
             color: #0073E6;
             font-weight: bold;
             text-transform: none;
         }
-
         .text2 {
-            font-style: italic;
+            font-size: 16px;
         }
-
         .text3 {
             font-size: large;
             text-decoration: underline;
