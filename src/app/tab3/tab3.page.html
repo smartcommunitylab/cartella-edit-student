@@ -1,4 +1,4 @@
-<ion-header class="header" sticky>
+<ion-header class="header">
   <ion-row *ngIf="summary">
     <ion-col class="attributes-value" size="8">
       <ion-row><span class="heading text-semibold">Le mie esperienze</span></ion-row>
@@ -36,10 +36,8 @@
     </ion-col>
   </ion-row>
 </ion-header>
-<ion-content [fullscreen]="true">
- <ion-grid>
-    <ion-row>
-      <ion-col>
+<ion-content>
+ <ion-grid class="padding-0">
         <ion-list>
           <div class="item" *ngFor="let esp of attivitaStudente" (click)="openDetail(esp)">
             <ion-grid>
@@ -68,11 +66,9 @@
             </ion-grid>
           </div>
         </ion-list>
-        <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+        <ion-infinite-scroll *ngIf="maybeMore" threshold="100px" (ionInfinite)="loadData($event)">
           <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Caricamento...">
           </ion-infinite-scroll-content>
         </ion-infinite-scroll>
-      </ion-col>      
-    </ion-row>
   </ion-grid>
 </ion-content>

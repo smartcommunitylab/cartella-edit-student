@@ -1,0 +1,61 @@
+.header-titolo {
+    color: #5C6F82;
+    font-size: 24px;
+}
+.titolo {
+    color: #0073E6;
+    font-size: 20px;
+}
+.attributes {
+    color: #5C6F82;
+    font-size:  14px;
+}
+.attributes-value {
+    color: #5C6F82;
+    font-size:  14px;
+}
+.attributes-value-validare {
+    color:orange;
+    font-size:  14px;
+}
+.map {
+    height:300px;
+    width:100%;
+    // border: 2px solid #0073E6;
+}
+.heading-2 {
+    color: #5C6F82;
+    font-size: 18px;
+}
+.button-upload {
+    font-size: 16px;
+    background: #0073E6;
+    color: white;
+    font-weight: bold;
+    text-transform: none;
+    text-shadow: 0 0 black;
+    width: 200px;
+    height: 48px;
+    text-align: center !important;
+}
+.label-button {
+    position: relative;
+    top: 20%;
+}
+.icon {
+    font-size: 18px;
+    color: white;
+    position: relative;
+    top: 3px;
+}
+.files-list {
+    list-style: none;
+    padding: 0em;
+    text-decoration: underline;
+}
+.list-group-item {
+    color: #0073E6;   
+}
+.icon-delete {
+    font-size: 20px;
+}

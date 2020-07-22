@@ -1,0 +1,91 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="home"></ion-back-button>
+        </ion-buttons>
+        <!-- <ion-title class="text-bold header-titolo">Dettagli Esperienza</ion-title> -->
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-grid *ngIf="aa && es">
+        <ion-row>
+          <ion-col><span class="titolo text-semibold ion-text-capitalize">{{aa.titolo}}</span></ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <span class="attributes text-semibold">Stato:&nbsp;<span
+                    [style.color]="aa.stato=='in_corso' ? '#00CF86' : '#D32F2F'">{{ getStatoNome(aa.stato) }}</span></span>    
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="6">
+                <span class="attributes text-semibold ">Ore svolte:&nbsp;</span><span class="attributes-value">{{attivita.oreValidate}}/{{attivita.oreTotali}}</span>
+            </ion-col>
+            <ion-col size="5">
+                <span class="float-right">
+                    <span class="attributes text-semibold">Da validare:&nbsp;</span><span class="attributes-value-validare">{{attivita.oreDaValidare}}</span>
+                </span>                
+            </ion-col>        
+        </ion-row>
+        <ion-row>
+            <ion-col><span class="attributes text-semibold">Periodo:&nbsp;</span><span
+                    class="attributes-value">{{aa.dataInizio | date: 'dd/MM/yyyy' }} -
+                    {{aa.dataFine | date: 'dd/MM/yyyy' }}</span></ion-col>
+        </ion-row>
+        <ion-row *ngIf="aa.referenteScuola">
+            <ion-col><span class="attributes text-semibold">Tutor scolastico:&nbsp;</span><span class="attributes-value ion-text-capitalize">{{aa.referenteScuola}}</span>
+            </ion-col>
+        </ion-row>
+        <ion-row *ngIf="aa.referenteEsterno">
+            <ion-col><span class="attributes text-semibold">Tutor aziendale:&nbsp;</span><span class="attributes-value ion-text-capitalize">{{aa.referenteEsterno}}</span>
+            </ion-col>
+        </ion-row>
+        <ion-row *ngIf="aa.nomeEnte">
+            <ion-col><span class="attributes text-semibold">Presso:&nbsp;</span><span class="attributes-value ion-text-capitalize">{{aa.nomeEnte}}</span>
+            </ion-col>
+        </ion-row>
+        <br>
+        <ion-row *ngIf="hasCoordinate()">
+            <ion-col>
+              <div id="map" class="map"></div>
+            </ion-col>
+        </ion-row>
+        <br>
+        <br>
+        <ion-row class="heading-2 text-semibold">Documenti associati</ion-row>
+        <ion-grid>
+             <div>
+                    <ul class="files-list"
+                        *ngIf="es?.documenti && es.documenti">
+                        <li class="list-group-item" *ngFor="let documento of es.documenti">
+                            <ion-row>
+                                <ion-col size="10">
+                                    <a (click)="openDocument(documento)" target="_blank">
+                                        {{documento?.nomeFile}}
+                                    </a>
+                                </ion-col>
+                                <ion-col size="2">
+                                    <ion-icon class="icon-delete float-right attributes-value" (click)="deleteDocumento(documento)" name="close-circle-outline"></ion-icon>
+                                </ion-col>
+                            </ion-row>
+                        </li>
+                    </ul>
+                    <div *ngIf="!es?.documenti || es?.documenti.length==0" class="attributes">
+                        Nessun documento attualmente caricato
+                    </div>
+            </div>   
+        </ion-grid>
+        <br>
+        <ion-row>
+            <div class="button-upload">
+                <span class="label-button">
+                    <label>Carica documento &nbsp;
+                        <ion-icon class="icon" src="./assets/icon/it-upload.svg"></ion-icon>
+                        <input #fileInput type="file" hidden (click)="fileInput.value = null" value=""
+                            (change)="uploadDocument($event)">
+                    </label>
+                </span>                
+            </div>
+        </ion-row>
+    </ion-grid>
+</ion-content>

@@ -32,6 +32,9 @@ export class Tab3Page {
       this.dataService.getAttivitaStudenteList(null, (page - 1), this.pageSize)
         .subscribe((response) => {
           this.attivitaStudente = response.content;
+          if (this.attivitaStudente.length < this.pageSize) {
+            this.maybeMore = false;
+          }
         },
           (err: any) => console.log(err),
           () => console.log('get attivita studente'));
