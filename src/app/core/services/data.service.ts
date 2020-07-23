@@ -15,6 +15,7 @@ export class DataService {
   listIstituteIds = [];
   istituto: string = "Centro Formazione Professionale Agrario - S. Michele all'Adige'";
   host: string = environment.apiEndpoint;
+  studenteEndpoint = this.host + '/studente';
   corsoDiStudioAPIUrl: string = '/corsi';
   esperienzaSvoltaAPIUrl: string = '/esperienzaSvolta';
   attiitaAlternanzaAPIUrl: string = '/attivitaAlternanza'
@@ -29,7 +30,7 @@ export class DataService {
 
   constructor(
     private http: HttpClient) {
-   }
+  }
 
   setIstitutoId(id) {
     if (id) {
@@ -80,10 +81,10 @@ export class DataService {
 
   setStudenteCognome(surname) {
     if (surname) {
-      this.studenteCognome= surname;
+      this.studenteCognome = surname;
     }
   }
-  
+
   setStudenteNome(name) {
     if (name) {
       this.studenteNome = name;
@@ -94,8 +95,9 @@ export class DataService {
     if (classRoom) {
       this.classe = classRoom;
     }
-  } 
+  }
 
+  /** PROFILE */
   getProfile(): Observable<any> {
     let url = this.host + '/profile';
     return this.http.get<any>(url, {
@@ -109,19 +111,18 @@ export class DataService {
         catchError(this.handleError)
       );
   }
-  
 
   getSchoolYear(istitutoId, dataInizio): Observable<any> {
     let url = this.host + '/schoolYear/' + istitutoId;
     let params = new HttpParams();
     if (dataInizio)
-    params = params.append('dateFrom', dataInizio);
-  
+      params = params.append('dateFrom', dataInizio);
+
     return this.http.get<any>(url, {
       params: params,
       observe: 'response'
     })
-      // .timeout(this.timeout)
+      .timeout(this.timeout)
       .pipe(
         map(res => {
           return res.body;
@@ -131,87 +132,19 @@ export class DataService {
       );
   }
 
-  
-  private studenteEndpoint = this.host + '/studente';
-
   getStudedente(singleId: string): Observable<Studente> {
     return this.http.get<Studente>(
       `${this.studenteEndpoint}/${singleId}`,
       {
         observe: 'response'
       })
-      // .timeout(this.timeout)
+      .timeout(this.timeout)
       .pipe(
         map(res => {
           let studente = res.body as Studente;
           return studente
         }));
   };
-
-  
-  // getAttivitaStudenteList(stato, page, pageSize) {
-  //   let params = new HttpParams();
-  //   params = params.append('page', page);
-  //   params = params.append('size', pageSize);
-  //   params = params.append('studenteId', this.studenteId);
-  //   if (stato) {
-  //       params = params.append('stato', stato);
-  //   }
-
-  //   let url = this.host + '/studente/attivita';
-  
-  //   return this.http.get<any>(
-  //     url,
-  //     {
-  //       params: params,
-  //       observe: 'response'
-  //     })
-  //     .timeout(this.timeout)
-  //     .pipe(
-  //       map(res => {
-  //         return (res.body);
-  //       }),
-  //       catchError(this.handleError)
-  //     );
-  // }
-  
-  // getAttivitaStudenteById(esperienzaId) {
-  //   let url = this.host + '/studente/' + this.studenteId + '/esperienza/' + esperienzaId;
-  //   return this.http.get(url,
-  //     {
-  //       observe: 'response'
-  //     })
-  //     // .timeout(this.timeout)
-  //     .pipe(
-  //       map(resp => {
-  //         return resp.body;
-  //       },
-  //         catchError(this.handleError)
-  //       )
-  //     );
-  // }
-
-  // getStudenteAttivitaGiornalieraCalendario(idEsperienza, studenteId, dataInizio, dataFine) {
-  //   let url = this.host + '/studente/' + studenteId + '/esperienza/' + idEsperienza + '/presenze';
-  //   let params = new HttpParams();
-  //   params = params.append('dateFrom', dataInizio);
-  //   params = params.append('dateTo', dataFine);
-
-
-  //   return this.http.get<any>(url,
-  //     {
-  //       observe: 'response',
-  //       params: params
-  //     })
-  //     // .timeout(this.timeout)
-  //     .pipe(
-  //       map(resp => {
-  //         return resp.body
-  //       },
-  //         catchError(this.handleError)
-  //       )
-  //     );
-  // }
 
   getIstitutoById(id: any): Observable<any> {
     let url = this.host + '/istituto/' + id;
@@ -220,7 +153,7 @@ export class DataService {
       {
         observe: 'response'
       })
-      // .timeout(this.timeout)
+      .timeout(this.timeout)
       .pipe(
         map(res => {
           return res.body;
@@ -229,7 +162,8 @@ export class DataService {
       );
   }
 
-  getStudenteSummary() : Observable<any> {
+  /** ESPERIENZE */
+  getStudenteSummary(): Observable<any> {
     let url = this.host + '/studente/attivita/sommario';
     let params = new HttpParams();
     params = params.append('studenteId', this.studenteId);
@@ -239,7 +173,7 @@ export class DataService {
         observe: 'response',
         params: params
       })
-      // .timeout(this.timeout)
+      .timeout(this.timeout)
       .pipe(
         map(res => {
           return res.body;
@@ -247,7 +181,7 @@ export class DataService {
         catchError(this.handleError)
       );
   }
-  
+
   getAttivitaDocumenti(uuid): Observable<any> {
     let url = this.host + '/download/document/risorsa/' + uuid + '/studente/' + this.studenteId;
 
@@ -337,7 +271,7 @@ export class DataService {
 
   getAttivitaTipologie(): Observable<object[]> {
     let url = this.host + '/tipologieTipologiaAttivita';
-    
+
     return this.http.get<object[]>(url)
       .timeout(this.timeout)
       .pipe(
@@ -349,17 +283,81 @@ export class DataService {
       );
   }
 
-  saveAttivitaGiornaliereStudentiPresenze(presenzeObject, esperienzaSvoltaId) {
-    let url = this.host + '/studente/' + this.studenteId + '/esperienza/' + esperienzaSvoltaId + '/presenze';
-    return this.http.post(url, presenzeObject)
-      .timeout(this.timeout)
-      .pipe(
-        map(studenti => {
-          return studenti
-        },
-          catchError(this.handleError))
-      );
-  }
+  // getAttivitaStudenteList(stato, page, pageSize) {
+  //   let params = new HttpParams();
+  //   params = params.append('page', page);
+  //   params = params.append('size', pageSize);
+  //   params = params.append('studenteId', this.studenteId);
+  //   if (stato) {
+  //       params = params.append('stato', stato);
+  //   }
+
+  //   let url = this.host + '/studente/attivita';
+  
+  //   return this.http.get<any>(
+  //     url,
+  //     {
+  //       params: params,
+  //       observe: 'response'
+  //     })
+  //     .timeout(this.timeout)
+  //     .pipe(
+  //       map(res => {
+  //         return (res.body);
+  //       }),
+  //       catchError(this.handleError)
+  //     );
+  // }
+  
+  // getAttivitaStudenteById(esperienzaId) {
+  //   let url = this.host + '/studente/' + this.studenteId + '/esperienza/' + esperienzaId;
+  //   return this.http.get(url,
+  //     {
+  //       observe: 'response'
+  //     })
+  //     // .timeout(this.timeout)
+  //     .pipe(
+  //       map(resp => {
+  //         return resp.body;
+  //       },
+  //         catchError(this.handleError)
+  //       )
+  //     );
+  // }
+
+  // getStudenteAttivitaGiornalieraCalendario(idEsperienza, studenteId, dataInizio, dataFine) {
+  //   let url = this.host + '/studente/' + studenteId + '/esperienza/' + idEsperienza + '/presenze';
+  //   let params = new HttpParams();
+  //   params = params.append('dateFrom', dataInizio);
+  //   params = params.append('dateTo', dataFine);
+
+
+  //   return this.http.get<any>(url,
+  //     {
+  //       observe: 'response',
+  //       params: params
+  //     })
+  //     // .timeout(this.timeout)
+  //     .pipe(
+  //       map(resp => {
+  //         return resp.body
+  //       },
+  //         catchError(this.handleError)
+  //       )
+  //     );
+  // }
+
+  // saveAttivitaGiornaliereStudentiPresenze(presenzeObject, esperienzaSvoltaId) {
+  //   let url = this.host + '/studente/' + this.studenteId + '/esperienza/' + esperienzaSvoltaId + '/presenze';
+  //   return this.http.post(url, presenzeObject)
+  //     .timeout(this.timeout)
+  //     .pipe(
+  //       map(studenti => {
+  //         return studenti
+  //       },
+  //         catchError(this.handleError))
+  //     );
+  // }
 
   private handleError(error: HttpErrorResponse) {
     let errMsg = "Errore del server! Prova a ricaricare la pagina.";
@@ -383,16 +381,6 @@ export class DataService {
     }
 
     console.error('server error:', errMsg);
-
-    let displayGrowl: boolean = true;
-    // to avoid display growl tip inccase of 401 | 403
-    if ((error.status == 401) || (error.status == 403)) {
-      displayGrowl = false;
-    }
-
-    // if (DataService.growler.growl && displayGrowl) {
-    //   DataService.growler.growl(errMsg, GrowlerMessageType.Danger, 5000);
-    // }
 
     return Observable.throw(errMsg);
 
