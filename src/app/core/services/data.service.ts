@@ -1,25 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams, HttpHeaders, HttpResponse } from '@angular/common/http';
-// import { Observable } from 'rxjs';
 import { forkJoin, of } from 'rxjs';
 import 'rxjs/add/operator/timeout';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { Studente } from 'src/app/models/Studente';
-
 import { Observable } from 'rxjs/Observable';
-// import { forkJoin } from 'rxjs';
-// import { catchError, map, } from 'rxjs/operators';
-// import { IPagedCompetenze } from '../../shared/classes/IPagedCompetenze.class';
-// import { GrowlerService, GrowlerMessageType } from '../growler/growler.service';
-// import { Studente } from '../../shared/interfaces';
-// import { serverAPIConfig } from '../serverAPIConfig'
-
-// const httpOptions = {
-//   headers: new HttpHeaders(
-//     { 'Content-Type': 'application/json' }
-//   )
-// };
 
 @Injectable()
 export class DataService {

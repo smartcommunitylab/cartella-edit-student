@@ -14,7 +14,7 @@
         <ion-row>
             <ion-col>
                 <span class="attributes text-semibold">Stato:&nbsp;<span
-                    [style.color]="aa.stato=='in_corso' ? '#00CF86' : '#D32F2F'">{{ getStatoNome(aa.stato) }}</span></span>    
+                    [style.color]="getColor(aa)">{{ getStatoNome(aa.stato) }}</span></span>    
             </ion-col>
         </ion-row>
         <ion-row>

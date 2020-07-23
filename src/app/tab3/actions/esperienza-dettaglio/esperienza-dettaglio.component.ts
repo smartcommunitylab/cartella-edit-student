@@ -17,7 +17,8 @@ export class EsperienzaDettaglioComponent implements OnInit {
   oreValidate: any;
   oreTotali: any;
   tipologie;
-  stati = [{ "name": "In attesa", "value": "in_attesa" }, { "name": "In corso", "value": "in_corso" }, { "name": "Revisione", "value": "revisione" }, { "name": "Archiviata", "value": "archiviata" }]; individuale: boolean;
+  stati = [{ "name": "In attesa", "value": "in_attesa" }, { "name": "In corso", "value": "in_corso" }, { "name": "Revisione", "value": "revisione" }, { "name": "Archiviata", "value": "archiviata" }];
+  individuale: boolean;
 
   constructor(
     private router: Router,
@@ -109,6 +110,18 @@ export class EsperienzaDettaglioComponent implements OnInit {
         this.es.documenti = docs;
       });
     })
+  }
+
+  getColor(esp) {
+    if (esp.stato == "in_corso") {
+      return '#00CF86';
+    } else if (esp.stato == "in_attesa") {
+      return '#7FB2E5';
+    } else if (esp.stato == 'revisione') {
+      return '#F83E5A';
+    } else if (esp.stato == 'archiviata') {
+      return '#A2ADB8';
+    }
   }
 
 }
