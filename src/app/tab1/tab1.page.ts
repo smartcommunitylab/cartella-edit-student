@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
-import { IUserInfo } from '../models/user-info.model';
 import { AuthActions } from 'ionic-appauth';
 import { NavController } from '@ionic/angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';

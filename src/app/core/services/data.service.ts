@@ -283,81 +283,81 @@ export class DataService {
       );
   }
 
-  // getAttivitaStudenteList(stato, page, pageSize) {
-  //   let params = new HttpParams();
-  //   params = params.append('page', page);
-  //   params = params.append('size', pageSize);
-  //   params = params.append('studenteId', this.studenteId);
-  //   if (stato) {
-  //       params = params.append('stato', stato);
-  //   }
+  getAttivitaStudenteList(stato, page, pageSize) {
+    let params = new HttpParams();
+    params = params.append('page', page);
+    params = params.append('size', pageSize);
+    params = params.append('studenteId', this.studenteId);
+    if (stato) {
+        params = params.append('stato', stato);
+    }
 
-  //   let url = this.host + '/studente/attivita';
+    let url = this.host + '/studente/attivita';
   
-  //   return this.http.get<any>(
-  //     url,
-  //     {
-  //       params: params,
-  //       observe: 'response'
-  //     })
-  //     .timeout(this.timeout)
-  //     .pipe(
-  //       map(res => {
-  //         return (res.body);
-  //       }),
-  //       catchError(this.handleError)
-  //     );
-  // }
+    return this.http.get<any>(
+      url,
+      {
+        params: params,
+        observe: 'response'
+      })
+      .timeout(this.timeout)
+      .pipe(
+        map(res => {
+          return (res.body);
+        }),
+        catchError(this.handleError)
+      );
+  }
   
-  // getAttivitaStudenteById(esperienzaId) {
-  //   let url = this.host + '/studente/' + this.studenteId + '/esperienza/' + esperienzaId;
-  //   return this.http.get(url,
-  //     {
-  //       observe: 'response'
-  //     })
-  //     // .timeout(this.timeout)
-  //     .pipe(
-  //       map(resp => {
-  //         return resp.body;
-  //       },
-  //         catchError(this.handleError)
-  //       )
-  //     );
-  // }
+  getAttivitaStudenteById(esperienzaId) {
+    let url = this.host + '/studente/' + this.studenteId + '/esperienza/' + esperienzaId;
+    return this.http.get(url,
+      {
+        observe: 'response'
+      })
+      .timeout(this.timeout)
+      .pipe(
+        map(resp => {
+          return resp.body;
+        },
+          catchError(this.handleError)
+        )
+      );
+  }
 
-  // getStudenteAttivitaGiornalieraCalendario(idEsperienza, studenteId, dataInizio, dataFine) {
-  //   let url = this.host + '/studente/' + studenteId + '/esperienza/' + idEsperienza + '/presenze';
-  //   let params = new HttpParams();
-  //   params = params.append('dateFrom', dataInizio);
-  //   params = params.append('dateTo', dataFine);
+  getStudenteAttivitaGiornalieraCalendario(idEsperienza, studenteId, dataInizio, dataFine) {
+    let url = this.host + '/studente/' + studenteId + '/esperienza/' + idEsperienza + '/presenze';
+    let params = new HttpParams();
+    params = params.append('dateFrom', dataInizio);
+    params = params.append('dateTo', dataFine);
 
 
-  //   return this.http.get<any>(url,
-  //     {
-  //       observe: 'response',
-  //       params: params
-  //     })
-  //     // .timeout(this.timeout)
-  //     .pipe(
-  //       map(resp => {
-  //         return resp.body
-  //       },
-  //         catchError(this.handleError)
-  //       )
-  //     );
-  // }
+    return this.http.get<any>(url,
+      {
+        observe: 'response',
+        params: params
+      })
+      .timeout(this.timeout)
+      .pipe(
+        map(resp => {
+          return resp.body
+        },
+          catchError(this.handleError)
+        )
+      );
+  }
 
-  // saveAttivitaGiornaliereStudentiPresenze(presenzeObject, esperienzaSvoltaId) {
-  //   let url = this.host + '/studente/' + this.studenteId + '/esperienza/' + esperienzaSvoltaId + '/presenze';
-  //   return this.http.post(url, presenzeObject)
-  //     .timeout(this.timeout)
-  //     .pipe(
-  //       map(studenti => {
-  //         return studenti
-  //       },
-  //         catchError(this.handleError))
-  //     );
-  // }
+  saveAttivitaGiornaliereStudentiPresenze(presenzeObject, esperienzaSvoltaId) {
+    let url = this.host + '/studente/' + this.studenteId + '/esperienza/' + esperienzaSvoltaId + '/presenze';
+    return this.http.post(url, presenzeObject)
+      .timeout(this.timeout)
+      .pipe(
+        map(studenti => {
+          return studenti
+        },
+          catchError(this.handleError))
+      );
+  }
 
   private handleError(error: HttpErrorResponse) {
     let errMsg = "Errore del server! Prova a ricaricare la pagina.";
