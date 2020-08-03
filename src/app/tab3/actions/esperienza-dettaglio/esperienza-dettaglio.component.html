@@ -32,6 +32,10 @@
                     class="attributes-value">{{aa.dataInizio | date: 'dd/MM/yyyy' }} -
                     {{aa.dataFine | date: 'dd/MM/yyyy' }}</span></ion-col>
         </ion-row>
+        <ion-row *ngIf="aa.oraInizio && aa.oraFine">
+            <ion-col><span class="attributes text-semibold">Orario:&nbsp;</span><span
+                    class="attributes-value">{{aa.oraInizio }} - {{aa.oraFine}}</span></ion-col>
+        </ion-row>
         <ion-row *ngIf="aa.referenteScuola">
             <ion-col><span class="attributes text-semibold">Tutor scolastico:&nbsp;</span><span class="attributes-value ion-text-capitalize">{{aa.referenteScuola}}</span>
             </ion-col>
