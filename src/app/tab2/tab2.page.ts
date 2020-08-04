@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { DataService } from '../core/services/data.service'
 import { Router, ActivatedRoute } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
+import { AuthActions } from 'ionic-appauth';
+import { NavController } from '@ionic/angular';
+
 import * as moment from 'moment';
 import 'moment/locale/it';
 
@@ -10,53 +14,101 @@ import 'moment/locale/it';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page {
+  studente;
   aa;
   tipologie;
   pageSize: number = 20;
   stato: string = 'in_corso';
   oggi;
-  constructor(private dataService: DataService, private route: ActivatedRoute, private router: Router) {
+
+  constructor(
+    private auth: AuthService,
+    private navCtrl: NavController,
+    private dataService: DataService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) { 
     this.oggi = moment().format('DD-MM-YYYY');
   }
 
   ngOnInit(): void {
-    this.dataService.getAttivitaTipologie().subscribe((res) => {
-      this.tipologie = res;
-      this.gestioneStudenteAttivita(1);
-    },
-      (err: any) => console.log(err),
-      () => console.log('getAttivitaTipologie'));
+    this.auth.authObservable.subscribe((action) => {
+      if (action.action === AuthActions.SignOutSuccess) {
+        this.navCtrl.navigateRoot('landing');
+      }
+      this.dataService.getProfile().subscribe(profile => {
+        if (profile && profile.studenti) {
+          var ids = [];
+          for (var k in profile.studenti) {
+            ids.push(k);
+          }
+          this.dataService.setStudenteId(ids[0]);
+          this.dataService.getStudedente(ids[0]).subscribe(resp => {
+            this.studente = resp;
+            this.dataService.setStudenteNome(this.studente.name);
+            this.dataService.setStudenteCognome(this.studente.surname);
+            this.dataService.setIstitutoId(this.studente.istitutoId);
+            this.dataService.setClasse(this.studente.classroom);
+            this.dataService.getIstitutoById(this.studente.istitutoId).subscribe(istituto => {
+              this.studente.istitutoName = istituto.name;
+              this.dataService.getAttivitaTipologie().subscribe((res) => {
+                this.tipologie = res;
+                this.gestioneStudenteAttivita(1);
+              },
+                (err: any) => console.log(err),
+                () => console.log('getAttivitaTipologie'));
+            }, (err: any) => {
+              console.log(err);
+            })
+          })
+        }
+      },
+        (err: any) => {
+          console.log(err);
+        })
+    });
   }
 
   gestioneStudenteAttivita(page) {
-    this.dataService.getAttivitaStudenteList(this.stato, page - 1, 20).subscribe(resp => {
- 
-      if (resp.totalElements == 1) {
-        // based on attivita type.
-        this.aa = resp.content;
+    this.dataService.getAttivitaStudenteList(this.stato, page - 1, this.pageSize).subscribe(resp => { 
+      this.aa = resp.content;
+
+      this.aa.forEach(esp => {
         this.tipologie.filter(tipo => {
-          if (tipo.id == this.aa.tipologia) {
-            this.aa.individuale = tipo.individuale;
-          }
-          if (this.aa.individuale) {
-            this.router.navigateByUrl('/presenze/gruppo/' + this.aa.id);
-          } else {
-            this.router.navigateByUrl('/presenze/individuale/' + this.aa.id);
+          if (tipo.id == esp.tipologia) {
+            esp.individuale = tipo.individuale;
           }
         });
+      });
+      
+      if (resp.totalElements == 1) {
+        let params = {
+          'id': this.aa[0].esperienzaSvoltaId,
+          'back': false
+        }
+        if (this.aa[0].individuale) {
+          this.router.navigate(['../presenze/individuale', { data: JSON.stringify(params) }], { relativeTo: this.route });
+        } else {
+          this.router.navigate(['../presenze/gruppo', { data: JSON.stringify(params) }], { relativeTo: this.route });
+          }
       } else {
-          this.aa = resp.content;
-      }
+        this.aa = resp.content;
+      }    
     },
       (err: any) => console.log(err),
       () => console.log('getAttivitaIncorso'));
   }
 
   openPresenze(esp) {
+    let params = {
+      'id': esp.esperienzaSvoltaId,
+      'back': true
+    }
     if (esp.individuale) {
-      this.router.navigate(['../presenze/individuale/', esp.esperienzaSvoltaId], { relativeTo: this.route });
+      this.router.navigate(['../presenze/individuale', { data: JSON.stringify(params) }], { relativeTo: this.route });
     } else {
-      this.router.navigate(['../presenze/gruppo/', esp.esperienzaSvoltaId], { relativeTo: this.route });
+      this.router.navigate(['../presenze/gruppo', { data: JSON.stringify(params) }], { relativeTo: this.route });
+      // this.router.navigate(['../../tab3'], { relativeTo: this.route });
       }
   }
 

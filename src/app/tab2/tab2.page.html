@@ -1,11 +1,11 @@
 <ion-content fullscreen="true">
   <ion-grid *ngIf="aa" class="container">
     <br>
-    <div padding>
+    <div class="ion-padding">
       <ion-icon class="icon" src="./assets/icon/landing-icon.svg"></ion-icon>
     </div>
-    <br>
-    <div padding>
+    <!-- <br> -->
+    <div class="ion-padding">
       <label class="heading-1">Benvenuto*  {{dataService.studenteNome }} &nbsp; {{ dataService.studenteCognome}}</label>
     </div>
     <br>
@@ -14,7 +14,7 @@
     </div>
     <br>
     <div>
-      <label class="data">{{oggi}}</label>
+      <label class="data text-bold">{{oggi}}</label>
     </div>
     <br>
     <div *ngIf="aa.length > 0">
@@ -23,9 +23,9 @@
       <div class="item-container">
         <div class="item" *ngFor="let esp of aa" (click)="openPresenze(esp)">
           <span class="titolo">{{esp.titolo}}
-            <span *ngIf="esp.nomeEnte" class="attributes">
-              <br><br>Presso:<span class="attributes-value">{{esp.nomeEnte}}</span>
-            </span>
+            <span *ngIf="esp.nomeEnte" class="attributes text-bold">
+              <br><br>Presso:&nbsp;</span>
+              <span class="attributes-value ion-text-capitalize">{{esp.nomeEnte}}</span>
           </span>
         </div>
       </div>
