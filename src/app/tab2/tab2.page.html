@@ -21,11 +21,10 @@
       <br>
       <div class="item-container">
         <div class="item" *ngFor="let esp of aa" (click)="openPresenze(esp)">
-          <span class="titolo">{{esp.titolo}}
-            <span *ngIf="esp.nomeEnte" class="attributes text-bold">
-              <br><br>Presso:&nbsp;</span>
-              <span class="attributes-value ion-text-capitalize">{{esp.nomeEnte}}</span>
-          </span>
+          <span class="titolo text-bold">{{esp.titolo}}</span>
+          <span *ngIf="esp.nomeEnte" class="attributes text-bold">
+            <br><br>Presso:&nbsp;</span>
+          <span class="attributes-value ion-text-capitalize">{{esp.nomeEnte}}</span>
         </div>
       </div>
     </div>
