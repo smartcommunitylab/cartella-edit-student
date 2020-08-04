@@ -1,0 +1,58 @@
+
+.top-bar-titolo {
+    color: #0073E6;
+    font-size: 20px;
+}
+
+.top-bar-attributes {
+    color: #5C6F82;
+    font-size: 14px;
+}
+
+.top-bar-attributes-values {
+    color: #5C6F82;
+    font-size: 14px;    
+}
+
+.titolo {
+    color: #5C6F82;
+    font-size: 16px;
+}
+
+.attributes {
+    color: #5C6F82;
+    font-size: 20px;
+}
+
+.error {
+    font-size: 12px;
+    color: #FF667D;
+    font-style: italic;
+}
+
+.item-container {
+    .item {
+        border-bottom: 1.2px dashed #5C6F82;
+        text-align: left;
+        height: 100px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+    
+    .item.disabled {
+        background-color: #F0F6FC;
+        pointer-events: none;
+    }
+} 
+
+.progress-bar-determinate {
+  height: 7px;
+  --progress-background: #10D390;
+  
+}
+
+.top-bar {
+    background-color: #CCE6FF;
+    padding-top: 20px;
+    // padding-bottom: 10px;
+}
