@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import 'moment/locale/it';
 import { PickerController, IonContent } from '@ionic/angular';
 import { PickerOptions } from "@ionic/core";
+import { UtilsService } from 'src/app/core/services/utils.service';
 
 @Component({
   selector: 'gestione-presenze-gruppo',
@@ -23,17 +24,33 @@ export class GestionePresenzeGruppoPage {
   ore = [ { text: '1', value: '1' }, { text: '2', value: '2' }, { text: '3', value: '3' }, { text: '4', value: '4' }, { text: '5', value: '5' }, { text: '6', value: '6' }, { text: '7', value: '7' }, { text: '8', value: '8' }, { text: '9', value: '9' }, { text: '10', value: '10' }, { text: '11', value: '11' }, { text: '12', value: '12' }, { text: 'Assente', value: '0' }]
   backEnabled: boolean;
   
-  constructor(private dataService: DataService, private pickerController: PickerController, private route: ActivatedRoute, private router: Router) {
+  constructor(
+    private dataService: DataService,
+    private utilsService: UtilsService,
+    private pickerController: PickerController,
+    private route: ActivatedRoute,
+    private router: Router) {
     this.oggi = moment().format('YYYY-MM-DD');
     this.today = moment().startOf('day');
   }
 
-  
+  scrollToOggi() {
+    var x = document.getElementById(this.oggi); 
+    if (x) {
+      document.getElementById(this.oggi).scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+
+  ionViewDidEnter() {
+    this.scrollToOggi();
+  }
+
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       let paramsPassed = JSON.parse(params['data']);
       this.backEnabled = paramsPassed.back;
       let id = paramsPassed.id;
+      this.utilsService.presentLoading();
       this.dataService.getAttivitaStudenteById(id).subscribe((attivita: any) => {
         this.attivita = attivita;
         this.percentage = (this.attivita.oreValidate / this.attivita.oreTotali).toFixed(1);
@@ -45,9 +62,13 @@ export class GestionePresenzeGruppoPage {
           for (let addedGiorno of this.presenze) {
             this.events.push(addedGiorno);
           }
+          this.utilsService.dismissLoading();
+          setTimeout(() => {
+            this.scrollToOggi();
+          }, 3000);
          },
-          (err: any) => console.log(err),
-          () => console.log('get attivita giornaliera calendario by id'));
+          (err: any) => { console.log(err);  this.utilsService.dismissLoading(); },
+          () => { console.log('get attivita giornaliera calendario by id'); this.utilsService.dismissLoading(); });
       });
     })
   }
@@ -96,6 +117,19 @@ export class GestionePresenzeGruppoPage {
     }
   }
 
+  isweekEnd(giorno) {
+    var day = moment(giorno.giornata).day();
+    return (day === 6) || (day === 0);
+  }
+
+  isInfuture(giorno) {
+    var date = moment(giorno.giornata);
+    return (this.today.diff(date) < 0)
+  }
+
+  isError(giorno) {
+    return (giorno.giornata != this.oggi && !this.isInfuture(giorno) && !this.isweekEnd(giorno) && (giorno.oreSvolte == null))
+  }
   
   async showPicker(pz) {
     if (!pz.verificata) {
@@ -109,6 +143,7 @@ export class GestionePresenzeGruppoPage {
             text: 'Ok',
             handler: (picked: any) => {
               pz.oreSvolte = picked.Ore.value;
+              this.savePresenze(pz);
               console.log(pz.oreSvolte);
             }
           }
@@ -133,6 +168,18 @@ export class GestionePresenzeGruppoPage {
     return options;
   }
 
-  
+  savePresenze(pz) {
+    let toBeSaved = this.prepareSaveArray(pz);
+    
+  }
+
+  prepareSaveArray(pz) {
+    var toBeSaved = [];
+    var save = JSON.parse(JSON.stringify(pz))
+    save.giornata = moment(pz.giornata, 'YYYY-MM-DD').valueOf();
+    toBeSaved.push(save);
+    return toBeSaved;
+  }
+
 
 }

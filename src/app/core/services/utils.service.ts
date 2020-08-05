@@ -13,7 +13,7 @@ export class UtilsService {
         this.loading = await this.loadingController.create({
             'spinner': null,
             'cssClass': 'custom-loading',
-            'message': '<ion-row class="v-center"><img class="animated-gif" src="assets/image/spinnerGlobal.gif">&nbsp;Caricamento in corso…</ion-row>',
+            'message': '<div class="overlay-content"><ion-row class="v-center"><img class="animated-gif" src="assets/image/spinnerGlobal.gif">&nbsp;Caricamento in corso…</ion-row></div>',
             'duration': 2000
         });
         return await this.loading.present();
