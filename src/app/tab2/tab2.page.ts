@@ -7,6 +7,7 @@ import { NavController } from '@ionic/angular';
 
 import * as moment from 'moment';
 import 'moment/locale/it';
+import { UtilsService } from '../core/services/utils.service';
 
 @Component({
   selector: 'app-tab2',
@@ -25,6 +26,7 @@ export class Tab2Page {
     private auth: AuthService,
     private navCtrl: NavController,
     private dataService: DataService,
+    private utilsService: UtilsService,
     private route: ActivatedRoute,
     private router: Router
   ) { 
@@ -36,6 +38,8 @@ export class Tab2Page {
       if (action.action === AuthActions.SignOutSuccess) {
         this.navCtrl.navigateRoot('landing');
       }
+
+      this.utilsService.presentLoading();
       this.dataService.getProfile().subscribe(profile => {
         if (profile && profile.studenti) {
           var ids = [];
@@ -54,19 +58,23 @@ export class Tab2Page {
               this.dataService.getAttivitaTipologie().subscribe((res) => {
                 this.tipologie = res;
                 this.gestioneStudenteAttivita(1);
+                this.utilsService.dismissLoading();
               },
-                (err: any) => console.log(err),
-                () => console.log('getAttivitaTipologie'));
+                (err: any) => { console.log(err); this.utilsService.dismissLoading(); },
+                () => { console.log('getAttivitaTipologie'); this.utilsService.dismissLoading(); });
             }, (err: any) => {
               console.log(err);
+              this.utilsService.dismissLoading();
             })
           })
         }
       },
         (err: any) => {
           console.log(err);
+          this.utilsService.dismissLoading();
         })
     });
+
   }
 
   gestioneStudenteAttivita(page) {

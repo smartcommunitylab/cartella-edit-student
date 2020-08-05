@@ -6,6 +6,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DataService } from './services/data.service';
 import { EnsureModuleLoadedOnceGuard } from './ensureModuleLoadedOnceGuard';
 import { TokenInterceptor } from './interceptors/token-interceptor';
+import { UtilsService } from './services/utils.service';
 
 @NgModule({
   imports: [CommonModule, RouterModule, HttpClientModule],
@@ -14,6 +15,7 @@ import { TokenInterceptor } from './interceptors/token-interceptor';
   entryComponents: [],
   providers: [
     DataService,
+    UtilsService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
