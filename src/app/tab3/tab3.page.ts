@@ -3,6 +3,7 @@ import { DataService } from '../core/services/data.service'
 import { Router, ActivatedRoute } from '@angular/router';
 import { IonInfiniteScroll } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
+import { UtilsService } from '../core/services/utils.service';
 
 @Component({
   selector: 'app-tab3',
@@ -19,13 +20,19 @@ export class Tab3Page {
   summary;
   percentage;
   stati = [{ "name": "In attesa", "value": "in_attesa" }, { "name": "In corso", "value": "in_corso" }, { "name": "Giorni non compilati", "value": "revisione" }, { "name": "Archiviata", "value": "archiviata" }];
-  constructor(private dataService: DataService, private toastController: ToastController, private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private dataService: DataService,
+    private utilsService: UtilsService,
+    private toastController: ToastController,
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.getAttivitaPage(1);
   }
 
   getAttivitaPage(page: number) {
+    this.utilsService.presentLoading();
     this.dataService.getStudenteSummary().subscribe(resp => {
       this.summary = resp;
       this.percentage = ((this.summary.oreValidate / this.summary.oreTotali) * 100).toFixed(0);
@@ -35,12 +42,25 @@ export class Tab3Page {
           if (this.attivitaStudente.length < this.pageSize) {
             this.maybeMore = false;
           }
+          this.utilsService.dismissLoading();
         },
-          (err: any) => console.log(err),
-          () => console.log('get attivita studente'));
+          (err: any) => {
+            console.log(err);
+            this.utilsService.dismissLoading();
+          },
+          () => {
+            console.log('get attivita studente');
+            this.utilsService.dismissLoading();
+          });
     },
-      (err: any) => console.log(err),
-      () => console.log('get summary studente'));
+      (err: any) => {
+        console.log(err);
+        this.utilsService.dismissLoading();
+      },
+      () => {
+        console.log('get summary studente');
+        this.utilsService.dismissLoading();
+      });
 
   }
 

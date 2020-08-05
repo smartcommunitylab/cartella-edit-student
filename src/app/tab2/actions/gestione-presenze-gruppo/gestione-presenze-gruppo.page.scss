@@ -40,14 +40,15 @@
     }
     
     .item.disabled {
-        background-color: #F0F6FC;
+        // background-color: #F0F6FC;
         pointer-events: none;
     }
 } 
 
 .progress-bar-determinate {
-  height: 7px;
+  height: 8px;
   --progress-background: #10D390;
+  --background: white;
   
 }
 

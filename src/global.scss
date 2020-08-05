@@ -48,3 +48,24 @@
 .text-italic {
     font-style: italic;
 }
+
+ion-loading.custom-loading {
+    // --max-width: 220px;
+    --max-height: 100px;
+}
+
+img.animated-gif{
+    width: 75px;
+    height: auto;
+}
+
+.v-center {
+   display: flex;
+   align-items: center;
+ }
+  
+ .v-center-inline {
+   display: inline-flex;
+   align-items: center;
+ }
+  

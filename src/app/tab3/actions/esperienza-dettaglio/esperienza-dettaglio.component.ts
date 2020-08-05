@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../../core/services/data.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as Leaflet from 'leaflet';
+import { UtilsService } from 'src/app/core/services/utils.service';
 
 @Component({
   selector: 'esperienza-dettaglio',
@@ -23,17 +24,20 @@ export class EsperienzaDettaglioComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private dataService: DataService) { }
+    private dataService: DataService,
+    private utilsService: UtilsService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       let id = params['id'];
+      this.utilsService.presentLoading();
       this.dataService.getAttivitaStudenteById(id).subscribe((attivita: any) => {
         this.attivita = attivita;
         this.aa = attivita.aa;
         this.es = attivita.es;
         this.dataService.getAttivitaDocumenti(this.es.uuid).subscribe(resp => {
           this.es.documenti = resp;
+          this.utilsService.dismissLoading();
         });
 
         if (this.hasCoordinate()) {
@@ -43,8 +47,15 @@ export class EsperienzaDettaglioComponent implements OnInit {
         }
 
       },
-        (err: any) => console.log(err),
-        () => console.log('getAttivita'));
+        (err: any) => {
+          console.log(err)
+          this.utilsService.dismissLoading();
+        },
+        () => {
+          console.log('getAttivita');
+          this.utilsService.dismissLoading();
+        }
+      );
     });
 
   }
