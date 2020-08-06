@@ -31,17 +31,16 @@
     </ion-grid>
 </ion-header>
 <ion-content *ngIf="attivita && presenze">
-    <!-- <ion-grid> -->
-            <ion-list class="item-container">
-                <div id="{{giorno.giornata}}" [class.disabled]="isInfuture(giorno) || giorno.verificata" class="item" *ngFor="let giorno of presenze"
+    <ion-list class="item-container">
+                <div id="{{giorno.giornata}}" [style.background]="bgColor(giorno)" [class.disabled]="isInfuture(giorno) || giorno.verificata" class="item" *ngFor="let giorno of presenze"
                     (click)="showPicker(giorno)">
                     <ion-grid>
                         <ion-row>
                             <ion-col size="8">
                                 <ion-row>
-                                    <span  
+                                    <span [style.fontWeight]="fontWeight(giorno)" [style.color]="textColor(giorno)"
                                         class="attributes ion-text-capitalize">{{ giorno.giornata | date: 'dd MMM' }} 
-                                        <span   class="attributes ion-text-uppercase"> - {{ giorno.giornata | date: 'EEE' }}</span>
+                                        <span [style.fontWeight]="fontWeight(giorno)" [style.color]="textColor(giorno)" class="attributes ion-text-uppercase"> - {{ giorno.giornata | date: 'EEE' }}</span>
                                     </span>
                                 </ion-row>
                                 <ion-row *ngIf="isError(giorno)">
@@ -49,11 +48,10 @@
                                 </ion-row>
                             </ion-col>
                             <ion-col size="4">
-                                <span   class="attributes">{{ viewOre(giorno) }}</span>
+                                <span [style.fontWeight]="fontWeight(giorno)" [style.color]="textColor(giorno)" class="attributes">{{ viewOre(giorno) }}</span>
                             </ion-col>
                         </ion-row>
                     </ion-grid>
                 </div>
             </ion-list>
-    <!-- </ion-grid>     -->
 </ion-content>

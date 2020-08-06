@@ -65,7 +65,7 @@ export class GestionePresenzeGruppoPage {
           this.utilsService.dismissLoading();
           setTimeout(() => {
             this.scrollToOggi();
-          }, 3000);
+          }, 2000);
          },
           (err: any) => { console.log(err);  this.utilsService.dismissLoading(); },
           () => { console.log('get attivita giornaliera calendario by id'); this.utilsService.dismissLoading(); });
@@ -104,6 +104,37 @@ export class GestionePresenzeGruppoPage {
       return moment(a.giornata).diff(moment(b.giornata));
     });
 
+  }
+
+  textColor(giorno) {
+    if (this.isInfuture(giorno)) {
+      return '#A2ADB8'
+    } else if (!this.isweekEnd(giorno)) {
+      if (giorno.giornata == this.oggi && !giorno.verificata) {
+        return '#0073E6';
+      } else if (giorno.oreSvolte == null) {
+        return '#FF667D';
+      }
+    }
+    return '#5C6F82';
+  }
+
+  fontWeight(giorno) {
+    if (!this.isweekEnd(giorno) && !this.isInfuture(giorno)) {
+      if (giorno.giornata == this.oggi) {
+        return 'bold';
+      } else if (giorno.oreSvolte == null) {
+        return 'normal';
+      }
+    }
+    return 'normal';
+  }
+
+  bgColor(giorno) {
+    if (this.isweekEnd(giorno)) {
+      return '#F0F6FC'
+    }
+    return 'none';
   }
 
   viewOre(giorno) {
@@ -170,7 +201,11 @@ export class GestionePresenzeGruppoPage {
 
   savePresenze(pz) {
     let toBeSaved = this.prepareSaveArray(pz);
-    
+    this.dataService.saveAttivitaGiornaliereStudentiPresenze(toBeSaved, this.attivita.es.id).subscribe((studente: any) => {
+     // toast (if required)
+    },
+      (err: any) => console.log(err),
+      () => console.log('save attivita giornaliera presenze'));
   }
 
   prepareSaveArray(pz) {
