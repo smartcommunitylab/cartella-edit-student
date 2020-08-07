@@ -113,7 +113,7 @@ export class GestionePresenzeGruppoPage {
     if (this.isInfuture(giorno) || giorno.verificata) {
       return '#A2ADB8'
     }
-    if (!this.isweekEnd(giorno)) {
+    if (!this.isweekEnd(giorno) && !this.festivalService.isFestival(giorno)) {
       if (giorno.giornata == this.oggi && !giorno.verificata) {
         return '#0073E6';
       } else if (giorno.oreSvolte == null) {
@@ -124,7 +124,7 @@ export class GestionePresenzeGruppoPage {
   }
 
   fontWeight(giorno) {
-    if (!this.isweekEnd(giorno) && !this.isInfuture(giorno)) {
+    if (!this.isweekEnd(giorno) && !this.isInfuture(giorno) && !this.festivalService.isFestival(giorno)) {
       if (giorno.giornata == this.oggi) {
         return 'bold';
       } else if (giorno.oreSvolte == null) {
@@ -152,6 +152,16 @@ export class GestionePresenzeGruppoPage {
     }
   }
 
+  isError(giorno) {
+    return (
+      giorno.giornata != this.oggi
+      && !this.isInfuture(giorno)
+      && !this.isweekEnd(giorno)
+      && !this.festivalService.isFestival(giorno)
+      && (giorno.oreSvolte == null)
+    )
+  }
+  
   isweekEnd(giorno) {
     var day = moment(giorno.giornata).day();
     return (day === 6) || (day === 0);
@@ -162,10 +172,6 @@ export class GestionePresenzeGruppoPage {
     return (this.today.diff(date) < 0)
   }
 
-  isError(giorno) {
-    return (giorno.giornata != this.oggi && !this.isInfuture(giorno) && !this.isweekEnd(giorno) && (giorno.oreSvolte == null))
-  }
-  
   async showPicker(pz) {
     if (!pz.verificata) {
       let options: PickerOptions = {
