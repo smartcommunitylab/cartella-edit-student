@@ -47,21 +47,14 @@ export class Tab3Page {
           (err: any) => {
             console.log(err);
             this.utilsService.dismissLoading();
-          },
-          () => {
-            console.log('get attivita studente');
-            this.utilsService.dismissLoading();
-          });
+          }
+        );
     },
       (err: any) => {
         console.log(err);
         this.utilsService.dismissLoading();
       },
-      () => {
-        console.log('get summary studente');
-        this.utilsService.dismissLoading();
-      });
-
+    );
   }
 
   getStatoNome(statoValue) {

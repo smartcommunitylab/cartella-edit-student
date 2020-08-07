@@ -289,11 +289,11 @@ export class DataService {
     params = params.append('size', pageSize);
     params = params.append('studenteId', this.studenteId);
     if (stato) {
-        params = params.append('stato', stato);
+      params = params.append('stato', stato);
     }
 
     let url = this.host + '/studente/attivita';
-  
+
     return this.http.get<any>(
       url,
       {
@@ -308,7 +308,8 @@ export class DataService {
         catchError(this.handleError)
       );
   }
-  
+
+  /** PRESENZE **/
   getAttivitaStudenteById(esperienzaId) {
     let url = this.host + '/studente/' + this.studenteId + '/esperienza/' + esperienzaId;
     return this.http.get(url,

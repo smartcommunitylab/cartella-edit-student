@@ -50,12 +50,7 @@ export class EsperienzaDettaglioComponent implements OnInit {
         (err: any) => {
           console.log(err)
           this.utilsService.dismissLoading();
-        },
-        () => {
-          console.log('getAttivita');
-          this.utilsService.dismissLoading();
-        }
-      );
+        });
     });
 
   }

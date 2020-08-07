@@ -7,6 +7,7 @@ import { DataService } from './services/data.service';
 import { EnsureModuleLoadedOnceGuard } from './ensureModuleLoadedOnceGuard';
 import { TokenInterceptor } from './interceptors/token-interceptor';
 import { UtilsService } from './services/utils.service';
+import { FestivalService } from './services/festival.service';
 
 @NgModule({
   imports: [CommonModule, RouterModule, HttpClientModule],
@@ -16,6 +17,7 @@ import { UtilsService } from './services/utils.service';
   providers: [
     DataService,
     UtilsService,
+    FestivalService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

@@ -4,7 +4,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { AuthActions } from 'ionic-appauth';
 import { NavController } from '@ionic/angular';
-
 import * as moment from 'moment';
 import 'moment/locale/it';
 import { UtilsService } from '../core/services/utils.service';
@@ -14,6 +13,7 @@ import { UtilsService } from '../core/services/utils.service';
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss']
 })
+  
 export class Tab2Page {
   studente;
   aa;
@@ -38,7 +38,6 @@ export class Tab2Page {
       if (action.action === AuthActions.SignOutSuccess) {
         this.navCtrl.navigateRoot('landing');
       }
-
       this.utilsService.presentLoading();
       this.dataService.getProfile().subscribe(profile => {
         if (profile && profile.studenti) {
@@ -74,21 +73,18 @@ export class Tab2Page {
           this.utilsService.dismissLoading();
         })
     });
-
   }
 
   gestioneStudenteAttivita(page) {
     this.dataService.getAttivitaStudenteList(this.stato, page - 1, this.pageSize).subscribe(resp => { 
       this.aa = resp.content;
-
       this.aa.forEach(esp => {
         this.tipologie.filter(tipo => {
           if (tipo.id == esp.tipologia) {
             esp.individuale = tipo.individuale;
           }
         });
-      });
-      
+      });      
       if (resp.totalElements == 1) {
         let params = {
           'id': this.aa[0].esperienzaSvoltaId,

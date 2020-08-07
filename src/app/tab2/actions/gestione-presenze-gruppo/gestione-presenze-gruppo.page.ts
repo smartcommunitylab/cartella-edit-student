@@ -6,12 +6,14 @@ import 'moment/locale/it';
 import { PickerController, IonContent } from '@ionic/angular';
 import { PickerOptions } from "@ionic/core";
 import { UtilsService } from 'src/app/core/services/utils.service';
+import { FestivalService } from 'src/app/core/services/festival.service';
 
 @Component({
   selector: 'gestione-presenze-gruppo',
   templateUrl: 'gestione-presenze-gruppo.page.html',
   styleUrls: ['gestione-presenze-gruppo.page.scss']
 })
+  
 export class GestionePresenzeGruppoPage {
   @ViewChild(IonContent) content: IonContent;
 
@@ -26,6 +28,7 @@ export class GestionePresenzeGruppoPage {
   
   constructor(
     private dataService: DataService,
+    private festivalService: FestivalService,
     private utilsService: UtilsService,
     private pickerController: PickerController,
     private route: ActivatedRoute,
@@ -107,9 +110,10 @@ export class GestionePresenzeGruppoPage {
   }
 
   textColor(giorno) {
-    if (this.isInfuture(giorno)) {
+    if (this.isInfuture(giorno) || giorno.verificata) {
       return '#A2ADB8'
-    } else if (!this.isweekEnd(giorno)) {
+    }
+    if (!this.isweekEnd(giorno)) {
       if (giorno.giornata == this.oggi && !giorno.verificata) {
         return '#0073E6';
       } else if (giorno.oreSvolte == null) {
@@ -131,7 +135,7 @@ export class GestionePresenzeGruppoPage {
   }
 
   bgColor(giorno) {
-    if (this.isweekEnd(giorno)) {
+    if (this.isweekEnd(giorno) || this.festivalService.isFestival(giorno)) {
       return '#F0F6FC'
     }
     return 'none';
@@ -188,7 +192,6 @@ export class GestionePresenzeGruppoPage {
       let picker = await this.pickerController.create(options);
       picker.present()
     }
-
   }
 
   getColumnOptions() {
@@ -202,7 +205,7 @@ export class GestionePresenzeGruppoPage {
   savePresenze(pz) {
     let toBeSaved = this.prepareSaveArray(pz);
     this.dataService.saveAttivitaGiornaliereStudentiPresenze(toBeSaved, this.attivita.es.id).subscribe((studente: any) => {
-     // toast (if required)
+      // toast (if required)
     },
       (err: any) => console.log(err),
       () => console.log('save attivita giornaliera presenze'));
@@ -215,6 +218,5 @@ export class GestionePresenzeGruppoPage {
     toBeSaved.push(save);
     return toBeSaved;
   }
-
 
 }
