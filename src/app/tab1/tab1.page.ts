@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
-import { AuthActions } from 'ionic-appauth';
 import { NavController } from '@ionic/angular';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { DataService } from '../core/services/data.service';
 
 @Component({
@@ -11,15 +10,18 @@ import { DataService } from '../core/services/data.service';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
+  baseUrl;
   constructor(
     private auth: AuthService,
     private navCtrl: NavController,
     private http: HttpClient,
-    private dataService: DataService
-  ) { }
+    public dataService: DataService
+  ) {
+    this.baseUrl = window.location.href;
+  }
 
   signOut() {
-    this.auth.signOut();
+    this.auth.signOut().then(() => { window.location.href = this.baseUrl;});
   }
 
 }

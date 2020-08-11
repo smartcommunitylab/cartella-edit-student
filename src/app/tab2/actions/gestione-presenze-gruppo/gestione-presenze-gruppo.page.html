@@ -14,14 +14,18 @@
         <ion-row>
             <ion-col>
                 <span class="top-bar-attributes text-semibold">Ore svolte:</span><span class="top-bar-attributes-values">{{attivita.oreValidate}}/{{attivita.oreTotali}}</span>
+            </ion-col>            
+        </ion-row>
+        <br>
+        <ion-row>
+            <ion-col *ngIf="attivita.aa.oraInizio && attivita.aa.oraFine">
+                <span class="top-bar-attributes text-semibold">Orario:</span>
+                <span class="top-bar-attributes-values">{{attivita.aa.oraInizio }} - {{attivita.aa.oraFine}}</span>
             </ion-col>
-            <ion-col>
-                <span class="float-right">
-                    <span class="top-bar-attributes text-semibold">Periodo:</span><span
-                    class="top-bar-attributes-values">{{attivita.aa.dataInizio | date: 'dd/MM/yyyy' }} -
-                    {{attivita.aa.dataFine | date: 'dd/MM/yyyy' }}</span>                
-                </span>                
-            </ion-col>        
+            <ion-col class="float-right">
+                    <span class="top-bar-attributes text-semibold">Periodo:</span>
+                    <span class="top-bar-attributes-values">{{attivita.aa.dataInizio | date: 'dd/MM/yyyy' }} - {{attivita.aa.dataFine | date: 'dd/MM/yyyy' }}</span>
+            </ion-col>
         </ion-row>
         <br>
         <ion-row>

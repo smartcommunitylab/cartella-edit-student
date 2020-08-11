@@ -2,11 +2,11 @@
     <br>
     <br>
     <ion-grid class="container">
-      <ion-row>
-        <ion-col size="4">
+      <ion-row class="v-center">
+        <ion-col size="5">
           <ion-icon class="icon" name="md-contact"></ion-icon>
         </ion-col>
-        <ion-col size="8">
+        <ion-col size="7">
           <span class="float-right">
             <ion-row><span class="titolo text-bold ion-text-capitalize">{{dataService.studenteNome}} {{dataService.studenteCognome}}</span></ion-row>
             <ion-row><span class="titolo text-bold ion-text-capitalize">{{dataService.classe}}</span></ion-row>
@@ -16,14 +16,23 @@
       </ion-row>
       <br>
       <br>
-      <ion-row><span class="link">Settings (lingua, notifiche, ecc)</span></ion-row>
       <br>
-      <ion-row><span class="link">Credits</span></ion-row>
+      <ion-row><span class="link text-semibold">Settings</span></ion-row>
       <br>
-      <ion-row><span class="link">Help</span></ion-row>
       <br>
-      <ion-row><span class="link">Accessibilità</span></ion-row>
       <br>
-      <ion-row><span  class="link" (click)="signOut()">Logout</span></ion-row>
+      <ion-row><span class="link text-semibold">Credits</span></ion-row>
+      <br>
+      <br>
+      <br>
+      <ion-row><span class="link text-semibold">Help</span></ion-row>
+      <br>
+      <br>
+      <br>
+      <ion-row><span class="link text-semibold">Accessibilità</span></ion-row>
+      <br>
+      <br>
+      <br>
+      <ion-row><span  class="link text-semibold" (click)="signOut()">Logout</span></ion-row>
     </ion-grid>
   </ion-content>
