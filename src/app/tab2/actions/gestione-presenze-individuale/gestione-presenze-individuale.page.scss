@@ -1,7 +1,18 @@
-
-.titolo {
+.top-bar {
+    background-color: #CCE6FF;
+    padding-top: 20px;
+}
+.top-bar-titolo {
+    color: #0073E6;
+    font-size: 20px;
+}
+.top-bar-attributes {
     color: #5C6F82;
-    font-weight: 900;
+    font-size: 14px;
+}
+.top-bar-attributes-values {
+    color: #5C6F82;
+    font-size: 14px;    
 }
 .attributes-1 {
     color: #5C6F82;
@@ -9,7 +20,7 @@
 }
 .attributes-2 {
     color: #5C6F82;
-    font-size: 14px;
+    font-size: 15px;
 }
 .error {
     font-size: 12px;
@@ -20,24 +31,6 @@
   height: 8px;
   --progress-background: #10D390;
   --background: white;
-}
-.top-bar-attributes {
-    color: #5C6F82;
-    font-size: 14px;
-    font-weight: bold;
-}
-.top-bar-attributes-values {
-    color: #5C6F82;
-    font-size: 14px;    
-}
-.top-bar-titolo {
-    color: #0073E6;
-    font-size: 18px;
-    font-weight: bold;
-}
-.top-bar {
-    background-color: #CCE6FF;
-    padding-top: 20px;
 }
 .item-container {
     .item {

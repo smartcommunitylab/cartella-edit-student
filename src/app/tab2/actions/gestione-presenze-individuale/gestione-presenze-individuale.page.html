@@ -6,7 +6,7 @@
     </ion-toolbar>
     <ion-grid class="top-bar">
         <ion-row>
-            <ion-col><span class="top-bar-titolo">{{attivita.aa.titolo}}</span></ion-col>
+            <ion-col><span class="top-bar-titolo text-semibold">{{attivita.aa.titolo}}</span></ion-col>
         </ion-row>
         <ion-row>
             <ion-col>
@@ -15,7 +15,7 @@
         </ion-row>
         <ion-row>
             <ion-col>
-                <span class="top-bar-attributes">Ore svolte:</span><span
+                <span class="top-bar-attributes text-semibold">Ore svolte:</span><span
                     class="top-bar-attributes-values">{{attivita.oreValidate}}/{{attivita.oreTotali}}</span>
             </ion-col>
         </ion-row>
@@ -26,7 +26,7 @@
                 <span class="top-bar-attributes-values">{{attivita.aa.oraInizio }} - {{attivita.aa.oraFine}}</span>
             </ion-col>
             <ion-col class="float-right">
-                <span class="top-bar-attributes">Periodo:</span>
+                <span class="top-bar-attributes text-semibold">Periodo:</span>
                 <span class="top-bar-attributes-values">{{attivita.aa.dataInizio | date: 'dd/MM/yyyy' }} - {{attivita.aa.dataFine | date: 'dd/MM/yyyy' }}</span>
             </ion-col>
         </ion-row>
@@ -35,27 +35,31 @@
 </ion-header>
 <ion-content *ngIf="attivita && presenze">
     <ion-list class="item-container">
-        <ion-card  id="{{giorno.giornata}}"  class="item"
-            *ngFor="let giorno of presenze" >
+        <ion-card [style.border]="border(giorno)" id="{{giorno.giornata}}" [disabled]="isInfuture(giorno)" class="item"
+            *ngFor="let giorno of presenze" (click)="input(giorno)">
             <ion-card-header>
                 <ion-row>
-                    <span 
+                    <span [style.color]="textColor(giorno)"
                         class="attributes-1 text-bold ion-text-lowercase">{{ giorno.giornata | date: 'dd MMMM yyyy' }}
-                        <span  class="attributes-1 text-bold ion-text-capitalize"> -
+                        <span [style.color]="textColor(giorno)" class="attributes-1 text-bold ion-text-capitalize"> -
                             {{ giorno.giornata | date: 'EEEE' }}</span>
                     </span>
                 </ion-row>
                 <br>
-                
+                <ion-row *ngIf="isError(giorno)">
+                    <span class="error">Attenzione: giornata non compilata</span>
+                    <br>
+                    <br>
+                </ion-row>
                 <ion-row>
-                    <span class="attributes-2 text-bold">Ore svolte:&nbsp;</span><span
+                    <span class="attributes-2 text-semibold">Ore svolte:&nbsp;</span><span
                         class="attributes-2">{{ viewOre(giorno) }}</span>
                 </ion-row>
             </ion-card-header>
             <ion-card-content>
                 <ion-row>
                     <p class="para" *ngIf="giorno.verificata">{{giorno.attivitaSvolta}}</p>
-                    <ion-textarea class="text-area" sytle="placeholder-font-style:italic" *ngIf="!giorno.verificata" [(ngModel)]="giorno.attivitaSvolta" placeholder="inserisci diario di bordo."></ion-textarea>
+                    <ion-textarea class="text-area" sytle="placeholder-font-style:italic" *ngIf="!giorno.verificata || isweekEnd(giorno)" [(ngModel)]="giorno.attivitaSvolta" placeholder="inserisci diario di bordo."></ion-textarea>
                 </ion-row>                
             </ion-card-content>
         </ion-card>

@@ -1,3 +1,4 @@
+
 import { Component, ViewChild } from '@angular/core';
 import { DataService } from '../../../core/services/data.service'
 import { Router, ActivatedRoute } from '@angular/router';
@@ -104,7 +105,101 @@ export class GestionePresenzeIndividualePage {
 
   }
 
-  viewOre() { }
+  textColor(giorno) {
+
+    if (!this.isweekEnd(giorno) && !this.isInfuture(giorno)) {
+      if (giorno.giornata == this.oggi && !giorno.verificata) {
+        return '#0073E6';
+      } else if (giorno.oreSvolte == null) {
+        return '#FF667D';
+      }
+    }
+    
+    return '#5C6F82';
+  
+  }
+
+  border(giorno) {
+  
+    if (!this.isweekEnd(giorno) && !this.isInfuture(giorno)) {
+      if (giorno.giornata == this.oggi && !giorno.verificata) {
+        return '1px solid #0073E6';
+      } else if (giorno.oreSvolte == null) {
+        return '1px solid #FF9700';
+      }
+    }
+    
+    return 'none';
+    
+  }
+
+  fontWeight(giorno) {
+    if (!this.isInfuture(giorno)) {
+      if (giorno.giornata == this.oggi) {
+        return 'bold';
+      } else if (giorno.oreSvolte == null) {
+        return 'normal';
+      }
+    } else {
+      return 'normal';
+    }
+  }
+
+  viewOre(giorno) {
+    if (giorno.oreSvolte != null) {
+      if (giorno.oreSvolte == 0) {
+        return 'Assente';
+      }
+      return giorno.oreSvolte;
+    } else {
+      return '-'
+    }
+  }
+
+  isweekEnd(giorno) {
+    var day = moment(giorno.giornata).day();
+    return (day === 6) || (day === 0);
+  }
+
+  isInfuture(giorno) {
+    var date = moment(giorno.giornata);
+    return (this.today.diff(date) < 0)
+  }
+
+  isError(giorno) {
+    return (giorno.giornata != this.oggi && !this.isInfuture(giorno) && !this.isweekEnd(giorno) && (giorno.oreSvolte == null))
+  }
+  
+  input(pz) {
+    if (!pz.verificata) {
+      this.router.navigate(['modifica', { data: JSON.stringify(pz)}], { relativeTo: this.route });
+    }
+  }
+
+  getColumnOptions() {
+    let options = [];
+    this.ore.forEach(x => {
+      options.push({ text: x.text, value: x.value });
+    });
+    return options;
+  }
+
+  savePresenze(pz) {
+    let toBeSaved = this.prepareSaveArray(pz);
+    this.dataService.saveAttivitaGiornaliereStudentiPresenze(toBeSaved, this.attivita.es.id).subscribe((studente: any) => {
+     // toast (if required)
+    },
+      (err: any) => console.log(err),
+      () => console.log('save attivita giornaliera presenze'));
+  }
+
+  prepareSaveArray(pz) {
+    var toBeSaved = [];
+    var save = JSON.parse(JSON.stringify(pz))
+    save.giornata = moment(pz.giornata, 'YYYY-MM-DD').valueOf();
+    toBeSaved.push(save);
+    return toBeSaved;
+  }
 
 
 }
