@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpParams, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { forkJoin, of } from 'rxjs';
 import 'rxjs/add/operator/timeout';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { Studente } from 'src/app/models/Studente';
 import { Observable } from 'rxjs/Observable';
+import { ToastController } from '@ionic/angular';
 
 @Injectable()
 export class DataService {
       
-  istitutoId: string = "19a46a53-8e10-4cd0-a7d0-fb2da217d1be";
-  schoolYear: string = "2019-20";
+  istitutoId: string = "";
+  schoolYear: string = "";
   listIstituteIds = [];
-  istituto: string = "Centro Formazione Professionale Agrario - S. Michele all'Adige'";
+  istituto: string = "";
   host: string = environment.apiEndpoint;
   studenteEndpoint = this.host + '/studente';
   corsoDiStudioAPIUrl: string = '/corsi';
@@ -27,9 +28,12 @@ export class DataService {
   studenteNome = '';
   studenteCognome = '';
   classe = '';
+  static toastCtrl;
 
   constructor(
-    private http: HttpClient) {
+    private http: HttpClient,
+    private toastController: ToastController) {
+    DataService.toastCtrl = toastController;
   }
 
   setIstitutoId(id) {
@@ -360,10 +364,11 @@ export class DataService {
       );
   }
 
-  private handleError(error: HttpErrorResponse) {
+  private async handleError(error: HttpErrorResponse) {
     let errMsg = "Errore del server! Prova a ricaricare la pagina.";
 
    if (error.error) {
+     
       if (error.error.message) {
         errMsg = error.error.message;
       } else if (error.error.ex) {
@@ -383,9 +388,20 @@ export class DataService {
 
     console.error('server error:', errMsg);
 
+    if ((error.status == 401) || (error.status == 403)) {
+      const toast = await DataService.toastCtrl.create({
+        message: errMsg,
+        duration: 2000,
+        position: 'middle'
+      })
+      toast.present();
+      window.location.href = '../landing';
+      
+    }
+   
+   
     return Observable.throw(errMsg);
 
   }
   
-
 }

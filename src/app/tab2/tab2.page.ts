@@ -40,7 +40,7 @@ export class Tab2Page {
       }
       this.utilsService.presentLoading();
       this.dataService.getProfile().subscribe(profile => {
-        if (profile && profile.studenti) {
+        if (profile && profile.studenti && Object.keys(profile.studenti).length > 0) {
           var ids = [];
           for (var k in profile.studenti) {
             ids.push(k);
@@ -53,7 +53,7 @@ export class Tab2Page {
             this.dataService.setIstitutoId(this.studente.istitutoId);
             this.dataService.setClasse(this.studente.classroom);
             this.dataService.getIstitutoById(this.studente.istitutoId).subscribe(istituto => {
-              this.studente.istitutoName = istituto.name;
+              this.dataService.setIstitutoName(istituto.name);
               this.dataService.getAttivitaTipologie().subscribe((res) => {
                 this.tipologie = res;
                 this.gestioneStudenteAttivita(1);
@@ -66,6 +66,8 @@ export class Tab2Page {
               this.utilsService.dismissLoading();
             })
           })
+        } else {
+          this.utilsService.dismissLoading();
         }
       },
         (err: any) => {

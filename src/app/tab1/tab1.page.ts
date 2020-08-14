@@ -13,9 +13,7 @@ export class Tab1Page {
   baseUrl;
   constructor(
     private auth: AuthService,
-    private navCtrl: NavController,
-    private http: HttpClient,
-    public dataService: DataService
+     public dataService: DataService
   ) {
     this.baseUrl = window.location.href;
   }

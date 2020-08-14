@@ -21,7 +21,7 @@ export class GestionePresenzeIndividualePage {
   oggi;
   today;
   percentage;
-  ore = [ { text: '1', value: '1' }, { text: '2', value: '2' }, { text: '3', value: '3' }, { text: '4', value: '4' }, { text: '5', value: '5' }, { text: '6', value: '6' }, { text: '7', value: '7' }, { text: '8', value: '8' }, { text: '9', value: '9' }, { text: '10', value: '10' }, { text: '11', value: '11' }, { text: '12', value: '12' }, { text: 'Assente', value: '0' }]
+  ore = [{ text: '1', value: '1' }, { text: '2', value: '2' }, { text: '3', value: '3' }, { text: '4', value: '4' }, { text: '5', value: '5' }, { text: '6', value: '6' }, { text: '7', value: '7' }, { text: '8', value: '8' }, { text: '9', value: '9' }, { text: '10', value: '10' }, { text: '11', value: '11' }, { text: '12', value: '12' }, { text: 'Assente', value: '0' }]
   backEnabled: boolean;
 
   constructor(
@@ -35,14 +35,14 @@ export class GestionePresenzeIndividualePage {
   }
 
   scrollToOggi() {
-    var x = document.getElementById(this.oggi); 
+    var x = document.getElementById(this.oggi);
     if (x) {
       document.getElementById(this.oggi).scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }
-  
+
   ionViewDidEnter() {
-     this.scrollToOggi();    
+    this.scrollToOggi();
   }
 
   ngOnInit(): void {
@@ -63,9 +63,9 @@ export class GestionePresenzeIndividualePage {
             this.events.push(addedGiorno);
           }
           setTimeout(() => {
-             this.scrollToOggi();
-            }, 2000);
-         },
+            this.scrollToOggi();
+          }, 2000);
+        },
           (err: any) => console.log(err),
           () => console.log('get attivita giornaliera calendario by id'));
       });
@@ -107,42 +107,34 @@ export class GestionePresenzeIndividualePage {
 
   textColor(giorno) {
 
-    if (!this.isweekEnd(giorno) && !this.isInfuture(giorno)) {
+    if (!this.isweekEnd(giorno)
+      && !this.festivalService.isFestival(giorno)
+      && !this.isInfuture(giorno)) {
       if (giorno.giornata == this.oggi && !giorno.verificata) {
         return '#0073E6';
       } else if (giorno.oreSvolte == null) {
         return '#FF667D';
       }
     }
-    
+
     return '#5C6F82';
-  
+
   }
 
   border(giorno) {
-  
-    if (!this.isweekEnd(giorno) && !this.isInfuture(giorno)) {
+
+    if (!this.isweekEnd(giorno)
+      && !this.festivalService.isFestival(giorno)
+      && !this.isInfuture(giorno)) {
       if (giorno.giornata == this.oggi && !giorno.verificata) {
         return '1px solid #0073E6';
       } else if (giorno.oreSvolte == null) {
         return '1px solid #FF9700';
       }
     }
-    
-    return 'none';
-    
-  }
 
-  fontWeight(giorno) {
-    if (!this.isInfuture(giorno)) {
-      if (giorno.giornata == this.oggi) {
-        return 'bold';
-      } else if (giorno.oreSvolte == null) {
-        return 'normal';
-      }
-    } else {
-      return 'normal';
-    }
+    return 'none';
+
   }
 
   viewOre(giorno) {
@@ -167,12 +159,17 @@ export class GestionePresenzeIndividualePage {
   }
 
   isError(giorno) {
-    return (giorno.giornata != this.oggi && !this.isInfuture(giorno) && !this.isweekEnd(giorno) && (giorno.oreSvolte == null))
+    return (
+      giorno.giornata != this.oggi
+      && !this.isInfuture(giorno)
+      && !this.isweekEnd(giorno)
+      && !this.festivalService.isFestival(giorno)
+      && (giorno.oreSvolte == null))
   }
-  
+
   input(pz) {
     if (!pz.verificata) {
-      this.router.navigate(['modifica', { data: JSON.stringify(pz)}], { relativeTo: this.route });
+      this.router.navigate(['modifica', { data: JSON.stringify(pz) }], { relativeTo: this.route });
     }
   }
 
@@ -187,7 +184,7 @@ export class GestionePresenzeIndividualePage {
   savePresenze(pz) {
     let toBeSaved = this.prepareSaveArray(pz);
     this.dataService.saveAttivitaGiornaliereStudentiPresenze(toBeSaved, this.attivita.es.id).subscribe((studente: any) => {
-     // toast (if required)
+      // toast (if required)
     },
       (err: any) => console.log(err),
       () => console.log('save attivita giornaliera presenze'));
@@ -200,6 +197,5 @@ export class GestionePresenzeIndividualePage {
     toBeSaved.push(save);
     return toBeSaved;
   }
-
 
 }

@@ -1,4 +1,4 @@
-<ion-header *ngIf="attivita && presenze" >
+<ion-header *ngIf="attivita && presenze">
     <ion-toolbar *ngIf="backEnabled">
         <ion-buttons slot="start">
             <ion-back-button defaultHref="home"></ion-back-button>
@@ -27,7 +27,8 @@
             </ion-col>
             <ion-col class="float-right">
                 <span class="top-bar-attributes text-semibold">Periodo:</span>
-                <span class="top-bar-attributes-values">{{attivita.aa.dataInizio | date: 'dd/MM/yyyy' }} - {{attivita.aa.dataFine | date: 'dd/MM/yyyy' }}</span>
+                <span class="top-bar-attributes-values">{{attivita.aa.dataInizio | date: 'dd/MM/yyyy' }} -
+                    {{attivita.aa.dataFine | date: 'dd/MM/yyyy' }}</span>
             </ion-col>
         </ion-row>
         <br>
@@ -59,8 +60,10 @@
             <ion-card-content>
                 <ion-row>
                     <p class="para" *ngIf="giorno.verificata">{{giorno.attivitaSvolta}}</p>
-                    <ion-textarea class="text-area" sytle="placeholder-font-style:italic" *ngIf="!giorno.verificata || isweekEnd(giorno)" [(ngModel)]="giorno.attivitaSvolta" placeholder="inserisci diario di bordo."></ion-textarea>
-                </ion-row>                
+                    <ion-textarea class="text-area" sytle="placeholder-font-style:italic"
+                        *ngIf="!giorno.verificata || isweekEnd(giorno)" [(ngModel)]="giorno.attivitaSvolta"
+                        placeholder="inserisci diario di bordo."></ion-textarea>
+                </ion-row>
             </ion-card-content>
         </ion-card>
     </ion-list>
