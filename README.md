@@ -13,4 +13,21 @@ Angular CLI 6.0.3
 
 3. Run `ng serve --port 4300` in a separate terminal window to build the TypeScript, watch for changes and launch the web server
 
-1. Go to http://localhost:4300 in your browser 
+4. Go to http://localhost:4300 in your browser 
+
+## Deployment on server
+
+ng build --base-href /edit-studente/
+
+If ng not installed on that machine, and ionic build is supported then in that case we have to specify in angular.json file
+
+"baseHref": "/edit-studente/",
+
+in build option, and then with ionic build command it read from this configuration file.
+
+  "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "baseHref": "/edit-studente/",
+
+Note: --base-href is ignored by ionic build command
