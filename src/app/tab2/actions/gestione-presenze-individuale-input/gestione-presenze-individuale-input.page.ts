@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import 'moment/locale/it';
 import { PickerController, IonContent } from '@ionic/angular';
 import { PickerOptions } from "@ionic/core";
+import { FestivalService } from 'src/app/core/services/festival.service';
 
 @Component({
   selector: 'gestione-presenze-individuale-input',
@@ -22,7 +23,12 @@ export class GestionePresenzeIndividualeInputPage {
   ore = [ { text: '1', value: '1' }, { text: '2', value: '2' }, { text: '3', value: '3' }, { text: '4', value: '4' }, { text: '5', value: '5' }, { text: '6', value: '6' }, { text: '7', value: '7' }, { text: '8', value: '8' }, { text: '9', value: '9' }, { text: '10', value: '10' }, { text: '11', value: '11' }, { text: '12', value: '12' }, { text: 'Assente', value: '0' }]
 
 
-  constructor(private dataService: DataService, private pickerController: PickerController, private route: ActivatedRoute, private router: Router) {
+  constructor(
+    private dataService: DataService,
+    private festivalService: FestivalService,
+    private pickerController: PickerController,
+    private route: ActivatedRoute,
+    private router: Router) {
     this.oggi = moment().format('YYYY-MM-DD');
     this.today = moment().startOf('day');
   }
@@ -43,7 +49,8 @@ export class GestionePresenzeIndividualeInputPage {
 
   textColor(giorno) {
 
-    if (!this.isweekEnd(giorno)) {
+    if (!this.isweekEnd(giorno)
+      && !this.festivalService.isFestival(giorno)) {
       if (giorno.giornata == this.oggi && !giorno.verificata) {
         return '#0073E6';
       } else if (giorno.oreSvolte == null) {
@@ -57,13 +64,14 @@ export class GestionePresenzeIndividualeInputPage {
 
   border(giorno) {
 
-    if (!this.isweekEnd(giorno)) {
+    if (!this.isweekEnd(giorno) && !this.festivalService.isFestival(giorno)) {
       if (giorno.giornata != this.oggi && !giorno.verificata && (giorno.attivitaSvolte == null && giorno.oreSvolte == null)) {
         return '1px solid #FF667D';
       }
-      return '1px solid #5C6F82';
-    }    
-
+    }
+    
+    return '1px solid #5C6F82';
+    
   }
 
   fontWeight(giorno) {
@@ -89,7 +97,7 @@ export class GestionePresenzeIndividualeInputPage {
 
 
   isError(giorno) {
-    return (!this.isweekEnd(giorno) && giorno.giornata != this.oggi && (giorno.oreSvolte == null))
+    return (!this.isweekEnd(giorno) && !this.festivalService.isFestival(giorno) && giorno.giornata != this.oggi && (giorno.oreSvolte == null))
   }
 
   isweekEnd(giorno) {
