@@ -1,0 +1,67 @@
+
+.titolo {
+    color: #5C6F82;
+    font-weight: 900;
+}
+
+.attributes-1 {
+    color: #5C6F82;
+    font-size: 18px;
+}
+
+.attributes-2 {
+    color: #5C6F82;
+    font-size: 18px;
+}
+
+.error {
+    font-size: 14px;
+    color: #FF667D;
+    font-style: italic;
+}
+
+.progress-bar-determinate {
+  height: 7px;
+  --progress-background: #10D390;
+  
+}
+
+.top-bar-attributes {
+    color: #0073E6;
+    font-size: 20px;
+    font-weight: bold;
+
+}
+
+.top-bar-attributes-values {
+    color: #5C6F82;
+    font-size: 20px;    
+}
+
+.top-bar-titolo {
+    color: #5C6F82;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.top-bar {
+    background-color: #CCE6FF;
+    padding-top: 24px;
+}
+
+
+
+.item-container {
+    
+    .item {
+         padding: 20px;
+     }
+    
+    .text-area {
+        align-content: left;
+        width: 100%;
+        color: #5C6F82;
+        font-size: 14px;
+        font-family: 'Titillium Web';
+   }
+}
