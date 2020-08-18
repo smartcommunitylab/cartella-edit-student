@@ -14,7 +14,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "deployUrl": "/edit-studente/",
+            "baseHref": "/edit-studente/",
             "outputPath": "www",
             "index": "src/index.html",
             "main": "src/main.ts",
