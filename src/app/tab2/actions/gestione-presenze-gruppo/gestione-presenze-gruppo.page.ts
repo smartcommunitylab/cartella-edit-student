@@ -68,7 +68,7 @@ export class GestionePresenzeGruppoPage {
           setTimeout(() => {
             this.utilsService.dismissLoading();
             this.scrollToOggi();
-          }, 0);
+          }, 500);
          },
           (err: any) => {
             console.log(err);
