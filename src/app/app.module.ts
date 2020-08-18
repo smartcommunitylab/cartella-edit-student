@@ -8,7 +8,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
-import { registerLocaleData } from '@angular/common';
+import { registerLocaleData, APP_BASE_HREF } from '@angular/common';
 import localeIt from '@angular/common/locales/it';
 
 import { AppComponent } from './app.component';
@@ -32,7 +32,8 @@ registerLocaleData(localeIt, 'it-IT');
     ExploreContainerComponentModule
   ],
   providers: [
-    { provide: LOCALE_ID, useValue: 'it-IT' },
+    { provide: APP_BASE_HREF, useValue: '/' },
+    { provide: LOCALE_ID, useValue: 'it-IT'},
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
