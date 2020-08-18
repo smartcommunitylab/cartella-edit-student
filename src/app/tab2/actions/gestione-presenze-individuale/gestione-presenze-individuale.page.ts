@@ -65,8 +65,8 @@ export class GestionePresenzeIndividualePage {
           for (let addedGiorno of this.presenze) {
             this.events.push(addedGiorno);
           }
-          this.utilsService.dismissLoading();
           setTimeout(() => {
+            this.utilsService.dismissLoading();
             this.scrollToOggi();
           }, 1500);
         },
