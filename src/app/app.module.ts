@@ -32,7 +32,6 @@ registerLocaleData(localeIt, 'it-IT');
     ExploreContainerComponentModule
   ],
   providers: [
-    { provide: APP_BASE_HREF, useValue: '/' },
     { provide: LOCALE_ID, useValue: 'it-IT'},
     StatusBar,
     SplashScreen,
