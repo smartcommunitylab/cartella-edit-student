@@ -64,7 +64,7 @@ export class GestionePresenzeIndividualePage {
           }
           setTimeout(() => {
             this.scrollToOggi();
-          }, 2000);
+          }, 0);
         },
           (err: any) => console.log(err),
           () => console.log('get attivita giornaliera calendario by id'));

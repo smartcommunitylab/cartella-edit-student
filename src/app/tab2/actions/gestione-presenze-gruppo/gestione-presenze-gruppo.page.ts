@@ -68,7 +68,7 @@ export class GestionePresenzeGruppoPage {
           this.utilsService.dismissLoading();
           setTimeout(() => {
             this.scrollToOggi();
-          }, 2000);
+          }, 0);
          },
           (err: any) => { console.log(err);  this.utilsService.dismissLoading(); },
           () => { console.log('get attivita giornaliera calendario by id'); this.utilsService.dismissLoading(); });
