@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import 'moment/locale/it';
 import { PickerController, IonContent } from '@ionic/angular';
 import { FestivalService } from "../../../core/services/festival.service";
+import { UtilsService } from 'src/app/core/services/utils.service';
 
 @Component({
   selector: 'gestione-presenze-individuale',
@@ -27,6 +28,7 @@ export class GestionePresenzeIndividualePage {
   constructor(
     private dataService: DataService,
     private festivalService: FestivalService,
+    private utilsService: UtilsService,
     private pickerController: PickerController,
     private route: ActivatedRoute,
     private router: Router) {
@@ -51,6 +53,7 @@ export class GestionePresenzeIndividualePage {
       let paramsPassed = JSON.parse(params['data']);
       this.backEnabled = paramsPassed.back;
       let id = paramsPassed.id;
+      this.utilsService.presentLoading();
       this.dataService.getAttivitaStudenteById(id).subscribe((attivita: any) => {
         this.attivita = attivita;
         this.percentage = (this.attivita.oreValidate / this.attivita.oreTotali).toFixed(1);
@@ -62,6 +65,7 @@ export class GestionePresenzeIndividualePage {
           for (let addedGiorno of this.presenze) {
             this.events.push(addedGiorno);
           }
+          this.utilsService.dismissLoading();
           setTimeout(() => {
             this.scrollToOggi();
           }, 0);
