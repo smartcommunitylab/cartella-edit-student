@@ -1,11 +1,16 @@
 <ion-header *ngIf="attivita && presenze">
-    <ion-toolbar *ngIf="backEnabled">
+    <!-- <ion-toolbar *ngIf="backEnabled">
         <ion-buttons slot="start">
             <ion-back-button defaultHref="home"></ion-back-button>
         </ion-buttons>
-    </ion-toolbar>
+    </ion-toolbar> -->
     <ion-grid class="top-bar">
-        <ion-row><ion-col><span class="top-bar-titolo text-semibold">{{attivita.aa.titolo}}</span></ion-col></ion-row>
+        <ion-row class="v-center top-bar-titolo text-semibold" *ngIf="backEnabled">
+            <ion-back-button defaultHref="home"></ion-back-button>{{attivita.aa.titolo}}
+        </ion-row>
+        <ion-row *ngIf="!backEnabled">
+            <span class="top-bar-titolo text-semibold">{{attivita.aa.titolo}}</span>
+        </ion-row>
         <ion-row>
             <ion-col>
                 <ion-progress-bar value="{{percentage}}"></ion-progress-bar>
