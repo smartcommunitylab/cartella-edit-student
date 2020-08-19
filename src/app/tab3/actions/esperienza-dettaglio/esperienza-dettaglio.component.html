@@ -35,27 +35,26 @@
                     {{aa.dataFine | date: 'dd/MM/yyyy' }}</span></ion-col>
         </ion-row>
         <ion-row *ngIf="aa.oraInizio && aa.oraFine">
-            <br>
-            <ion-col><span class="attributes text-semibold">Orario:&nbsp;</span><span
-                    class="attributes-value">{{aa.oraInizio }} - {{aa.oraFine}}</span></ion-col>
+            <ion-col>
+                <span class="attributes text-semibold"><br>Orario:&nbsp;</span><span class="attributes-value">{{aa.oraInizio }} - {{aa.oraFine}}</span>
+            </ion-col>
         </ion-row>
-        <br>
         <ion-row *ngIf="aa.referenteScuola">
-            <ion-col><span class="attributes text-semibold">Tutor scolastico:&nbsp;</span><span class="attributes-value ion-text-capitalize">{{aa.referenteScuola}}</span>
+            <ion-col><span class="attributes text-semibold"><br>Tutor scolastico:&nbsp;</span><span class="attributes-value ion-text-capitalize">{{aa.referenteScuola}}</span>
             </ion-col>
         </ion-row>
-        <br>
         <ion-row *ngIf="aa.referenteEsterno">
-            <ion-col><span class="attributes text-semibold">Tutor aziendale:&nbsp;</span><span class="attributes-value ion-text-capitalize">{{aa.referenteEsterno}}</span>
+            <ion-col><span class="attributes text-semibold"><br>Tutor aziendale:&nbsp;</span><span class="attributes-value ion-text-capitalize">{{aa.referenteEsterno}}</span>
+            </ion-col>
+        </ion-row>
+        <ion-row *ngIf="aa.nomeEnte">
+            <ion-col>
+                <span class="attributes text-semibold"><br>Presso:&nbsp;</span>
+                <span class="attributes-value ion-text-capitalize">{{aa.nomeEnte}}</span>
             </ion-col>
         </ion-row>
         <br>
-        <ion-row *ngIf="aa.nomeEnte">
-            <ion-col><span class="attributes text-semibold">Presso:&nbsp;</span><span class="attributes-value ion-text-capitalize">{{aa.nomeEnte}}</span>
-            </ion-col>
-        </ion-row>
         <ion-row *ngIf="hasCoordinate()">
-            <br>
             <ion-col>
               <div id="map" class="map"></div>
             </ion-col>
