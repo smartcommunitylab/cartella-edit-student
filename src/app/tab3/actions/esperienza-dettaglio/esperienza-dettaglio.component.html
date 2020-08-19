@@ -1,22 +1,23 @@
-<ion-header>
-    <ion-toolbar>
+<ion-header *ngIf="aa && es">
+    <!-- <ion-toolbar>
         <ion-buttons slot="start">
             <ion-back-button defaultHref="home"></ion-back-button>
         </ion-buttons>
-        <!-- <ion-title class="text-bold header-titolo">Dettagli Esperienza</ion-title> -->
-    </ion-toolbar>
+    </ion-toolbar> -->
+    <ion-row class="v-center titolo text-semibold">
+        <ion-back-button defaultHref="home"></ion-back-button>{{aa.titolo}}
+    </ion-row>
 </ion-header>
+<br>
 <ion-content>
     <ion-grid *ngIf="aa && es">
-        <ion-row>
-          <ion-col><span class="titolo text-semibold ion-text-capitalize">{{aa.titolo}}</span></ion-col>
-        </ion-row>
         <ion-row>
             <ion-col>
                 <span class="attributes text-semibold">Stato:&nbsp;<span
                     [style.color]="getColor(aa)">{{ getStatoNome(aa.stato) }}</span></span>    
             </ion-col>
         </ion-row>
+        <br>
         <ion-row>
             <ion-col size="6">
                 <span class="attributes text-semibold ">Ore svolte:&nbsp;</span><span class="attributes-value">{{attivita.oreValidate}}/{{attivita.oreTotali}}</span>
@@ -27,34 +28,38 @@
                 </span>                
             </ion-col>        
         </ion-row>
+        <br>
         <ion-row>
             <ion-col><span class="attributes text-semibold">Periodo:&nbsp;</span><span
                     class="attributes-value">{{aa.dataInizio | date: 'dd/MM/yyyy' }} -
                     {{aa.dataFine | date: 'dd/MM/yyyy' }}</span></ion-col>
         </ion-row>
         <ion-row *ngIf="aa.oraInizio && aa.oraFine">
+            <br>
             <ion-col><span class="attributes text-semibold">Orario:&nbsp;</span><span
                     class="attributes-value">{{aa.oraInizio }} - {{aa.oraFine}}</span></ion-col>
         </ion-row>
+        <br>
         <ion-row *ngIf="aa.referenteScuola">
             <ion-col><span class="attributes text-semibold">Tutor scolastico:&nbsp;</span><span class="attributes-value ion-text-capitalize">{{aa.referenteScuola}}</span>
             </ion-col>
         </ion-row>
+        <br>
         <ion-row *ngIf="aa.referenteEsterno">
             <ion-col><span class="attributes text-semibold">Tutor aziendale:&nbsp;</span><span class="attributes-value ion-text-capitalize">{{aa.referenteEsterno}}</span>
             </ion-col>
         </ion-row>
+        <br>
         <ion-row *ngIf="aa.nomeEnte">
             <ion-col><span class="attributes text-semibold">Presso:&nbsp;</span><span class="attributes-value ion-text-capitalize">{{aa.nomeEnte}}</span>
             </ion-col>
         </ion-row>
-        <br>
         <ion-row *ngIf="hasCoordinate()">
+            <br>
             <ion-col>
               <div id="map" class="map"></div>
             </ion-col>
         </ion-row>
-        <br>
         <br>
         <ion-row class="heading-2 text-semibold">Documenti associati</ion-row>
         <ion-grid>
