@@ -1,45 +1,15 @@
-.top-bar-attributes {
+.top-bar-titolo {
     color: #0073E6;
     font-size: 20px;
 }
-.top-bar-titolo {
-    color: #5C6F82;
+.top-bar-attributes {
+    color: #5C6F82 ;
     font-size: 24px;
 }
 .progress-bar-determinate {
     height: 7px;
     --progress-background: #10D390;
     --background: white;  
-}
-.attributes-2 {
-    color: #5C6F82;
-    font-size: 20px;
-}
-
-.titolo {
-    color: #5C6F82;
-    font-weight: 900;
-}
-
-.attributes-1 {
-    color: #5C6F82;
-    font-size: 18px;
-}
-.attributes-ore {
-    font-size: 25px;
-    color: #5C6F82;
-}
-.error {
-    font-size: 13px;
-    color: #FF667D;
-}
-.top-bar-attributes-values {
-    color: #5C6F82;
-    font-size: 20px;    
-}
-.top-bar {
-    background-color: #CCE6FF;
-    padding-top: 24px;
 }
 .item-container {
     .item {
@@ -52,4 +22,32 @@
         font-size: 14px;
         font-family: 'Titillium Web';
    }
+}
+.attributes-2 {
+    color: #5C6F82;
+    font-size: 20px;
+}
+.attributes-ore {
+    font-size: 25px;
+    color: #5C6F82;
+}
+// .titolo {
+//     color: #5C6F82;
+//     font-weight: 900;
+// }
+// .attributes-1 {
+//     color: #5C6F82;
+//     font-size: 18px;
+// }
+.error {
+    font-size: 13px;
+    color: #FF667D;
+}
+// .top-bar-attributes-values {
+//     color: #5C6F82;
+//     font-size: 20px;    
+// }
+.top-bar {
+    background-color: #F0F6FC;
+    padding-top: 24px;
 }

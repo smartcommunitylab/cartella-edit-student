@@ -1,18 +1,19 @@
-<ion-header *ngIf="attivita">
-    <ion-toolbar>
+<ion-header *ngIf="giorno && attivita">
+    <!-- <ion-toolbar>
         <ion-buttons slot="start">
             <ion-back-button defaultHref="home"></ion-back-button>
             <span class="top-bar-attributes text-semibold ion-text-capitalize">{{attivita.aa.titolo}}</span>
         </ion-buttons>
-    </ion-toolbar>
-</ion-header>
-<ion-content *ngIf="giorno && attivita" class="item-container">
+    </ion-toolbar> -->
     <ion-grid class="top-bar">
+        <ion-row class="v-center top-bar-titolo text-semibold">
+            <ion-back-button defaultHref="home"></ion-back-button>{{attivita.aa.titolo}}
+        </ion-row>
         <ion-row>
             <ion-col size="8"></ion-col>
             <ion-col>
-                <span class="float-right top-bar-titolo text-bold">{{ giorno.giornata | date: 'dd/MM/yyyy' }}</span>
-            </ion-col>            
+                <span class="float-right top-bar-attributes text-bold">{{ giorno.giornata | date: 'dd/MM/yyyy' }}</span>
+            </ion-col>
         </ion-row>
         <ion-row>
             <ion-col>
@@ -21,10 +22,13 @@
         </ion-row>
         <br>
     </ion-grid>
+</ion-header>
+<ion-content *ngIf="giorno && attivita" class="item-container">
     <div class="item">
         <br>
         <ion-row class="text-center" *ngIf="isError(giorno)">
-            <span class="error">Attenzione: ore non inserite e/o diario non compilato. Per indicare un’assenza, inserire “0” nel campo ore</span>
+            <span class="error">Attenzione: ore non inserite e/o diario non compilato. Per indicare un’assenza, inserire
+                “0” nel campo ore</span>
             <br>
             <br>
         </ion-row>
@@ -32,14 +36,16 @@
             <span class="attributes-2">Ore svolte:</span>
         </ion-row>
         <ion-row>
-            <span (click)="showPicker(giorno)" [style.color]="textColor(giorno)" class="attributes-ore" padding>{{ viewOre(giorno) }}</span>
+            <span (click)="showPicker(giorno)" [style.color]="textColor(giorno)" class="attributes-ore"
+                padding>{{ viewOre(giorno) }}</span>
         </ion-row>
         <br>
         <ion-row>
             <span class="attributes-2">Diario di bordo</span>
         </ion-row>
         <ion-row>
-            <ion-textarea [style.border]="border(giorno)" class="text-area" (keyup.enter)="savePresenze(giorno)" [(ngModel)]="giorno.attivitaSvolta" name="note" autocomplete="on" autocorrect="on"></ion-textarea>
+            <ion-textarea [style.border]="border(giorno)" class="text-area" (keyup.enter)="savePresenze(giorno)"
+                [(ngModel)]="giorno.attivitaSvolta" name="note" autocomplete="on" autocorrect="on"></ion-textarea>
         </ion-row>
     </div>
 </ion-content>

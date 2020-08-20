@@ -1,12 +1,15 @@
 <ion-header *ngIf="attivita && presenze">
-    <ion-toolbar *ngIf="backEnabled">
+    <!-- <ion-toolbar *ngIf="backEnabled">
         <ion-buttons slot="start">
             <ion-back-button defaultHref="home"></ion-back-button>
         </ion-buttons>
-    </ion-toolbar>
+    </ion-toolbar> -->
     <ion-grid class="top-bar">
-        <ion-row>
-            <ion-col><span class="top-bar-titolo text-semibold">{{attivita.aa.titolo}}</span></ion-col>
+        <ion-row class="v-center top-bar-titolo text-semibold" *ngIf="backEnabled">
+            <ion-back-button defaultHref="home"></ion-back-button>{{attivita.aa.titolo}}
+        </ion-row>
+        <ion-row *ngIf="!backEnabled">
+            <span class="top-bar-titolo text-semibold">{{attivita.aa.titolo}}</span>
         </ion-row>
         <ion-row>
             <ion-col>
@@ -36,7 +39,7 @@
 </ion-header>
 <ion-content *ngIf="attivita && presenze">
     <ion-list class="item-container">
-        <ion-card [style.border]="border(giorno)" id="{{giorno.giornata}}" [disabled]="isInfuture(giorno)" class="item"
+        <ion-card id="{{giorno.giornata}}" [style.border]="border(giorno)" [disabled]="isInfuture(giorno)" class="item"
             *ngFor="let giorno of presenze" (click)="input(giorno)">
             <ion-card-header>
                 <ion-row>
