@@ -64,7 +64,7 @@
                 <ion-row>
                     <p class="para" *ngIf="giorno.verificata">{{giorno.attivitaSvolta}}</p>
                     <ion-textarea class="text-area" sytle="placeholder-font-style:italic"
-                        *ngIf="!giorno.verificata || isweekEnd(giorno)" [(ngModel)]="giorno.attivitaSvolta"
+                        *ngIf="!giorno.verificata" [(ngModel)]="giorno.attivitaSvolta"
                         placeholder="inserisci diario di bordo."></ion-textarea>
                 </ion-row>
             </ion-card-content>
