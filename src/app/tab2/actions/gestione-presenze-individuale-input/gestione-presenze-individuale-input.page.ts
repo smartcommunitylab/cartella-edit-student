@@ -160,7 +160,7 @@ export class GestionePresenzeIndividualeInputPage {
   }
 
   onFocus() {
-    alert('on focus');
+    // alert('on focus');
 
   }
 
