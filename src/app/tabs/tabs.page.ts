@@ -7,6 +7,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TabsPage {
 
-  constructor() { }
+  show: boolean = true;
+
+  constructor() {
+    window.addEventListener('ionKeyboardDidShow', ev => {
+      console.log('keyboard shown');
+      this.show = false;
+      // Do something with the keyboard height such as translating an input above the keyboard.
+    });
+    
+    window.addEventListener('ionKeyboardDidHide', () => {
+      console.log('keyboard hidden');
+      this.show = true;
+      // Move input back to original location
+    });
+   }
 
 }
