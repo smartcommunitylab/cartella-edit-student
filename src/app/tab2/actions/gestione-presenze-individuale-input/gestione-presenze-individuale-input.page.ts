@@ -6,6 +6,7 @@ import 'moment/locale/it';
 import { PickerController, IonContent } from '@ionic/angular';
 import { PickerOptions } from "@ionic/core";
 import { FestivalService } from 'src/app/core/services/festival.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'gestione-presenze-individuale-input',
@@ -21,7 +22,7 @@ export class GestionePresenzeIndividualeInputPage {
   today;
   percentage;
   ore = [ { text: '1', value: '1' }, { text: '2', value: '2' }, { text: '3', value: '3' }, { text: '4', value: '4' }, { text: '5', value: '5' }, { text: '6', value: '6' }, { text: '7', value: '7' }, { text: '8', value: '8' }, { text: '9', value: '9' }, { text: '10', value: '10' }, { text: '11', value: '11' }, { text: '12', value: '12' }, { text: 'Assente', value: '0' }]
-
+  env = environment;
 
   constructor(
     private dataService: DataService,
@@ -160,12 +161,11 @@ export class GestionePresenzeIndividualeInputPage {
   }
 
   onFocus() {
-    // alert('on focus');
-
+    this.env.showTabs = false;
   }
 
   onBlur() {
-    alert('on blur');
+    this.env.showTabs = true;
   }
 
 }

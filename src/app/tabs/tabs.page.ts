@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Keyboard } from '@ionic-native/keyboard/ngx';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-tabs',
@@ -8,26 +8,7 @@ import { Keyboard } from '@ionic-native/keyboard/ngx';
 })
 export class TabsPage {
 
-  constructor(private keyboard: Keyboard) { 
-
-    console.log(this.keyboard.isVisible);
-
-    window.addEventListener('keyboardWillShow', (e) => { alert('keyboardWillShow');}); 
-    window.addEventListener('keyboardWillHide', () => { alert('keyboardWillHide'); });
-    window.addEventListener('keyboardDidShow', (e) => { alert('keyboardDidShow');}); 
-    window.addEventListener('keyboardDidHide', () => { alert('keyboardDidHide');});
-    window.addEventListener('ionKeyboardDidShow', ev => {
-      alert('ionKeyboardDidShow');
-      // Do something with the keyboard height such as translating an input above the keyboard.
-    });
-    
-    window.addEventListener('ionKeyboardDidHide', () => {
-      alert('ionKeyboardDidHide');
-      // Move input back to original location
-    });
-    
-
-  }
-
+  env = environment;
+  constructor() { }
 
 }
