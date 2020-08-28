@@ -15,7 +15,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core/core.module';
-import { ExploreContainerComponentModule } from './explore-container/explore-container.module';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
 
 registerLocaleData(localeIt, 'it-IT');
 @NgModule({
@@ -28,13 +28,14 @@ registerLocaleData(localeIt, 'it-IT');
     HttpClientModule,
     AppRoutingModule,
     CoreModule,
-    AuthModule,
-    ExploreContainerComponentModule
+    AuthModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'it-IT'},
     StatusBar,
     SplashScreen,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    Keyboard,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
