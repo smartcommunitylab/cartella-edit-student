@@ -5,4 +5,8 @@
 
 .tab-selected{
     font-weight: 600;
-  }
+}
+
+body.keyboard-open .has-footer{
+    bottom: 0;
+}
