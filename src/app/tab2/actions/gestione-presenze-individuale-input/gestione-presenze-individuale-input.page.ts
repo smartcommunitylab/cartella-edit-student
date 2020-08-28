@@ -159,5 +159,9 @@ export class GestionePresenzeIndividualeInputPage {
     return toBeSaved;
   }
 
+  onFocus() {
+    alert('on focus');
+
+  }
 
 }
