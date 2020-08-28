@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
 
 @Component({
   selector: 'app-tabs',
@@ -7,20 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TabsPage {
 
-  show: boolean = true;
+  constructor(private keyboard: Keyboard) { 
 
-  constructor() {
-    window.addEventListener('ionKeyboardDidShow', ev => {
-      console.log('keyboard shown');
-      this.show = false;
-      // Do something with the keyboard height such as translating an input above the keyboard.
+    this.keyboard.onKeyboardShow().subscribe(() => {
+      // This is never executed...
+      console.log('Keyboard is now open');
     });
     
-    window.addEventListener('ionKeyboardDidHide', () => {
-      console.log('keyboard hidden');
-      this.show = true;
-      // Move input back to original location
-    });
-   }
+    this.keyboard.onKeyboardHide().subscribe(() => {
+      // This is never executed...
+      console.log('Keyboard is now close');
+  });
+
+  }
+
 
 }
