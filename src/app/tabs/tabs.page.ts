@@ -10,6 +10,8 @@ export class TabsPage {
 
   constructor(private keyboard: Keyboard) { 
 
+    console.log(this.keyboard.isVisible);
+
     window.addEventListener('keyboardWillShow', (e) => { alert('keyboardWillShow');}); 
     window.addEventListener('keyboardWillHide', () => { alert('keyboardWillHide'); });
     window.addEventListener('keyboardDidShow', (e) => { alert('keyboardDidShow');}); 
