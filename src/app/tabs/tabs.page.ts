@@ -4,7 +4,8 @@ import { Keyboard } from '@ionic-native/keyboard/ngx';
 @Component({
   selector: 'app-tabs',
   templateUrl: 'tabs.page.html',
-  styleUrls: ['tabs.page.scss']
+  styleUrls: ['tabs.page.scss'],
+  providers: [Keyboard]
 })
 export class TabsPage {
 
