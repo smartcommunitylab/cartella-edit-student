@@ -164,4 +164,8 @@ export class GestionePresenzeIndividualeInputPage {
 
   }
 
+  onBlur() {
+    alert('on blur');
+  }
+
 }

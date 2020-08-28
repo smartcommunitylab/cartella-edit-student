@@ -44,7 +44,7 @@
             <span class="attributes-2">Diario di bordo</span>
         </ion-row>
         <ion-row>
-            <ion-textarea (ionFocus)="onFocus()" [style.border]="border(giorno)" class="text-area" (keyup.enter)="savePresenze(giorno)"
+            <ion-textarea (ionFocus)="onFocus()" (ionBlur)="onBlur()" [style.border]="border(giorno)" class="text-area" (keyup.enter)="savePresenze(giorno)"
                 [(ngModel)]="giorno.attivitaSvolta" name="note" autocomplete="on" autocorrect="on"></ion-textarea>
         </ion-row>
     </div>
