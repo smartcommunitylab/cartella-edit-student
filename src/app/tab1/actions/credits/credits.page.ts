@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
 
 @Component({
   selector: 'credits',
@@ -7,5 +8,11 @@ import { Component } from '@angular/core';
 })
   
 export class CreditsPage {
+
+  constructor(private keyboard: Keyboard) { }
  
+  openKeyboard() {
+    console.log(this.keyboard.isVisible);
+    this.keyboard.show();
+  }
 }
