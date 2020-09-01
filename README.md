@@ -17,9 +17,7 @@ Angular CLI 6.0.3
 
 ## Deployment on server
 
-ng build --base-href /edit-studente/
-
-If ng not installed on that machine, and ionic build is supported then in that case we have to specify in angular.json file
+Specify in angular.json file
 
 "baseHref": "/edit-studente/",
 
@@ -29,5 +27,12 @@ in build option, and then with ionic build command it read from this configurati
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "baseHref": "/edit-studente/",
+
+ionic build
+
+## Opzionale:
+if ng is installed, one can run 
+
+ng build --base-href /edit-studente/
 
 Note: --base-href is ignored by ionic build command
