@@ -146,7 +146,7 @@ export class GestionePresenzeIndividualeInputPage {
 
   savePresenze(pz) {
     let toBeSaved = this.prepareSaveArray(pz);
-    console.log(toBeSaved.length);
+    console.log('presenze singolo array size' + toBeSaved.length);
     this.dataService.saveAttivitaGiornaliereStudentiPresenze(toBeSaved, this.giorno.esperienzaSvoltaId).subscribe((studente: any) => {
       // toast (if required)
       this.presentToast('Salvato con successo!');
