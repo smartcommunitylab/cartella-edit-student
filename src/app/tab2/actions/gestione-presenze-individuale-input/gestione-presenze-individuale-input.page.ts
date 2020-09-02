@@ -120,7 +120,7 @@ export class GestionePresenzeIndividualeInputPage {
             handler: (picked: any) => {
               pz.oreSvolte = picked.Ore.value;
               this.savePresenze(pz);
-              console.log(pz.oreSvolte);
+              // console.log(pz.oreSvolte);
             }
           }
         ],

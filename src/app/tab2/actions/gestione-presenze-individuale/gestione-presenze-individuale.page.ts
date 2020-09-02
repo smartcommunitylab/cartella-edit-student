@@ -185,21 +185,21 @@ export class GestionePresenzeIndividualePage {
     return options;
   }
 
-  savePresenze(pz) {
-    let toBeSaved = this.prepareSaveArray(pz);
-    this.dataService.saveAttivitaGiornaliereStudentiPresenze(toBeSaved, this.attivita.es.id).subscribe((studente: any) => {
-      // toast (if required)
-    },
-      (err: any) => console.log(err),
-      () => console.log('save attivita giornaliera presenze'));
-  }
+  // savePresenze(pz) {
+  //   let toBeSaved = this.prepareSaveArray(pz);
+  //   this.dataService.saveAttivitaGiornaliereStudentiPresenze(toBeSaved, this.attivita.es.id).subscribe((studente: any) => {
+  //     // toast (if required)
+  //   },
+  //     (err: any) => console.log(err),
+  //     () => console.log('save attivita giornaliera presenze'));
+  // }
 
-  prepareSaveArray(pz) {
-    var toBeSaved = [];
-    var save = JSON.parse(JSON.stringify(pz))
-    save.giornata = moment(pz.giornata, 'YYYY-MM-DD').valueOf();
-    toBeSaved.push(save);
-    return toBeSaved;
-  }
+  // prepareSaveArray(pz) {
+  //   var toBeSaved = [];
+  //   var save = JSON.parse(JSON.stringify(pz))
+  //   save.giornata = moment(pz.giornata, 'YYYY-MM-DD').valueOf();
+  //   toBeSaved.push(save);
+  //   return toBeSaved;
+  // }
 
 }
