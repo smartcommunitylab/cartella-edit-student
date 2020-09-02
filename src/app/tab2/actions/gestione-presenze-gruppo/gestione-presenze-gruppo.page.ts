@@ -226,6 +226,7 @@ export class GestionePresenzeGruppoPage {
 
   prepareSaveArray(pz) {
     var toBeSaved = [];
+    console.log(JSON.stringify(pz));
     var save = JSON.parse(JSON.stringify(pz))
     save.giornata = moment(pz.giornata, 'YYYY-MM-DD').valueOf();
     toBeSaved.push(save);
