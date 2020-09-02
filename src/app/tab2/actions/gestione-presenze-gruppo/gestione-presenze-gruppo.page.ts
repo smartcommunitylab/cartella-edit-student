@@ -3,7 +3,7 @@ import { DataService } from '../../../core/services/data.service'
 import { Router, ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import 'moment/locale/it';
-import { PickerController, IonContent } from '@ionic/angular';
+import { PickerController, IonContent, ToastController } from '@ionic/angular';
 import { PickerOptions } from "@ionic/core";
 import { UtilsService } from 'src/app/core/services/utils.service';
 import { FestivalService } from 'src/app/core/services/festival.service';
@@ -30,6 +30,7 @@ export class GestionePresenzeGruppoPage {
     private dataService: DataService,
     private festivalService: FestivalService,
     private utilsService: UtilsService,
+    private toastController: ToastController,
     private pickerController: PickerController,
     private route: ActivatedRoute,
     private router: Router) {
@@ -186,11 +187,11 @@ export class GestionePresenzeGruppoPage {
             role: 'cancel'
           },
           {
-            text: 'Ok',
+            text: 'Salva',
             handler: (picked: any) => {
               pz.oreSvolte = picked.Ore.value;
               this.savePresenze(pz);
-              console.log(pz.oreSvolte);
+              // console.log(pz.oreSvolte);
             }
           }
         ],
@@ -215,8 +216,9 @@ export class GestionePresenzeGruppoPage {
 
   savePresenze(pz) {
     let toBeSaved = this.prepareSaveArray(pz);
+    console.log(toBeSaved.length);
     this.dataService.saveAttivitaGiornaliereStudentiPresenze(toBeSaved, this.attivita.es.id).subscribe((studente: any) => {
-      // toast (if required)
+      this.presentToast('Salvato con successo!');
     },
       (err: any) => console.log(err),
       () => console.log('save attivita giornaliera presenze'));
@@ -228,6 +230,16 @@ export class GestionePresenzeGruppoPage {
     save.giornata = moment(pz.giornata, 'YYYY-MM-DD').valueOf();
     toBeSaved.push(save);
     return toBeSaved;
+  }
+
+  
+  async presentToast(string) {
+    const toast = await this.toastController.create({
+      message: string,
+      duration: 2000,
+      position: 'bottom'
+    })
+    toast.present();
   }
 
 }
