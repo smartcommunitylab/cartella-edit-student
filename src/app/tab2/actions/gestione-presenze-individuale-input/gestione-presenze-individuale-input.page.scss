@@ -31,23 +31,17 @@
     font-size: 25px;
     color: #5C6F82;
 }
-// .titolo {
-//     color: #5C6F82;
-//     font-weight: 900;
-// }
-// .attributes-1 {
-//     color: #5C6F82;
-//     font-size: 18px;
-// }
 .error {
     font-size: 13px;
     color: #FF667D;
 }
-// .top-bar-attributes-values {
-//     color: #5C6F82;
-//     font-size: 20px;    
-// }
 .top-bar {
     background-color: #F0F6FC;
     padding-top: 24px;
+}
+.button-salva {
+    color: #0073E6;
+    --background: #CCE6FF;
+    --border-color: #0073E6;
+    --border-radius: 10px;
 }

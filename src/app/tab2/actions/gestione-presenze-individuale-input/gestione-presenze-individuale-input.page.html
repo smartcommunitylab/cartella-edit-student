@@ -46,9 +46,11 @@
         <ion-row>
             <ion-textarea (ionFocus)="onFocus()" (ionBlur)="onBlur()" [style.border]="border(giorno)" class="text-area"
                 [(ngModel)]="giorno.attivitaSvolta" name="note" autocomplete="on" autocorrect="on"></ion-textarea> <!--(keyup.enter)="savePresenze(giorno)"-->
+            
         </ion-row>
+        <br>
         <ion-row>
-            <ion-button [hidden]="env.showTabs" size="small" (mouseout)="savePresenze(giorno)">Salva</ion-button> 
+            <ion-button expand="outline" class="button-salva text-bold ion-text-capitalize center-horizontally" [hidden]="env.showTabs" size="small" (mouseout)="savePresenze(giorno)">Salva</ion-button> <!--fill="outline"-->
         </ion-row>
     </div>
 </ion-content>
