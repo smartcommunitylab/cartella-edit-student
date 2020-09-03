@@ -41,7 +41,7 @@
 </ion-header>
 <ion-content *ngIf="attivita && presenze">
     <ion-list class="item-container">
-                <div id="{{giorno.giornata}}" [style.background]="bgColor(giorno)" [class.disabled]="isInfuture(giorno) || giorno.verificata" class="item" *ngFor="let giorno of presenze"
+                <div id="{{giorno.giornata}}" [style.background]="bgColor(giorno)" [class.disabled]="isInfuture(giorno) || giorno.verificata || attivita.aa.stato=='archiviata'" class="item" *ngFor="let giorno of presenze"
                     (click)="showPicker(giorno)">
                     <ion-grid>
                         <ion-row>

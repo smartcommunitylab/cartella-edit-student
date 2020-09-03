@@ -39,7 +39,7 @@
 </ion-header>
 <ion-content *ngIf="attivita && presenze">
     <ion-list class="item-container">
-        <ion-card id="{{giorno.giornata}}" [style.border]="border(giorno)" [disabled]="isInfuture(giorno)" class="item"
+        <ion-card id="{{giorno.giornata}}" [style.border]="border(giorno)" [disabled]="isInfuture(giorno) || attivita.aa.stato=='archiviata'" class="item"
             *ngFor="let giorno of presenze" (click)="input(giorno)">
             <ion-card-header>
                 <ion-row>

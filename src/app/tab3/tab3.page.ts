@@ -20,6 +20,8 @@ export class Tab3Page {
   summary;
   percentage;
   stati = [{ "name": "In attesa", "value": "in_attesa" }, { "name": "In corso", "value": "in_corso" }, { "name": "Giorni non compilati", "value": "revisione" }, { "name": "Archiviata", "value": "archiviata" }];
+  tipologie;
+
   constructor(
     private dataService: DataService,
     private utilsService: UtilsService,
@@ -33,28 +35,33 @@ export class Tab3Page {
 
   getAttivitaPage(page: number) {
     this.utilsService.presentLoading();
-    this.dataService.getStudenteSummary().subscribe(resp => {
-      this.summary = resp;
-      this.percentage = ((this.summary.oreValidate / this.summary.oreTotali) * 100).toFixed(0);
-      this.dataService.getAttivitaStudenteList(null, (page - 1), this.pageSize)
-        .subscribe((response) => {
-          this.attivitaStudente = response.content;
-          if (this.attivitaStudente.length < this.pageSize) {
-            this.maybeMore = false;
-          }
+
+    this.dataService.getAttivitaTipologie().subscribe((res) => {
+      this.tipologie = res;
+      this.dataService.getStudenteSummary().subscribe(resp => {
+        this.summary = resp;
+        this.percentage = ((this.summary.oreValidate / this.summary.oreTotali) * 100).toFixed(0);
+        this.dataService.getAttivitaStudenteList(null, (page - 1), this.pageSize)
+          .subscribe((response) => {
+            this.attivitaStudente = response.content;
+            if (this.attivitaStudente.length < this.pageSize) {
+              this.maybeMore = false;
+            }
+            this.utilsService.dismissLoading();
+          },
+            (err: any) => {
+              console.log(err);
+              this.utilsService.dismissLoading();
+            }
+          );
+      },
+        (err: any) => {
+          console.log(err);
           this.utilsService.dismissLoading();
         },
-          (err: any) => {
-            console.log(err);
-            this.utilsService.dismissLoading();
-          }
-        );
-    },
-      (err: any) => {
-        console.log(err);
-        this.utilsService.dismissLoading();
-      },
-    );
+      );
+    });
+ 
   }
 
   getStatoNome(statoValue) {
@@ -116,6 +123,25 @@ export class Tab3Page {
     } else if (esp.stato == 'archiviata') {
       return '#A2ADB8';
     }
+  }
+
+  openPresenze(aa) {
+
+    this.tipologie.filter(tipo => {
+      if (tipo.id == aa.tipologia) {
+        aa.individuale = tipo.individuale;
+      }
+    });
+
+    let params = {
+      'id': aa.esperienzaSvoltaId,
+      'back': true
+    }
+    if (aa.individuale) {
+      this.router.navigate(['../../tab2/presenze/individuale', { data: JSON.stringify(params) }], { relativeTo: this.route });
+    } else {
+      this.router.navigate(['../../tab2/presenze/gruppo', { data: JSON.stringify(params) }], { relativeTo: this.route });
+      }
   }
 
 }
