@@ -31,28 +31,35 @@ export class EsperienzaDettaglioComponent implements OnInit {
     this.route.params.subscribe(params => {
       let id = params['id'];
       this.utilsService.presentLoading();
-      this.dataService.getAttivitaStudenteById(id).subscribe((attivita: any) => {
-        this.attivita = attivita;
-        this.aa = attivita.aa;
-        this.es = attivita.es;
-        this.dataService.getAttivitaDocumenti(this.es.uuid).subscribe(resp => {
-          this.es.documenti = resp;
-          this.utilsService.dismissLoading();
-        });
+      this.dataService.getAttivitaTipologie().subscribe((res) => {
+        this.tipologie = res;
+        this.dataService.getAttivitaStudenteById(id).subscribe((attivita: any) => {
+          this.attivita = attivita;
+          this.aa = attivita.aa;
+          this.es = attivita.es;
+          this.dataService.getAttivitaDocumenti(this.es.uuid).subscribe(resp => {
+            this.es.documenti = resp;
+            this.utilsService.dismissLoading();
+          });
 
-        if (this.hasCoordinate()) {
-          setTimeout(() => { //ensure that map div is rendered
-            this.drawMap();
-          }, 0);
-        }
+          if (this.hasCoordinate()) {
+            setTimeout(() => { //ensure that map div is rendered
+              this.drawMap();
+            }, 0);
+          }
 
+        },
+          (err: any) => {
+            console.log(err)
+            this.utilsService.dismissLoading();
+          });
       },
         (err: any) => {
-          console.log(err)
+          console.log(err);
           this.utilsService.dismissLoading();
-        });
+        },
+      );
     });
-
   }
 
   openDetail(attivita) {
@@ -127,6 +134,23 @@ export class EsperienzaDettaglioComponent implements OnInit {
       return '#F83E5A';
     } else if (esp.stato == 'archiviata') {
       return '#A2ADB8';
+    }
+  }
+
+  openPresenze(aa, esp) {
+    this.tipologie.filter(tipo => {
+      if (tipo.id == aa.tipologia) {
+        aa.individuale = tipo.individuale;
+      }
+    });
+    let params = {
+      'id': esp.id,
+      'back': true
+    }
+    if (aa.individuale) {
+      this.router.navigate(['../../../tab2/presenze/individuale', { data: JSON.stringify(params) }], { relativeTo: this.route });
+    } else {
+      this.router.navigate(['../../../tab2/presenze/gruppo', { data: JSON.stringify(params) }], { relativeTo: this.route });
     }
   }
 

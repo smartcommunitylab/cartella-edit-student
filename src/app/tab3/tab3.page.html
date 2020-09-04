@@ -41,17 +41,21 @@
         <ion-list>
           <div class="item" *ngFor="let esp of attivitaStudente">
             <ion-grid>
-              <ion-row>
-                <ion-col size="8"><span class="titolo ion-text-capitalize text-bold" (click)="openDetail(esp)">{{esp.titolo}}</span></ion-col>
-                <ion-col size="4" (click)="openDetail(esp)">
+              <ion-row (click)="openDetail(esp)">
+                <ion-col size="8"><span class="titolo ion-text-capitalize text-bold">{{esp.titolo}}</span></ion-col>
+                <ion-col size="4">
                   <span class="float-right stato">
                     <span class="text-semibold">Stato:&nbsp;</span>
                     <span [style.color]="getColor(esp)">{{ getStatoNome(esp.stato) }}</span>
                   </span>                  
                 </ion-col>
               </ion-row>
-              <ion-row (click)="openPresenze(esp)">
-                <span class="link-presenze v-center"><ion-icon class="icon" src="./assets/icon/it-calendar.svg"></ion-icon>&nbsp;Vedi presenze attività</span>
+              <ion-row>
+                <ion-col>
+                  <span class="link-presenze v-center" (click)="openPresenze(esp)">
+                    <ion-icon class="icon" src="./assets/icon/it-calendar.svg"></ion-icon>&nbsp;Vedi presenze attività
+                  </span>
+                </ion-col>
               </ion-row>
               <ion-row (click)="openDetail(esp)">
                 <ion-col><span class="attributes text-semibold">Ore svolte:&nbsp;</span><span

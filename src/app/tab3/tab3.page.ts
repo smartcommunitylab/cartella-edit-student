@@ -60,8 +60,11 @@ export class Tab3Page {
           this.utilsService.dismissLoading();
         },
       );
-    });
- 
+    },
+      (err: any) => {
+        console.log(err);
+        this.utilsService.dismissLoading();
+      });
   }
 
   getStatoNome(statoValue) {
@@ -126,13 +129,11 @@ export class Tab3Page {
   }
 
   openPresenze(aa) {
-
     this.tipologie.filter(tipo => {
       if (tipo.id == aa.tipologia) {
         aa.individuale = tipo.individuale;
       }
     });
-
     let params = {
       'id': aa.esperienzaSvoltaId,
       'back': true
@@ -141,7 +142,7 @@ export class Tab3Page {
       this.router.navigate(['../../tab2/presenze/individuale', { data: JSON.stringify(params) }], { relativeTo: this.route });
     } else {
       this.router.navigate(['../../tab2/presenze/gruppo', { data: JSON.stringify(params) }], { relativeTo: this.route });
-      }
+    }
   }
 
 }

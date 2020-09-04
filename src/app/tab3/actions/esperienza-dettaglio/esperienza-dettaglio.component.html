@@ -13,6 +13,13 @@
     <ion-grid *ngIf="aa && es">
         <ion-row>
             <ion-col>
+                <span class="link-presenze v-center" (click)="openPresenze(aa, es)">
+                    <ion-icon class="icon-presenze" src="./assets/icon/it-calendar.svg"></ion-icon>&nbsp;Vedi presenze attività
+                </span>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
                 <span class="attributes text-semibold">Stato:&nbsp;<span
                     [style.color]="getColor(aa)">{{ getStatoNome(aa.stato) }}</span></span>    
             </ion-col>
