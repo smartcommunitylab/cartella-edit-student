@@ -3,38 +3,35 @@
     color: #0073E6;
     font-size: 20px;
 }
-
 .top-bar-attributes {
     color: #5C6F82;
     font-size: 14px;
 }
-
 .top-bar-attributes-values {
     color: #5C6F82;
     font-size: 14px;    
 }
-
 .titolo {
     color: #5C6F82;
     font-size: 16px;
 }
-
 .attributes {
     color: #5C6F82;
     font-size: 20px;
 }
-
+.attributes-value-validare {
+    color:orange;
+    font-size:  14px;
+}
 .error {
     font-size: 12px;
     color: #FF667D;
     font-style: italic;
 }
-
 .validato {
     font-size: 12px;
     color: #A2ADB8;    
 }
-
 .item-container {
     .item {
         border-bottom: 1.2px dashed #5C6F82;
@@ -48,15 +45,13 @@
         // background-color: #F0F6FC;
         pointer-events: none;
     }
-} 
-
+}
 .progress-bar-determinate {
   height: 8px;
   --progress-background: #10D390;
   --background: white;
   
 }
-
 .top-bar {
     background-color: #CCE6FF;
     padding-top: 20px;
