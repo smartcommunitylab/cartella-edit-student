@@ -96,7 +96,7 @@ export class Tab3Page {
             // App logic to determine if all data is loaded and disable the infinite scroll
             if (response.content.length < this.pageSize) {
               this.maybeMore = false;
-              this.presentToast('non ci sono piu i dati');
+              // this.presentToast('non ci sono piu i dati');
               event.target.disabled = true;
             }
             this.attivitaStudente = this.attivitaStudente.concat(response.content);
