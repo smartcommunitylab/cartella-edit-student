@@ -9,8 +9,8 @@
     </div>
     <br>
     <div>
-      <label *ngIf="aa.length > 0" class="text">Hai {{aa.length}} esperienze programma per oggi</label>
-      <label *ngIf="aa.length == 0" class="text">Non hai esperienze programma per oggi!</label>
+      <label *ngIf="aa.length > 0" class="text">Hai {{aa.length}} attività in programma per oggi</label>
+      <label *ngIf="aa.length == 0" class="text">Non hai attività programma per oggi!</label>
     </div>
     <br>
     <div>
@@ -19,7 +19,7 @@
     </div>
     <br>
     <div *ngIf="aa.length > 0">
-      <label class="text">Seleziona l'esperienze e inserisci le ore svolte</label>
+      <label class="text">Seleziona l'attività e inserisci le ore svolte</label>
       <br>
       <div class="item-container">
         <div class="item" *ngFor="let esp of aa" (click)="openPresenze(esp)">
