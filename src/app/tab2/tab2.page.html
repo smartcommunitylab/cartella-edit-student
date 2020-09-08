@@ -9,11 +9,13 @@
     </div>
     <br>
     <div>
-      <label class="text">Hai {{aa.length}} esperienze programma per oggi</label>
+      <label *ngIf="aa.length > 0" class="text">Hai {{aa.length}} esperienze programma per oggi</label>
+      <label *ngIf="aa.length == 0" class="text">Non hai esperienze programma per oggi!</label>
     </div>
     <br>
     <div>
-      <label class="data text-bold">{{oggi}}</label>
+      <label *ngIf="aa.length > 0" class="data text-bold">{{oggi}}</label>
+      <ion-icon *ngIf="aa.length == 0" class="sleeping-icon" src="./assets/icon/sleeping-baby-svgrepo-com.svg"></ion-icon>
     </div>
     <br>
     <div *ngIf="aa.length > 0">
@@ -27,6 +29,9 @@
           <span class="attributes-value ion-text-capitalize">{{esp.nomeEnte}}</span>
         </div>
       </div>
+    </div>
+    <div *ngIf="aa.length == 0">
+      <span class="text">Se hai ore da inserire su attività passate, le trovi nella sezione attività!</span>
     </div>
    </ion-grid>  
 </ion-content>

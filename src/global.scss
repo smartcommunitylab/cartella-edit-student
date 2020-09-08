@@ -64,6 +64,12 @@ img.animated-gif{
     padding: 2px;
 }
 
+img.icon {
+    width: 30px;
+    height: 30px;
+    padding: 2px;
+}
+
 .v-center {
    display: flex;
    align-items: center;
@@ -98,6 +104,80 @@ img.animated-gif{
     transition: opacity 1s;        
   } 
 
+  .overlay-content-successo {
+    position: fixed;
+    z-index: 999999;
+    top: 50%;
+    left: 50%;
+    background-color: #F0F6FD;
+    border: 3px solid #7FB2E5;
+    border-left: 20px solid #7FB2E5;
+    border-radius: 5px;
+    -webkit-transform: translate(-50%, 0%);
+            transform: translate(-50%, 0%);
+    cursor: pointer;
+    padding: 5;
+    width: 280px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    -webkit-transition: opacity 1s;
+    -moz-transition: opacity 1s; 
+    -o-transition: opacity 1s;
+    transition: opacity 1s;        
+  }
+
+  .overlay-content-errore {
+    position: fixed;
+    z-index: 999999;
+    top: 50%;
+    left: 50%;
+    background-color: #F0F6FD;
+    border: 3px solid #F83E5A;
+    border-left: 20px solid #F83E5A;
+    border-radius: 5px;
+    -webkit-transform: translate(-50%, 0%);
+            transform: translate(-50%, 0%);
+    cursor: pointer;
+    padding: 5;
+    width: 280px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    -webkit-transition: opacity 1s;
+    -moz-transition: opacity 1s; 
+    -o-transition: opacity 1s;
+    transition: opacity 1s;        
+  }
+
+  .overlay-content-warning {
+    position: fixed;
+    z-index: 999999;
+    top: 50%;
+    left: 50%;
+    background-color: #F0F6FD;
+    border: 3px solid #FF9700;
+    border-left: 20px solid #FF9700;
+    border-radius: 5px;
+    -webkit-transform: translate(-50%, 0%);
+            transform: translate(-50%, 0%);
+    cursor: pointer;
+    padding: 5;
+    width: 280px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    -webkit-transition: opacity 1s;
+    -moz-transition: opacity 1s; 
+    -o-transition: opacity 1s;
+    transition: opacity 1s;        
+  }
+
+  .tip-msg {
+    font-size: 12px;
+    color: #707070;
+  }
+  
   .center-horizontally {
     margin: 0;
     position: absolute;

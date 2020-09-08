@@ -48,6 +48,7 @@ export class Tab2Page {
           this.dataService.setStudenteId(ids[0]);
           this.dataService.getStudedente(ids[0]).subscribe(resp => {
             this.studente = resp;
+            this.studente.email = profile.email;
             this.dataService.setStudenteNome(this.studente.name);
             this.dataService.setStudenteCognome(this.studente.surname);
             this.dataService.setIstitutoId(this.studente.istitutoId);
