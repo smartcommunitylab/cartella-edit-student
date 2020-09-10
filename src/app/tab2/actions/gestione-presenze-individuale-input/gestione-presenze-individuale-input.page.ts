@@ -193,7 +193,7 @@ export class GestionePresenzeIndividualeInputPage {
     if (value.length <= limit) {
       element.value = value;
     } else {
-      this.utilsService.presentWarningLoading('maximum character 250');
+      this.utilsService.presentWarningLoading('Il limite per il numero massimo di caratteri è 250');
       element.value = value.substr(0, limit-1);
     }
   }
