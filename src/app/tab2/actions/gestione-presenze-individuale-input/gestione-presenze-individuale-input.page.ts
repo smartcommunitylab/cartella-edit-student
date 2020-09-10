@@ -179,6 +179,8 @@ export class GestionePresenzeIndividualeInputPage {
   }
 
   onFocus() {
+    const element = event.target as HTMLInputElement;
+    element.setAttribute('maxlength', '5');
     this.env.showTabs = false;
   }
 
