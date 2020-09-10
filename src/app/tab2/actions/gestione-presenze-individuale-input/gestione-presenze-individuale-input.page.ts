@@ -7,6 +7,7 @@ import { PickerController, IonContent, ToastController } from '@ionic/angular';
 import { PickerOptions } from "@ionic/core";
 import { FestivalService } from 'src/app/core/services/festival.service';
 import { environment } from '../../../../environments/environment';
+import { UtilsService } from 'src/app/core/services/utils.service';
 
 @Component({
   selector: 'gestione-presenze-individuale-input',
@@ -28,7 +29,7 @@ export class GestionePresenzeIndividualeInputPage {
   constructor(
     private dataService: DataService,
     private festivalService: FestivalService,
-    private toastController: ToastController,
+    private utilsService: UtilsService,
     private pickerController: PickerController,
     private route: ActivatedRoute,
     private router: Router) {
@@ -155,10 +156,16 @@ export class GestionePresenzeIndividualeInputPage {
     let toBeSaved = this.prepareSaveArray(pz);
     console.log('presenze singolo array size ' + toBeSaved.length);
     this.dataService.saveAttivitaGiornaliereStudentiPresenze(toBeSaved, this.giorno.esperienzaSvoltaId).subscribe((studente: any) => {
-      // toast (if required)
-      this.presentToast('Salvato con successo!');
+      this.utilsService.presentSuccessLoading('Salvataggio effettuato con successo!');
     },
-      (err: any) => console.log(err),
+      (err: any) => {
+        console.log(err);
+        if (err.error.ex) {
+          this.utilsService.presentErrorLoading(err.error.ex);
+        } else {
+          this.utilsService.presentErrorLoading('Errore');
+        }
+      },
       () => console.log('save attivita giornaliera presenze'));
   }
 
@@ -177,15 +184,6 @@ export class GestionePresenzeIndividualeInputPage {
 
   onBlur() {
     this.env.showTabs = true;
-  }
-
-  async presentToast(string) {
-    const toast = await this.toastController.create({
-      message: string,
-      duration: 2000,
-      position: 'bottom'
-    })
-    toast.present();
   }
 
 }

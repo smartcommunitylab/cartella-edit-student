@@ -31,7 +31,6 @@ export class GestionePresenzeGruppoPage {
     private dataService: DataService,
     private festivalService: FestivalService,
     private utilsService: UtilsService,
-    private toastController: ToastController,
     private pickerController: PickerController,
     private route: ActivatedRoute,
     private router: Router) {
@@ -225,9 +224,16 @@ export class GestionePresenzeGruppoPage {
     let toBeSaved = this.prepareSaveArray(pz);
     console.log('presenze gruppo array size ' + toBeSaved.length);
     this.dataService.saveAttivitaGiornaliereStudentiPresenze(toBeSaved, this.attivita.es.id).subscribe((studente: any) => {
-      this.presentToast('Salvato con successo!');
+      this.utilsService.presentSuccessLoading('Salvataggio effettuato con successo!');
     },
-      (err: any) => console.log(err),
+      (err: any) => {
+        console.log(err);
+        if (err.error.ex) {
+          this.utilsService.presentErrorLoading(err.error.ex);
+        } else {
+          this.utilsService.presentErrorLoading('Errore');
+        }        
+      },
       () => console.log('save attivita giornaliera presenze'));
   }
 
@@ -238,16 +244,6 @@ export class GestionePresenzeGruppoPage {
     save.giornata = moment(pz.giornata, 'YYYY-MM-DD').valueOf();
     toBeSaved.push(save);
     return toBeSaved;
-  }
-
-  
-  async presentToast(string) {
-    const toast = await this.toastController.create({
-      message: string,
-      duration: 2000,
-      position: 'bottom'
-    })
-    toast.present();
   }
 
 }

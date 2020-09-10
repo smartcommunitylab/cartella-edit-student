@@ -31,4 +31,44 @@ export class UtilsService {
         return await this.loadingController.dismiss({ confirmed: true }, undefined).then(() => console.log('loading dismissed'));
     }
 
+
+    async presentSuccessLoading(msg) {
+        return await this.loadingController.create({
+            'spinner': null,
+            'cssClass': 'custom-loading',
+            'message': '<div class="overlay-content-successo"><span class="row v-center"><img class="icon" src="assets/image/it-check-circle.svg">&nbsp;<span class="tip-msg">' + msg + '</span></span></div>',
+            'duration': 2000
+        }).then(a => {
+            a.present().then(() => {
+                console.log('loading presented');
+            });
+        })
+    }
+
+    async presentErrorLoading(msg) {
+        return await this.loadingController.create({
+            'spinner': null,
+            'cssClass': 'custom-loading',
+            'message': '<div class="overlay-content-errore"><span class="row v-center"><img class="icon" src="assets/image/it-error.svg">&nbsp;<span class="tip-msg">' + msg + '</span></span></div>',
+            'duration': 2000
+        }).then(a => {
+            a.present().then(() => {
+                console.log('loading presented');
+            });
+        })
+    }
+
+    async presentWarningLoading(msg) {
+        return await this.loadingController.create({
+            'spinner': null,
+            'cssClass': 'custom-loading',
+            'message': '<div class="overlay-content-warning"><ion-row><ion-col class="v-center"><img class="icon" src="assets/image/it-warning-circle.svg">&nbsp;<span class="tip-msg">' + msg + '</span></ion-col></ion-row></div>',
+            'duration': 2000
+        }).then(a => {
+            a.present().then(() => {
+                console.log('loading presented');
+            });
+        })
+    }
+
 }
