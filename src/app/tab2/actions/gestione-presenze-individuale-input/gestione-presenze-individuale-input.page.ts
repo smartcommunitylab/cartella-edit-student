@@ -179,13 +179,23 @@ export class GestionePresenzeIndividualeInputPage {
   }
 
   onFocus() {
-    // const element = event.target as HTMLInputElement;
-    // element.setAttribute('maxlength', '5');
     this.env.showTabs = false;
   }
 
   onBlur() {
     this.env.showTabs = true;
+  }
+
+  checkLimit() {
+    var limit = 250;
+    const element = event.target as HTMLInputElement;
+    const value = element.value;
+    if (value.length <= limit) {
+      element.value = value;
+    } else {
+      this.utilsService.presentWarningLoading('maximum character 250');
+      element.value = value.substr(0, limit-1);
+    }
   }
 
 }
