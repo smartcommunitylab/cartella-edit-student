@@ -111,6 +111,10 @@ export class GestionePresenzeIndividualePage {
 
   textColor(giorno) {
 
+    if (giorno.verificata) {
+      return '#A2ADB8';
+    }
+
     if (!this.isweekEnd(giorno)
       && !this.festivalService.isFestival(giorno)
       && !this.isInfuture(giorno)) {
@@ -123,6 +127,12 @@ export class GestionePresenzeIndividualePage {
 
     return '#5C6F82';
 
+  }
+
+  validatoTextColor(giorno) {
+    if (giorno.verificata) {
+      return '#A2ADB8';
+    }
   }
 
   border(giorno) {

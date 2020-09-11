@@ -19,7 +19,12 @@ export class Tab3Page {
   attivitaStudente;
   summary;
   percentage;
-  stati = [{ "name": "In attesa", "value": "in_attesa" }, { "name": "In corso", "value": "in_corso" }, { "name": "Giorni non compilati", "value": "revisione" }, { "name": "Archiviata", "value": "archiviata" }];
+  stati = [
+    { "name": "In attesa", "value": "in_attesa" },
+    { "name": "In corso", "value": "in_corso" },
+    { "name": "Giorni non compilati", "value": "revisione" },
+    { "name": "Archiviata", "value": "archiviata" }
+  ];
   tipologie;
 
   constructor(
