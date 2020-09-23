@@ -34,7 +34,7 @@ export class Tab3Page {
     private route: ActivatedRoute,
     private router: Router) { }
 
-  ngOnInit(): void {
+  ionViewWillEnter(): void {
     this.getAttivitaPage(1);
   }
 

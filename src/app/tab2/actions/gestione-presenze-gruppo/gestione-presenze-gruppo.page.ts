@@ -224,7 +224,10 @@ export class GestionePresenzeGruppoPage {
     let toBeSaved = this.prepareSaveArray(pz);
     console.log('presenze gruppo array size ' + toBeSaved.length);
     this.dataService.saveAttivitaGiornaliereStudentiPresenze(toBeSaved, this.attivita.es.id).subscribe((studente: any) => {
-      this.utilsService.presentSuccessLoading('Salvataggio effettuato con successo!');
+      // this.utilsService.presentSuccessLoading('Salvataggio effettuato con successo!', 1000);
+      // setTimeout(() => {
+      this.ngOnInit();
+      // }, 2000);
     },
       (err: any) => {
         console.log(err);

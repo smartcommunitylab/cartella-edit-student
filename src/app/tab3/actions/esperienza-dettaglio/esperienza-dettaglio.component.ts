@@ -10,7 +10,7 @@ import { UtilsService } from 'src/app/core/services/utils.service';
   styleUrls: ['./esperienza-dettaglio.component.scss']
 })
 
-export class EsperienzaDettaglioComponent implements OnInit {
+export class EsperienzaDettaglioComponent {
   attivita;
   aa;
   es;
@@ -27,7 +27,7 @@ export class EsperienzaDettaglioComponent implements OnInit {
     private dataService: DataService,
     private utilsService: UtilsService) { }
 
-  ngOnInit() {
+  ionViewWillEnter() {
     this.route.params.subscribe(params => {
       let id = params['id'];
       this.utilsService.presentLoading();
