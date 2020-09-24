@@ -5,12 +5,12 @@
       <ion-icon class="icon" src="./assets/icon/landing-icon.svg"></ion-icon>
     </div>
     <div class="ion-padding">
-      <label class="heading-1">Benvenuto {{dataService.studenteNome }} {{ dataService.studenteCognome}}</label>
+      <label class="heading-1">Benvenuto/a {{dataService.studenteNome }} {{ dataService.studenteCognome}}</label>
     </div>
     <br>
     <div>
       <label *ngIf="aa.length > 0" class="text">Hai {{aa.length}} attività in programma per oggi</label>
-      <label *ngIf="aa.length == 0" class="text">Non hai attività programma per oggi!</label>
+      <label *ngIf="aa.length == 0" class="text">Non hai attività in programma per oggi!</label>
     </div>
     <br>
     <div>
@@ -31,7 +31,7 @@
       </div>
     </div>
     <div *ngIf="aa.length == 0">
-      <span class="text">Se hai ore da inserire su attività passate, le trovi nella sezione attività!</span>
+      <span class="text">Se hai ore da inserire su attività passate, le trovi nella sezione Attività!</span>
     </div>
    </ion-grid>  
 </ion-content>
