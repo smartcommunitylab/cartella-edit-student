@@ -1,9 +1,9 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { DataService } from '../../../core/services/data.service'
 import { Router, ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import 'moment/locale/it';
-import { PickerController, IonContent, ToastController } from '@ionic/angular';
+import { PickerController } from '@ionic/angular';
 import { PickerOptions } from "@ionic/core";
 import { FestivalService } from 'src/app/core/services/festival.service';
 import { environment } from '../../../../environments/environment';

@@ -22,6 +22,10 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+    //   if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    //     // dark mode detection code.
+    //     alert('darkMode');
+    // }
     });
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { DataService } from '../../../core/services/data.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as Leaflet from 'leaflet';
