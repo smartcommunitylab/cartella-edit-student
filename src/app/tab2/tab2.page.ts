@@ -72,8 +72,14 @@ export class Tab2Page {
                   this.gestioneStudenteAttivita(1);
                   this.utilsService.dismissLoading();
                 },
-                  (err: any) => { console.log(err); this.utilsService.dismissLoading(); },
-                  () => { console.log('getAttivitaTipologie'); this.utilsService.dismissLoading(); });
+                  (err: any) => {
+                    console.log(err);
+                    this.utilsService.dismissLoading();
+                  },
+                  () => {
+                    console.log('getAttivitaTipologie');
+                    this.utilsService.dismissLoading();
+                  });
               }, (err: any) => {
                 console.log(err);
                 this.utilsService.dismissLoading();

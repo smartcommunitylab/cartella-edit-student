@@ -70,8 +70,22 @@ export class GestionePresenzeIndividualePage {
             this.scrollToOggi();
           }, 1500);
         },
-          (err: any) => console.log(err),
-          () => console.log('get attivita giornaliera calendario by id'));
+          (err: any) => {
+            this.utilsService.dismissLoading();
+            console.log(err);
+          },
+          () => {
+            console.log('get attivita giornaliera calendario by id');
+            this.utilsService.dismissLoading();
+          });
+      },
+      (err: any) => {
+        this.utilsService.dismissLoading();
+        console.log(err);
+      },
+      () => {
+        console.log('get attivita student by id');
+        this.utilsService.dismissLoading();
       });
     })
   }

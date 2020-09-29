@@ -37,24 +37,32 @@ export class EsperienzaDettaglioComponent {
           this.attivita = attivita;
           this.aa = attivita.aa;
           this.es = attivita.es;
-          
+
           if (this.hasCoordinate()) {
             setTimeout(() => { //ensure that map div is rendered
               this.drawMap();
             }, 0);
           }
-          
+
           this.dataService.getAttivitaDocumenti(this.es.uuid).subscribe(resp => {
             this.es.documenti = resp;
             this.utilsService.dismissLoading();
           },
-          (err: any) => {
-            console.log(err)
-            this.utilsService.dismissLoading();
-          });
+            (err: any) => {
+              console.log(err);
+              this.utilsService.dismissLoading();
+            },
+            () => {
+              console.log('getAttivitaDocumenti');
+              this.utilsService.dismissLoading();
+            });
         },
           (err: any) => {
-            console.log(err)
+            console.log(err);
+            this.utilsService.dismissLoading();
+          },
+          () => {
+            console.log('getAttivitaStudente');
             this.utilsService.dismissLoading();
           });
       },
@@ -62,7 +70,10 @@ export class EsperienzaDettaglioComponent {
           console.log(err);
           this.utilsService.dismissLoading();
         },
-      );
+        () => {
+          console.log('getAttivitaTipologie');
+          this.utilsService.dismissLoading();
+        });
     });
   }
 
