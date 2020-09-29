@@ -19,7 +19,7 @@ export class UtilsService {
             a.present().then(() => {
                 console.log('loading presented');
                 if (!this.isLoading) {
-                    a.dismiss({ confirmed: true }, undefined).then(() => console.log('abort laoding'));
+                    a.dismiss({ confirmed: true }, undefined).then(() => console.log('abort loading'));
                 }
             });
         });
@@ -27,10 +27,14 @@ export class UtilsService {
     }
 
     async dismissLoading() {
-        if (this.isLoading) {
+        while (await this.loadingController.getTop() !== undefined) {
             this.isLoading = false;
-            return await this.loadingController.dismiss({ confirmed: true }, undefined).then(() => console.log('loading dismissed'));
+            return await this.loadingController.dismiss();
         }
+        // if (this.isLoading) {
+        //     this.isLoading = false;
+        //     return await this.loadingController.dismiss({ confirmed: true }, undefined).then(() => console.log('loading dismissed'));
+        // }
         return null;        
     }
 
