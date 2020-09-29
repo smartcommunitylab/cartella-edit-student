@@ -28,7 +28,7 @@ export class UtilsService {
 
     async dismissLoading() {
         while (await this.loadingController.getTop() !== undefined) {
-            this.isLoading = false;
+            // this.isLoading = false;
             // return await this.loadingController.dismiss();
             return await this.loadingController.dismiss({ confirmed: true }, undefined).then(() => console.log('loading dismissed'));
         }

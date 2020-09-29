@@ -27,7 +27,7 @@ export class EsperienzaDettaglioComponent {
     private dataService: DataService,
     private utilsService: UtilsService) { }
 
-  ionViewWillEnter() {
+  ngAfterViewInit(): void {
     this.route.params.subscribe(params => {
       let id = params['id'];
       this.utilsService.presentLoading();
