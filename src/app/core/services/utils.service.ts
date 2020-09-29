@@ -27,10 +27,12 @@ export class UtilsService {
     }
 
     async dismissLoading() {
-        this.isLoading = false;
-        return await this.loadingController.dismiss({ confirmed: true }, undefined).then(() => console.log('loading dismissed'));
+        if (this.isLoading) {
+            this.isLoading = false;
+            return await this.loadingController.dismiss({ confirmed: true }, undefined).then(() => console.log('loading dismissed'));
+        }
+        return null;        
     }
-
 
     async presentSuccessLoading(msg) {
         return await this.loadingController.create({
