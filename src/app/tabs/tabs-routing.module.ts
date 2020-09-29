@@ -24,6 +24,11 @@ const routes: Routes = [
         loadChildren: '../tab3/tab3.module#Tab3PageModule'
       },
       {
+        path: 'terms/:authorized',
+        canActivate: [AuthGuardService],
+        loadChildren: '../terms/terms.module#TermsModule'
+      },
+      {
         path: '',
         redirectTo: '/home/tab2',
         pathMatch: 'full'

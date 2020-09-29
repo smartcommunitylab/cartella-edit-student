@@ -1,11 +1,11 @@
 <ion-content fullscreen="true">
-  <ion-grid *ngIf="aa" class="container">
+  <ion-grid *ngIf="aa && env.showTabs" class="container">
     <br>
     <div class="ion-padding">
       <ion-icon class="icon" src="./assets/icon/landing-icon.svg"></ion-icon>
     </div>
     <div class="ion-padding">
-      <label class="heading-1">Benvenuto/a {{dataService.studenteNome }} {{ dataService.studenteCognome}}</label>
+      <label class="heading-1">Ciao {{dataService.studenteNome }} {{ dataService.studenteCognome}}</label>
     </div>
     <br>
     <div>

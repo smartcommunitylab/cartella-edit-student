@@ -166,6 +166,23 @@ export class DataService {
       );
   }
 
+  addConsent(): Observable<any> {
+    let url = this.host + '/consent/add';
+
+    return this.http.put(
+      url,
+      {
+        observe: 'response',
+      }
+    )
+      .timeout(this.timeout)
+      .pipe(
+        map(res => {
+          return res;
+        }),
+        catchError(this.handleError))
+  }
+
   /** ESPERIENZE */
   getStudenteSummary(): Observable<any> {
     let url = this.host + '/studente/attivita/sommario';

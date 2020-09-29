@@ -7,6 +7,7 @@ import { NavController } from '@ionic/angular';
 import * as moment from 'moment';
 import 'moment/locale/it';
 import { UtilsService } from '../core/services/utils.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-tab2',
@@ -21,7 +22,8 @@ export class Tab2Page {
   pageSize: number = 20;
   stato: string = 'in_corso';
   oggi;
-
+  env = environment;
+  baseUrl;
   constructor(
     private auth: AuthService,
     private navCtrl: NavController,
@@ -31,9 +33,10 @@ export class Tab2Page {
     private router: Router
   ) { 
     this.oggi = moment().format('DD-MM-YYYY');
+    this.baseUrl = window.location.href;
   }
 
-  ngOnInit(): void {
+  ionViewWillEnter(): void {
     this.auth.authObservable.subscribe((action) => {
       if (action.action === AuthActions.SignOutSuccess) {
         this.navCtrl.navigateRoot('landing');
@@ -48,24 +51,43 @@ export class Tab2Page {
           this.dataService.setStudenteId(ids[0]);
           this.dataService.getStudedente(ids[0]).subscribe(resp => {
             this.studente = resp;
-            this.studente.email = profile.email;
-            this.dataService.setStudenteNome(this.studente.name);
-            this.dataService.setStudenteCognome(this.studente.surname);
-            this.dataService.setIstitutoId(this.studente.istitutoId);
-            this.dataService.setClasse(this.studente.classroom);
-            this.dataService.getIstitutoById(this.studente.istitutoId).subscribe(istituto => {
-              this.dataService.setIstitutoName(istituto.name);
-              this.dataService.getAttivitaTipologie().subscribe((res) => {
-                this.tipologie = res;
-                this.gestioneStudenteAttivita(1);
+            var age = moment().diff(moment(this.studente.birthdate, 'DD/MM/YYYY'), 'years');
+            // logic for age above 16.
+            if (age >= 16) {            
+              if (!profile.authorized) {
+                this.env.showTabs = false;
+                this.router.navigate(['../../terms', profile.authorized], { relativeTo: this.route });
+              } else {
+                this.env.showTabs = true;
+              } 
+              this.studente.email = profile.email;
+              this.dataService.setStudenteNome(this.studente.name);
+              this.dataService.setStudenteCognome(this.studente.surname);
+              this.dataService.setIstitutoId(this.studente.istitutoId);
+              this.dataService.setClasse(this.studente.classroom);
+              this.dataService.getIstitutoById(this.studente.istitutoId).subscribe(istituto => {
+                this.dataService.setIstitutoName(istituto.name);
+                this.dataService.getAttivitaTipologie().subscribe((res) => {
+                  this.tipologie = res;
+                  this.gestioneStudenteAttivita(1);
+                  this.utilsService.dismissLoading();
+                },
+                  (err: any) => { console.log(err); this.utilsService.dismissLoading(); },
+                  () => { console.log('getAttivitaTipologie'); this.utilsService.dismissLoading(); });
+              }, (err: any) => {
+                console.log(err);
                 this.utilsService.dismissLoading();
-              },
-                (err: any) => { console.log(err); this.utilsService.dismissLoading(); },
-                () => { console.log('getAttivitaTipologie'); this.utilsService.dismissLoading(); });
-            }, (err: any) => {
-              console.log(err);
+              })          
+            } else { // in case of age < 16
+              this.env.showTabs = false;
               this.utilsService.dismissLoading();
-            })
+              this.utilsService.presentWarningLoading("Spiacente, al momento non è permesso l'accesso al sistema a studenti minori di 16 anni");
+              setTimeout(() => {
+                this.auth.signOut().then(() => {
+                  window.location.href = this.baseUrl; 
+                });
+              }, 3000);
+            }
           })
         } else {
           this.utilsService.dismissLoading();
