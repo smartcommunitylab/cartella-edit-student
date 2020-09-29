@@ -37,17 +37,21 @@ export class EsperienzaDettaglioComponent {
           this.attivita = attivita;
           this.aa = attivita.aa;
           this.es = attivita.es;
-          this.dataService.getAttivitaDocumenti(this.es.uuid).subscribe(resp => {
-            this.es.documenti = resp;
-            this.utilsService.dismissLoading();
-          });
-
+          
           if (this.hasCoordinate()) {
             setTimeout(() => { //ensure that map div is rendered
               this.drawMap();
             }, 0);
           }
-
+          
+          this.dataService.getAttivitaDocumenti(this.es.uuid).subscribe(resp => {
+            this.es.documenti = resp;
+            this.utilsService.dismissLoading();
+          },
+          (err: any) => {
+            console.log(err)
+            this.utilsService.dismissLoading();
+          });
         },
           (err: any) => {
             console.log(err)
