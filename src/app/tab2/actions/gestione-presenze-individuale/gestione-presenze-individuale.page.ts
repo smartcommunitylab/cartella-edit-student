@@ -76,7 +76,7 @@ export class GestionePresenzeIndividualePage {
           },
           () => {
             console.log('get attivita giornaliera calendario by id');
-            this.utilsService.dismissLoading();
+            // this.utilsService.dismissLoading();
           });
       },
       (err: any) => {
@@ -85,7 +85,7 @@ export class GestionePresenzeIndividualePage {
       },
       () => {
         console.log('get attivita student by id');
-        this.utilsService.dismissLoading();
+        // this.utilsService.dismissLoading();
       });
     })
   }
