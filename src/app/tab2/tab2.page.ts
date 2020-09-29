@@ -78,7 +78,7 @@ export class Tab2Page {
                   },
                   () => {
                     console.log('getAttivitaTipologie');
-                    this.utilsService.dismissLoading();
+                    // this.utilsService.dismissLoading();
                   });
               }, (err: any) => {
                 console.log(err);
