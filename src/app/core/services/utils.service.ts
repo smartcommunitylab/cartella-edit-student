@@ -18,9 +18,9 @@ export class UtilsService {
         }).then(a => {
             a.present().then(() => {
                 console.log('loading presented');
-                if (!this.isLoading) {
+                // if (!this.isLoading) {
                     a.dismiss({ confirmed: true }, undefined).then(() => console.log('abort loading'));
-                }
+                // }
             });
         });
 
