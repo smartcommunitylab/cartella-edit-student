@@ -10,7 +10,6 @@ export class UtilsService {
 
     async presentLoading() {
         this.isLoading = true;
-
         return await this.loadingController.create({
             'spinner': null,
             'cssClass': 'custom-loading',
@@ -18,25 +17,25 @@ export class UtilsService {
         }).then(a => {
             a.present().then(() => {
                 console.log('loading presented');
-                // if (!this.isLoading) {
+                if (!this.isLoading) {
                     a.dismiss({ confirmed: true }, undefined).then(() => console.log('abort loading'));
-                // }
+                }
             });
         });
 
     }
 
     async dismissLoading() {
-        while (await this.loadingController.getTop() !== undefined) {
-            // this.isLoading = false;
-            // return await this.loadingController.dismiss();
-            return await this.loadingController.dismiss({ confirmed: true }, undefined).then(() => console.log('loading dismissed'));
-        }
-        // if (this.isLoading) {
+        // while (await this.loadingController.getTop() !== undefined) {
         //     this.isLoading = false;
+        //     // return await this.loadingController.dismiss();
         //     return await this.loadingController.dismiss({ confirmed: true }, undefined).then(() => console.log('loading dismissed'));
         // }
-        return null;        
+        // if (this.isLoading) {
+            this.isLoading = false;
+            return await this.loadingController.dismiss({ confirmed: true }, undefined).then(() => console.log('loading dismissed'));
+        // }
+        // return null;        
     }
 
     async presentSuccessLoading(msg) {
