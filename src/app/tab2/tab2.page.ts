@@ -60,11 +60,12 @@ export class Tab2Page {
               } else {
                 this.env.showTabs = true;
               } 
-              this.studente.email = profile.email;
               this.dataService.setStudenteNome(this.studente.name);
               this.dataService.setStudenteCognome(this.studente.surname);
               this.dataService.setIstitutoId(this.studente.istitutoId);
               this.dataService.setClasse(this.studente.classroom);
+              this.dataService.setStudenteEmail(this.studente.email);
+              this.dataService.setStudenteTelefono(this.studente.phone);
               this.dataService.getIstitutoById(this.studente.istitutoId).subscribe(istituto => {
                 this.dataService.setIstitutoName(istituto.name);
                 this.dataService.getAttivitaTipologie().subscribe((res) => {
