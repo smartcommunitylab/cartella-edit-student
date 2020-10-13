@@ -28,6 +28,8 @@ export class DataService {
   studenteNome = '';
   studenteCognome = '';
   classe = '';
+  email = '';
+  phone = '';
   static toastCtrl;
 
   constructor(
@@ -64,14 +66,6 @@ export class DataService {
     }
   }
 
-  setIstitutoPosition(coord) {
-    this.coorindateIstituto = coord;
-  }
-
-  getIstitutoPosition() {
-    return this.coorindateIstituto;
-  }
-
   getListId() {
     if (this.listIstituteIds)
       return this.listIstituteIds;
@@ -101,6 +95,22 @@ export class DataService {
     }
   }
 
+  setStudenteEmail(email) {
+    this.email = email;
+  }
+
+  getStudenteEmail() {
+    return this.email;
+  }
+
+  setStudenteTelefono(phone) {
+    this.phone = phone;
+  }
+
+  getStudenteTelefono() {
+    return this.phone;
+  }
+
   /** PROFILE */
   getProfile(): Observable<any> {
     let url = this.host + '/profile';
@@ -115,6 +125,20 @@ export class DataService {
         catchError(this.handleError)
       );
   }
+
+  updateProfile(body): Observable<any> {
+    let url = this.host + '/studente/' + this.studenteId;
+    return this.http.post<any>(url, body)
+      .timeout(this.timeout)
+      .pipe(
+        map(res => {
+          return res;
+        },
+          catchError(this.handleError)
+        )
+      );
+  }
+
 
   getSchoolYear(istitutoId, dataInizio): Observable<any> {
     let url = this.host + '/schoolYear/' + istitutoId;

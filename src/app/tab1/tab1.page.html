@@ -11,6 +11,13 @@
             <ion-row><span class="titolo text-bold ion-text-capitalize">{{dataService.studenteNome}} {{dataService.studenteCognome}}</span></ion-row>
             <ion-row><span class="titolo text-bold ion-text-capitalize">{{dataService.classe}}</span></ion-row>
             <ion-row><span class="istituto ion-text-capitalize">{{dataService.istituto}}</span></ion-row>
+            <ion-row>
+              <span class="istituto v-center">{{dataService.email}}<ion-icon (click)="showEmailInput()" class="icon-edit" src="./assets/icon/it-pencil.svg"></ion-icon></span>
+            </ion-row>
+            <ion-row>
+              <span class="istituto v-center">{{dataService.phone}}<ion-icon (click)="showPhoneInput()" class="icon-edit" src="./assets/icon/it-pencil.svg"></ion-icon>
+              </span>
+            </ion-row>
           </span>          
         </ion-col>
       </ion-row>
