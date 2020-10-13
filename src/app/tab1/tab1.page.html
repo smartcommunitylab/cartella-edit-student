@@ -12,11 +12,12 @@
             <ion-row><span class="titolo text-bold ion-text-capitalize">{{dataService.classe}}</span></ion-row>
             <ion-row><span class="istituto ion-text-capitalize">{{dataService.istituto}}</span></ion-row>
             <ion-row>
-              <span class="istituto v-center">{{dataService.email}}<ion-icon (click)="showEmailInput()" class="icon-edit" src="./assets/icon/it-pencil.svg"></ion-icon></span>
+              <span *ngIf="!dataService.email" class="blue istituto v-center text-italic">Inserisci email<ion-icon (click)="showEmailInput()" class="blue icon-edit" src="./assets/icon/it-pencil.svg"></ion-icon></span>
+              <span *ngIf="dataService.email"class="istituto v-center">{{dataService.email}}<ion-icon (click)="showEmailInput()" class="blue icon-edit" src="./assets/icon/it-pencil.svg"></ion-icon></span>
             </ion-row>
             <ion-row>
-              <span class="istituto v-center">{{dataService.phone}}<ion-icon (click)="showPhoneInput()" class="icon-edit" src="./assets/icon/it-pencil.svg"></ion-icon>
-              </span>
+              <span *ngIf="!dataService.phone" class="blue istituto v-center text-italic">Inserisci numero di telefono<ion-icon (click)="showPhoneInput()" class="icon-edit" src="./assets/icon/it-pencil.svg"></ion-icon></span>
+              <span *ngIf="dataService.phone" class="istituto v-center">{{dataService.phone}}<ion-icon (click)="showPhoneInput()" class="blue icon-edit" src="./assets/icon/it-pencil.svg"></ion-icon></span>
             </ion-row>
           </span>          
         </ion-col>
