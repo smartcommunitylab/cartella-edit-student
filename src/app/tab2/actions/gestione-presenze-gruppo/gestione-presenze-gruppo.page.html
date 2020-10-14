@@ -39,18 +39,18 @@
         </ion-row>
         <br>
         <ion-row>
-                <ion-col size="8"><span class="titolo text-bold">Giorno</span></ion-col>
+                <ion-col size="4"><span class="titolo text-bold">Giorno</span></ion-col>
                 <ion-col size="4"><span class="titolo text-bold">Ore</span></ion-col>
+                <ion-col size="4"><span class="titolo text-bold">Modalità</span></ion-col>
         </ion-row>
     </ion-grid>
 </ion-header>
 <ion-content *ngIf="attivita && presenze">
     <ion-list class="item-container">
-                <div id="{{giorno.giornata}}" [style.background]="bgColor(giorno)" [class.disabled]="isInfuture(giorno) || giorno.verificata || attivita.aa.stato=='archiviata'" class="item" *ngFor="let giorno of presenze"
-                    (click)="showPicker(giorno)">
+                <div id="{{giorno.giornata}}" [style.background]="bgColor(giorno)" [class.disabled]="isInfuture(giorno) || giorno.verificata || giorno.validataEnte || attivita.aa.stato=='archiviata'" class="item" *ngFor="let giorno of presenze">
                     <ion-grid>
                         <ion-row>
-                            <ion-col size="8">
+                            <ion-col size="4">
                                 <ion-row>
                                     <span [style.fontWeight]="fontWeight(giorno)" [style.color]="textColor(giorno)"
                                         class="attributes ion-text-lowercase">{{ giorno.giornata | date: 'dd MMM' }} 
@@ -61,11 +61,17 @@
                                     <span class="error"><br>Attenzione: giornata non compilata</span>
                                 </ion-row>
                                 <ion-row *ngIf="giorno.verificata">
-                                    <span class="text-italic validato"><br>Validato</span>
+                                    <span class="text-italic validato"><br>Validato da scuola</span>
+                                </ion-row>
+                                <ion-row *ngIf="!giorno.verificata && giorno.validataEnte">
+                                    <span class="text-italic validato"><br>Validato da ente</span>
                                 </ion-row>
                             </ion-col>
-                            <ion-col size="4">
+                            <ion-col size="4" (click)="showPickerOre(giorno)">
                                 <span [style.fontWeight]="fontWeight(giorno)" [style.color]="textColor(giorno)" class="attributes">{{ viewOre(giorno) }}</span>
+                            </ion-col>
+                            <ion-col size="4" (click)="showPickerModalita(giorno)">
+                                <span [style.fontWeight]="fontWeight(giorno)" [style.color]="textColor(giorno)" class="attributes">{{ viewModalita(giorno) }}</span>
                             </ion-col>
                         </ion-row>
                     </ion-grid>
