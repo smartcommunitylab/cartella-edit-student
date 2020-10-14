@@ -122,7 +122,6 @@ export class Tab3Page {
             // App logic to determine if all data is loaded and disable the infinite scroll
             if (response.content.length < this.pageSize) {
               this.maybeMore = false;
-              // this.presentToast('non ci sono piu i dati');
               event.target.disabled = true;
             }
             this.attivitaStudente = this.attivitaStudente.concat(response.content);
@@ -131,15 +130,6 @@ export class Tab3Page {
             () => console.log('get attivita studente'));
       }, 500);
     }
-  }
-
-  async presentToast(string) {
-    const toast = await this.toastController.create({
-      message: string,
-      duration: 2000,
-      position: 'bottom'
-    })
-    toast.present();
   }
 
   getColor(esp) {

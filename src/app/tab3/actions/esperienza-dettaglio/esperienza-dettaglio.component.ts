@@ -54,7 +54,6 @@ export class EsperienzaDettaglioComponent {
             },
             () => {
               console.log('getAttivitaDocumenti');
-              // this.utilsService.dismissLoading();
             });
         },
           (err: any) => {
@@ -63,7 +62,6 @@ export class EsperienzaDettaglioComponent {
           },
           () => {
             console.log('getAttivitaStudente');
-            // this.utilsService.dismissLoading();
           });
       },
         (err: any) => {
@@ -72,7 +70,6 @@ export class EsperienzaDettaglioComponent {
         },
         () => {
           console.log('getAttivitaTipologie');
-          // this.utilsService.dismissLoading();
         });
     });
   }
