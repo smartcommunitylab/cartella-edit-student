@@ -125,7 +125,7 @@ export class GestionePresenzeIndividualePage {
 
   textColor(giorno) {
 
-    if (giorno.verificata) {
+    if (giorno.verificata || giorno.validataEnte) {
       return '#A2ADB8';
     }
 
@@ -144,7 +144,7 @@ export class GestionePresenzeIndividualePage {
   }
 
   validatoTextColor(giorno) {
-    if (giorno.verificata) {
+    if (giorno.verificata || giorno.validataEnte) {
       return '#A2ADB8';
     }
   }
@@ -176,6 +176,18 @@ export class GestionePresenzeIndividualePage {
     }
   }
 
+  viewModalita(giorno) {
+    if (giorno.smartWorking != null) {
+      if (giorno.smartWorking) {
+        return 'Remoto';
+      } else {
+        return 'Presenza';
+      }      
+    } else {
+      return '-'
+    }
+  }
+
   isweekEnd(giorno) {
     var day = moment(giorno.giornata).day();
     return (day === 6) || (day === 0);
@@ -196,8 +208,9 @@ export class GestionePresenzeIndividualePage {
   }
 
   input(pz) {
-    if (!pz.verificata) {
-      this.router.navigate(['modifica', { data: JSON.stringify(pz) }], { relativeTo: this.route });
+    if (!pz.verificata && !pz.validataEnte) {
+      // this.router.navigate(['modifica', { data: JSON.stringify(pz) }], { relativeTo: this.route });
+      this.router.navigate(['modifica', { data: pz.giornata, id: pz.esperienzaSvoltaId }], { relativeTo: this.route });
     }
   }
 
@@ -208,22 +221,5 @@ export class GestionePresenzeIndividualePage {
     });
     return options;
   }
-
-  // savePresenze(pz) {
-  //   let toBeSaved = this.prepareSaveArray(pz);
-  //   this.dataService.saveAttivitaGiornaliereStudentiPresenze(toBeSaved, this.attivita.es.id).subscribe((studente: any) => {
-  //     // toast (if required)
-  //   },
-  //     (err: any) => console.log(err),
-  //     () => console.log('save attivita giornaliera presenze'));
-  // }
-
-  // prepareSaveArray(pz) {
-  //   var toBeSaved = [];
-  //   var save = JSON.parse(JSON.stringify(pz))
-  //   save.giornata = moment(pz.giornata, 'YYYY-MM-DD').valueOf();
-  //   toBeSaved.push(save);
-  //   return toBeSaved;
-  // }
 
 }
