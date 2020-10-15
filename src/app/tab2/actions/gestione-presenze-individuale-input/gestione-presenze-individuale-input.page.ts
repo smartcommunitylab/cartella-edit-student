@@ -38,14 +38,33 @@ export class GestionePresenzeIndividualeInputPage {
   }
 
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.route.params.subscribe(params => {
-      this.giorno = JSON.parse(params['data']);
-      let id = this.giorno.esperienzaSvoltaId;
+      let data = params['data'];
+      let id = params['id'];      
       this.dataService.getAttivitaStudenteById(id).subscribe((attivita: any) => {
         this.attivita = attivita;
         this.percentage = (this.attivita.oreValidate / this.attivita.oreTotali).toFixed(1);
-        this.giorno = JSON.parse(params['data']);
+        this.dataService.getStudenteAttivitaGiornalieraCalendario(this.attivita.es.id, this.attivita.es.studenteId, data, data).subscribe((resp: any) => {
+          this.giorno = resp[0];
+          if (!this.giorno) {
+            this.giorno = {
+              "attivitaSvolta": "",
+              "esperienzaSvoltaId": this.attivita.es.id,
+              "giornata": data,
+              "istitutoId": this.attivita.aa.istitutoId,
+              "oreSvolte": null,
+              "verificata": false,
+            }
+          }
+        },
+          (err: any) => {
+            this.utilsService.dismissLoading();
+            console.log(err);
+          },
+          () => {
+            console.log('get attivita giornaliera calendario by id');
+          });
       });
     })
   }
@@ -99,6 +118,18 @@ export class GestionePresenzeIndividualeInputPage {
     }
   }
 
+  viewModalita(giorno) {
+    if (giorno.smartWorking != null) {
+      if (giorno.smartWorking) {
+        return 'Remoto';
+      } else {
+        return 'Presenza';
+      }      
+    } else {
+      return '-'
+    }
+  }
+
 
   isError(giorno) {
     return (!this.isweekEnd(giorno) && !this.festivalService.isFestival(giorno) && giorno.giornata != this.oggi && (giorno.oreSvolte == null))
@@ -109,7 +140,7 @@ export class GestionePresenzeIndividualeInputPage {
     return (day === 6) || (day === 0);
   }
 
-  async showPicker(pz) {
+  async showPickerOre(pz) {
     if (!pz.verificata) {
       let options: PickerOptions = {
         buttons: [
@@ -122,13 +153,12 @@ export class GestionePresenzeIndividualeInputPage {
             handler: (picked: any) => {
               pz.oreSvolte = picked.Ore.value;
               this.savePresenze(pz);
-              // console.log(pz.oreSvolte);
             }
           }
         ],
         columns: [{
           name: 'Ore',
-          options: this.getColumnOptions(),
+          options: this.getColumnOptionsOre(),
         }]
       };
 
@@ -138,17 +168,57 @@ export class GestionePresenzeIndividualeInputPage {
 
   }
 
+  async showPickerModalita(pz) {
+    if (!pz.verificata && !pz.validataEnte) {
+      let options: PickerOptions = {
+        buttons: [
+          {
+            text: "Annulla",
+            role: 'cancel'
+          },
+          {
+            text: 'Salva',
+            handler: (picked: any) => {
+              if (picked.Modalità.value == 'remoto') {
+                pz.smartWorking = true; 
+              } else {
+                pz.smartWorking = false;
+              }
+              this.savePresenze(pz);
+            }
+          }
+        ],
+        columns: [{
+          name: 'Modalità',
+          options: this.getColumnOptionsModalita(),
+        }]
+      };
+
+      this.picker = await this.pickerController.create(options);
+      this.picker.present();
+    }
+  }
+
   ionViewWillLeave() {
     if (this.picker) {
       this.picker.dismiss();
     }
   }
 
-  getColumnOptions() {
+  getColumnOptionsOre() {
     let options = [];
     this.ore.forEach(x => {
       options.push({ text: x.text, value: x.value });
     });
+    return options;
+  }
+
+  getColumnOptionsModalita() {
+    let options = [];
+    options.push(
+      { text: 'Presenza', value: 'presenza' },
+      { text: 'Remoto', value: 'remoto' }
+    );
     return options;
   }
 
@@ -157,6 +227,7 @@ export class GestionePresenzeIndividualeInputPage {
     console.log('presenze singolo array size ' + toBeSaved.length);
     this.dataService.saveAttivitaGiornaliereStudentiPresenze(toBeSaved, this.giorno.esperienzaSvoltaId).subscribe((studente: any) => {
       this.utilsService.presentSuccessLoading('Salvataggio effettuato con successo!');
+      // this.router.navigate(['.', { data: JSON.stringify(pz) }], { relativeTo: this.route });
     },
       (err: any) => {
         console.log(err);
@@ -198,4 +269,5 @@ export class GestionePresenzeIndividualeInputPage {
     }
   }
 
+ 
 }
