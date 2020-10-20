@@ -45,11 +45,7 @@ export class GestionePresenzeGruppoPage {
     }
   }
 
-  ionViewDidEnter() {
-    this.scrollToOggi();
-  }
-
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.route.params.subscribe(params => {
       let paramsPassed = JSON.parse(params['data']);
       this.backEnabled = paramsPassed.back;
@@ -70,7 +66,7 @@ export class GestionePresenzeGruppoPage {
             this.utilsService.dismissLoading();
             this.scrollToOggi();
           }, 500);
-         },
+        },
           (err: any) => {
             console.log(err);
             this.utilsService.dismissLoading();
@@ -78,7 +74,14 @@ export class GestionePresenzeGruppoPage {
           () => {
             console.log('get attivita giornaliera calendario by id');
           });
-      });
+      },
+        (err: any) => {
+          console.log(err);
+          this.utilsService.dismissLoading();
+        },
+        () => {
+          console.log('get attivita studente id');
+        });
     })
   }
 
@@ -116,11 +119,11 @@ export class GestionePresenzeGruppoPage {
   }
 
   textColor(giorno) {
-    if (this.isInfuture(giorno) || giorno.verificata) {
+    if (this.isInfuture(giorno) || giorno.verificata || giorno.validataEnte) {
       return '#A2ADB8'
     }
     if (!this.isweekEnd(giorno) && !this.festivalService.isFestival(giorno)) {
-      if (giorno.giornata == this.oggi && !giorno.verificata) {
+      if (giorno.giornata == this.oggi && !giorno.verificata && !giorno.validataEnte) {
         return '#0073E6';
       } else if (giorno.oreSvolte == null) {
         return '#FF667D';
@@ -158,6 +161,18 @@ export class GestionePresenzeGruppoPage {
     }
   }
 
+  viewModalita(giorno) {
+    if (giorno.smartWorking != null) {
+      if (giorno.smartWorking) {
+        return 'Remoto';
+      } else {
+        return 'Presenza';
+      }      
+    } else {
+      return '-'
+    }
+  }
+
   isError(giorno) {
     return (
       giorno.giornata != this.oggi
@@ -178,8 +193,8 @@ export class GestionePresenzeGruppoPage {
     return (this.today.diff(date) < 0)
   }
 
-  async showPicker(pz) {
-    if (!pz.verificata) {
+  async showPickerOre(pz) {
+    if (!pz.verificata && !pz.validataEnte) {
       let options: PickerOptions = {
         buttons: [
           {
@@ -191,13 +206,43 @@ export class GestionePresenzeGruppoPage {
             handler: (picked: any) => {
               pz.oreSvolte = picked.Ore.value;
               this.savePresenze(pz);
-              // console.log(pz.oreSvolte);
             }
           }
         ],
         columns: [{
           name: 'Ore',
-          options: this.getColumnOptions(),
+          options: this.getColumnOptionsOre(),
+        }]
+      };
+
+      this.picker = await this.pickerController.create(options);
+      this.picker.present();
+    }
+  }
+
+  async showPickerModalita(pz) {
+    if (!pz.verificata && !pz.validataEnte) {
+      let options: PickerOptions = {
+        buttons: [
+          {
+            text: "Annulla",
+            role: 'cancel'
+          },
+          {
+            text: 'Salva',
+            handler: (picked: any) => {
+              if (picked.Modalità.value == 'remoto') {
+                pz.smartWorking = true; 
+              } else {
+                pz.smartWorking = false;
+              }
+              this.savePresenze(pz);
+            }
+          }
+        ],
+        columns: [{
+          name: 'Modalità',
+          options: this.getColumnOptionsModalita(),
         }]
       };
 
@@ -212,11 +257,20 @@ export class GestionePresenzeGruppoPage {
     }
   }
 
-  getColumnOptions() {
+  getColumnOptionsOre() {
     let options = [];
     this.ore.forEach(x => {
       options.push({ text: x.text, value: x.value });
     });
+    return options;
+  }
+
+  getColumnOptionsModalita() {
+    let options = [];
+    options.push(
+      { text: 'Presenza', value: 'presenza' },
+      { text: 'Remoto', value: 'remoto' }
+    );
     return options;
   }
 
@@ -226,7 +280,7 @@ export class GestionePresenzeGruppoPage {
     this.dataService.saveAttivitaGiornaliereStudentiPresenze(toBeSaved, this.attivita.es.id).subscribe((studente: any) => {
       // this.utilsService.presentSuccessLoading('Salvataggio effettuato con successo!', 1000);
       // setTimeout(() => {
-      this.ngOnInit();
+      this.ngAfterViewInit();
       // }, 2000);
     },
       (err: any) => {

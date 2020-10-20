@@ -22,10 +22,11 @@ export class Tab3Page {
   stati = [
     { "name": "In attesa", "value": "in_attesa" },
     { "name": "In corso", "value": "in_corso" },
-    { "name": "Giorni non compilati", "value": "revisione" },
+    { "name": "revisione", "value": "revisione" },
     { "name": "Archiviata", "value": "archiviata" }
   ];
   tipologie;
+  esperienzeNoncompleta: number = 0;
 
   constructor(
     private dataService: DataService,
@@ -35,7 +36,12 @@ export class Tab3Page {
     private router: Router) { }
 
   ionViewWillEnter(): void {
+    this.resetCounter();
     this.getAttivitaPage(1);
+  }
+
+  resetCounter() {
+    this.esperienzeNoncompleta = 0;
   }
 
   getAttivitaPage(page: number) {
@@ -49,6 +55,7 @@ export class Tab3Page {
         this.dataService.getAttivitaStudenteList(null, (page - 1), this.pageSize)
           .subscribe((response) => {
             this.attivitaStudente = response.content;
+            this.updateNonCompletaState();
             if (this.attivitaStudente.length < this.pageSize) {
               this.maybeMore = false;
             }
@@ -72,11 +79,25 @@ export class Tab3Page {
       });
   }
 
-  getStatoNome(statoValue) {
+  updateNonCompletaState() {
+   this.attivitaStudente.forEach(element => {
+     if (element.stato == 'revisione') {
+       if (element.oreValidate < element.oreTotali)
+         this.esperienzeNoncompleta++;
+     }
+   });
+  }
+
+  getStatoNome(esp) {
     if (this.stati) {
-      let rtn = this.stati.find(data => data.value == statoValue);
-      if (rtn) return rtn.name;
-      return statoValue;
+      let rtn = this.stati.find(data => data.value == esp.stato);
+      if (rtn.name == 'revisione') {
+        if (esp.oreValidate < esp.oreTotali) {
+          return 'Non completa' 
+        }
+        return 'Completa';
+      } else
+        return rtn.name;      
     }
   }
 
@@ -101,7 +122,6 @@ export class Tab3Page {
             // App logic to determine if all data is loaded and disable the infinite scroll
             if (response.content.length < this.pageSize) {
               this.maybeMore = false;
-              // this.presentToast('non ci sono piu i dati');
               event.target.disabled = true;
             }
             this.attivitaStudente = this.attivitaStudente.concat(response.content);
@@ -112,24 +132,18 @@ export class Tab3Page {
     }
   }
 
-  async presentToast(string) {
-    const toast = await this.toastController.create({
-      message: string,
-      duration: 2000,
-      position: 'bottom'
-    })
-    toast.present();
-  }
-
   getColor(esp) {
     if (esp.stato == "in_corso") {
       return '#00CF86';
     } else if (esp.stato == "in_attesa") {
       return '#7FB2E5';
     } else if (esp.stato == 'revisione') {
-      return '#F83E5A';
+      if (esp.oreValidate < esp.oreTotali) {
+        return '#F83E5A';
+      }
+      return '#707070';      
     } else if (esp.stato == 'archiviata') {
-      return '#A2ADB8';
+      return '#707070';
     }
   }
 

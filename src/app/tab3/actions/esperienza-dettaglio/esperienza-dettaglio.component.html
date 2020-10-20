@@ -1,9 +1,4 @@
 <ion-header *ngIf="aa && es">
-    <!-- <ion-toolbar>
-        <ion-buttons slot="start">
-            <ion-back-button defaultHref="home"></ion-back-button>
-        </ion-buttons>
-    </ion-toolbar> -->
     <ion-row class="v-center titolo text-semibold">
         <ion-back-button defaultHref="home"></ion-back-button>{{aa.titolo}}
     </ion-row>
@@ -46,20 +41,35 @@
                 <span class="attributes text-semibold"><br>Orario:&nbsp;</span><span class="attributes-value">{{aa.oraInizio }} - {{aa.oraFine}}</span>
             </ion-col>
         </ion-row>
-        <ion-row *ngIf="aa.referenteScuola">
-            <ion-col><span class="attributes text-semibold"><br>Tutor scolastico:&nbsp;</span><span class="attributes-value ion-text-capitalize">{{aa.referenteScuola}}</span>
-            </ion-col>
-        </ion-row>
-        <ion-row *ngIf="aa.referenteEsterno">
-            <ion-col><span class="attributes text-semibold"><br>Tutor aziendale:&nbsp;</span><span class="attributes-value ion-text-capitalize">{{aa.referenteEsterno}}</span>
-            </ion-col>
-        </ion-row>
         <ion-row *ngIf="aa.nomeEnte">
             <ion-col>
                 <span class="attributes text-semibold"><br>Presso:&nbsp;</span>
                 <span class="attributes-value ion-text-capitalize">{{aa.nomeEnte}}</span>
             </ion-col>
         </ion-row>
+        <ion-row *ngIf="aa.luogoSvolgimento">
+            <ion-col>
+                <span class="attributes text-semibold"><br>Indirizzo:&nbsp;</span>
+                <span class="attributes-value ion-text-capitalize">{{aa.luogoSvolgimento}}</span>
+            </ion-col>
+        </ion-row>
+        <ion-row *ngIf="aa.referenteEsterno">
+            <ion-col><span class="attributes text-semibold"><br>Tutor aziendale:&nbsp;</span><span class="attributes-value ion-text-capitalize">{{aa.referenteEsterno}}</span>
+            </ion-col>
+        </ion-row>        
+        <ion-row *ngIf="aa.referenteEsternoTelefono">
+            <ion-col><span class="attributes text-semibold"><br>Telefono tutor aziendale:&nbsp;</span><span class="attributes-value ion-text-capitalize">{{aa.referenteEsternoTelefono}}</span>
+            </ion-col>
+        </ion-row>
+        <ion-row *ngIf="aa.referenteScuola">
+            <ion-col><span class="attributes text-semibold"><br>Tutor scolastico:&nbsp;</span><span class="attributes-value ion-text-capitalize">{{aa.referenteScuola}}</span>
+            </ion-col>
+        </ion-row>
+        <ion-row *ngIf="aa.referenteScuolaTelefono">
+            <ion-col><span class="attributes text-semibold"><br>Telefono tutor scolastico:&nbsp;</span><span class="attributes-value ion-text-capitalize">{{aa.referenteScuolaTelefono}}</span>
+            </ion-col>
+        </ion-row>
+ 
         <br>
         <ion-row *ngIf="hasCoordinate()">
             <ion-col>

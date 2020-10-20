@@ -3,13 +3,17 @@
     <ion-col class="attributes-value" size="8">
       <ion-row><span class="heading text-semibold">Le mie attività</span></ion-row>
       <br>
-      <ion-row><span>Ore totali:&nbsp;</span><span>{{summary.oreValidate}}/{{summary.oreTotali}}</span></ion-row>
-      <br>
-      <br>
-      <ion-row><span>{{summary.esperienzeConcluse}}&nbsp;attività concluse</span></ion-row>
-      <br>
-      <br>
-      <ion-row><span>{{summary.espereinzeInCorso}}&nbsp;attività in corso</span></ion-row>
+      <ion-row><span>Ore totali validate:&nbsp;</span><span>{{summary.oreValidate}}</span></ion-row><br>
+      <ion-row><span>Ore totali percorso ASL:&nbsp;</span><span>{{summary.oreTotali}}</span><br></ion-row><br>
+      <span *ngIf="summary.esperienzeInCorso > 0">
+        <ion-row><span>{{summary.esperienzeInCorso}}&nbsp;attività <span [style.color]="'#00CF86'">in corso</span></span></ion-row>
+        <br>
+      </span>
+      <span *ngIf="esperienzeNoncompleta > 0">
+        <ion-row><span>{{esperienzeNoncompleta}}&nbsp;attività <span [style.color]="'#F83E5A'">non complete</span></span><br></ion-row>
+        <br>
+      </span>      
+      <ion-row><span>{{summary.esperienzeConcluse}}&nbsp;attività archiviate</span></ion-row>      
     </ion-col>
     <ion-col size="4">
       <ion-row></ion-row>
@@ -46,7 +50,7 @@
                 <ion-col size="4">
                   <span class="float-right stato">
                     <span class="text-semibold">Stato:&nbsp;</span>
-                    <span [style.color]="getColor(esp)">{{ getStatoNome(esp.stato) }}</span>
+                    <span [style.color]="getColor(esp)">{{ getStatoNome(esp) }}</span>
                   </span>                  
                 </ion-col>
               </ion-row>
