@@ -280,7 +280,7 @@ export class GestionePresenzeGruppoPage {
     this.dataService.saveAttivitaGiornaliereStudentiPresenze(toBeSaved, this.attivita.es.id).subscribe((studente: any) => {
       // this.utilsService.presentSuccessLoading('Salvataggio effettuato con successo!', 1000);
       // setTimeout(() => {
-      // this.ngAfterViewInit();
+      this.ngAfterViewInit();
       // }, 2000);
     },
       (err: any) => {
