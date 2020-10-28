@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  showTabs: true,
   appName: 'Cartella EDIT Studente',
   apiEndpoint: 'http://localhost:4050/cartella-asl/api',
  
