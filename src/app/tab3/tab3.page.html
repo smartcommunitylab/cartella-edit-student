@@ -4,7 +4,10 @@
       <ion-row><span class="heading text-semibold">Le mie attività</span></ion-row>
       <br>
       <ion-row><span>Ore totali validate:&nbsp;</span><span>{{summary.oreValidate}}</span></ion-row><br>
-      <ion-row><span>Ore totali percorso ASL:&nbsp;</span><span>{{summary.oreTotali}}</span><br></ion-row><br>
+      <span *ngIf="summary.pianoId">
+        <ion-row><span>Ore totali percorso ASL:&nbsp;</span><span>{{summary.oreTotali}}</span></ion-row>
+        <br>
+      </span>
       <span *ngIf="summary.esperienzeInCorso > 0">
         <ion-row><span>{{summary.esperienzeInCorso}}&nbsp;attività <span [style.color]="'#00CF86'">in corso</span></span></ion-row>
         <br>
@@ -18,7 +21,7 @@
     <ion-col size="4">
       <ion-row></ion-row>
       <br>
-      <span class="sub-div-circle">
+      <span *ngIf="summary.pianoId" class="sub-div-circle">
         <circle-progress 
         [percent]="percentage"
         [radius]="100"
