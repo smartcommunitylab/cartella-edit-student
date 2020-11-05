@@ -40,7 +40,7 @@ export class Tab1Page {
         {
           name: 'email',
           type: 'text',
-          placeholder: 'Email'
+          value: this.dataService.email?this.dataService.email:'Email'
         }
       ],
       buttons: [
@@ -89,7 +89,7 @@ export class Tab1Page {
           type: 'number',
           min: 10,
           max: 13,
-          placeholder: 'Telefono'
+          value: this.dataService.phone?this.dataService.phone:'Telefono'
         }
       ],
       buttons: [
