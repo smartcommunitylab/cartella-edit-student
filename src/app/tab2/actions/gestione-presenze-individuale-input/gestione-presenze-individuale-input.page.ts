@@ -227,6 +227,7 @@ export class GestionePresenzeIndividualeInputPage {
     console.log('presenze singolo array size ' + toBeSaved.length);
     this.dataService.saveAttivitaGiornaliereStudentiPresenze(toBeSaved, this.giorno.esperienzaSvoltaId).subscribe((studente: any) => {
       this.utilsService.presentSuccessLoading('Salvataggio effettuato con successo!');
+      this.utilsService.lastSaved(this.giorno.esperienzaSvoltaId, pz.giornata);
       // this.router.navigate(['.', { data: JSON.stringify(pz) }], { relativeTo: this.route });
     },
       (err: any) => {

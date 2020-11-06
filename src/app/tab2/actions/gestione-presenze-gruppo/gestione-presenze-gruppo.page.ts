@@ -39,49 +39,63 @@ export class GestionePresenzeGruppoPage {
   }
 
   scrollToOggi() {
-    var x = document.getElementById(this.oggi); 
-    if (x) {
-      document.getElementById(this.oggi).scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (this.utilsService.saveMap[this.attivita.es.id]) {
+      var lastSavedDay = this.utilsService.saveMap[this.attivita.es.id];
+      var x = document.getElementById(lastSavedDay);  
+      if (x) {
+        document.getElementById(lastSavedDay).scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    } else {
+      var x = document.getElementById(this.oggi);  
+      if (x) {
+        document.getElementById(this.oggi).scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     }
   }
+  
+  ionViewDidEnter() {
+    this.scrollToOggi();
+  }
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this.route.params.subscribe(params => {
-      let paramsPassed = JSON.parse(params['data']);
-      this.backEnabled = paramsPassed.back;
-      let id = paramsPassed.id;
-      this.utilsService.presentLoading();
-      this.dataService.getAttivitaStudenteById(id).subscribe((attivita: any) => {
-        this.attivita = attivita;
-        this.percentage = (this.attivita.oreValidate / this.attivita.oreTotali).toFixed(1);
-        this.presenze = [];
-        this.events = [];
-        this.dataService.getStudenteAttivitaGiornalieraCalendario(this.attivita.es.id, this.attivita.es.studenteId, this.attivita.aa.dataInizio, this.attivita.aa.dataFine/*moment().startOf('day').format('YYYY-MM-DD')*/).subscribe((resp: any) => {
-          this.presenze = resp;
-          this.initDays();
-          for (let addedGiorno of this.presenze) {
-            this.events.push(addedGiorno);
-          }
-          setTimeout(() => {
-            this.utilsService.dismissLoading();
-            this.scrollToOggi();
-          }, 500);
+      if (params['data']) {
+        let paramsPassed = JSON.parse(params['data']);
+        this.backEnabled = paramsPassed.back;
+        let id = paramsPassed.id;
+        this.utilsService.presentLoading();
+        this.dataService.getAttivitaStudenteById(id).subscribe((attivita: any) => {
+          this.attivita = attivita;
+          this.percentage = (this.attivita.oreValidate / this.attivita.oreTotali).toFixed(1);
+          this.presenze = [];
+          this.events = [];
+          this.dataService.getStudenteAttivitaGiornalieraCalendario(this.attivita.es.id, this.attivita.es.studenteId, this.attivita.aa.dataInizio, this.attivita.aa.dataFine/*moment().startOf('day').format('YYYY-MM-DD')*/).subscribe((resp: any) => {
+            this.presenze = resp;
+            this.initDays();
+            for (let addedGiorno of this.presenze) {
+              this.events.push(addedGiorno);
+            }
+            setTimeout(() => {
+              this.utilsService.dismissLoading();
+              this.scrollToOggi();
+            }, 500);
+          },
+            (err: any) => {
+              console.log(err);
+              this.utilsService.dismissLoading();
+            },
+            () => {
+              console.log('get attivita giornaliera calendario by id');
+            });
         },
           (err: any) => {
             console.log(err);
             this.utilsService.dismissLoading();
           },
           () => {
-            console.log('get attivita giornaliera calendario by id');
+            console.log('get attivita studente id');
           });
-      },
-        (err: any) => {
-          console.log(err);
-          this.utilsService.dismissLoading();
-        },
-        () => {
-          console.log('get attivita studente id');
-        });
+      }     
     })
   }
 
@@ -278,10 +292,8 @@ export class GestionePresenzeGruppoPage {
     let toBeSaved = this.prepareSaveArray(pz);
     console.log('presenze gruppo array size ' + toBeSaved.length);
     this.dataService.saveAttivitaGiornaliereStudentiPresenze(toBeSaved, this.attivita.es.id).subscribe((studente: any) => {
-      // this.utilsService.presentSuccessLoading('Salvataggio effettuato con successo!', 1000);
-      // setTimeout(() => {
-      this.ngAfterViewInit();
-      // }, 2000);
+      this.utilsService.lastSaved(this.attivita.es.id, pz.giornata);
+      this.refreshReport();
     },
       (err: any) => {
         console.log(err);
@@ -301,6 +313,19 @@ export class GestionePresenzeGruppoPage {
     save.giornata = moment(pz.giornata, 'YYYY-MM-DD').valueOf();
     toBeSaved.push(save);
     return toBeSaved;
+  }
+
+  refreshReport() {
+    this.dataService.getAttivitaStudenteById(this.attivita.es.id).subscribe((attivita: any) => {
+      this.attivita = attivita;
+      this.percentage = (this.attivita.oreValidate / this.attivita.oreTotali).toFixed(1);
+    },
+      (err: any) => {
+        console.log(err);
+      },
+      () => {
+        console.log('refesh report- get attivita studente id');
+      });
   }
 
 }
