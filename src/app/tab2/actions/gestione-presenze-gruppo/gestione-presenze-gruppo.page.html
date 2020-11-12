@@ -70,7 +70,7 @@
                             <ion-col size="3" (click)="showPickerOre(giorno)">
                                 <span [style.fontWeight]="fontWeight(giorno)" [style.color]="textColor(giorno)" class="attributes">{{ viewOre(giorno) }}</span>
                             </ion-col>
-                            <ion-col size="4" (click)="showPickerModalita(giorno)">
+                            <ion-col size="4" *ngIf="utilsService.isModalitaVisible(giorno)" (click)="showPickerModalita(giorno)">
                                 <span [style.fontWeight]="fontWeight(giorno)" [style.color]="textColor(giorno)" class="attributes">{{ viewModalita(giorno) }}</span>
                             </ion-col>
                         </ion-row>

@@ -81,6 +81,12 @@ export class UtilsService {
     lastSaved(esperienzaSvoltaId: any, lastSavedDay) {
         this.saveMap[esperienzaSvoltaId] = lastSavedDay;
     }
-  
 
+    isModalitaVisible(giorno) {
+        var visible = false;
+        if (giorno.oreSvolte != 0)
+          visible = true;
+        return visible;
+    }
+    
 }

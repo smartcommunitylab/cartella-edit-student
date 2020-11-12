@@ -4,7 +4,7 @@ import { DataService } from '../../../core/services/data.service'
 import { Router, ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import 'moment/locale/it';
-import { PickerController, IonContent } from '@ionic/angular';
+import { IonContent } from '@ionic/angular';
 import { FestivalService } from "../../../core/services/festival.service";
 import { UtilsService } from 'src/app/core/services/utils.service';
 
@@ -30,7 +30,6 @@ export class GestionePresenzeIndividualePage {
     private dataService: DataService,
     private festivalService: FestivalService,
     private utilsService: UtilsService,
-    private pickerController: PickerController,
     private route: ActivatedRoute,
     private router: Router) {
     this.oggi = moment().format('YYYY-MM-DD');
@@ -123,7 +122,6 @@ export class GestionePresenzeIndividualePage {
         now.add(1, 'days');
       }
     }
-
     // sort by giornata.
     this.presenze = this.presenze.sort((a, b) => {
       return moment(a.giornata).diff(moment(b.giornata));
@@ -132,11 +130,9 @@ export class GestionePresenzeIndividualePage {
   }
 
   textColor(giorno) {
-
     if (giorno.verificata || giorno.validataEnte) {
       return '#A2ADB8';
     }
-
     if (!this.isweekEnd(giorno)
       && !this.festivalService.isFestival(giorno)
       && !this.isInfuture(giorno)) {
@@ -146,9 +142,7 @@ export class GestionePresenzeIndividualePage {
         return '#FF667D';
       }
     }
-
     return '#5C6F82';
-
   }
 
   validatoTextColor(giorno) {
@@ -158,7 +152,6 @@ export class GestionePresenzeIndividualePage {
   }
 
   border(giorno) {
-
     if (!this.isweekEnd(giorno)
       && !this.festivalService.isFestival(giorno)
       && !this.isInfuture(giorno)) {
@@ -168,9 +161,7 @@ export class GestionePresenzeIndividualePage {
         return '1px solid #FF9700';
       }
     }
-
     return 'none';
-
   }
 
   viewOre(giorno) {

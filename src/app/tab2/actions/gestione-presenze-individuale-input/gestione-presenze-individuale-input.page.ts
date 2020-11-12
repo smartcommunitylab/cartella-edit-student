@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { DataService } from '../../../core/services/data.service'
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import 'moment/locale/it';
 import { PickerController } from '@ionic/angular';
@@ -31,8 +31,7 @@ export class GestionePresenzeIndividualeInputPage {
     private festivalService: FestivalService,
     private utilsService: UtilsService,
     private pickerController: PickerController,
-    private route: ActivatedRoute,
-    private router: Router) {
+    private route: ActivatedRoute) {
     this.oggi = moment().format('YYYY-MM-DD');
     this.today = moment().startOf('day');
   }
@@ -71,7 +70,6 @@ export class GestionePresenzeIndividualeInputPage {
 
 
   textColor(giorno) {
-
     if (!this.isweekEnd(giorno)
       && !this.festivalService.isFestival(giorno)) {
       if (giorno.giornata == this.oggi && !giorno.verificata) {
@@ -79,32 +77,25 @@ export class GestionePresenzeIndividualeInputPage {
       } else if (giorno.oreSvolte == null) {
         return '#FF667D';
       }
-    
-    return '#5C6F82';
-    }   
-  
+      return '#5C6F82';
+    }
   }
 
   border(giorno) {
-
     if (!this.isweekEnd(giorno) && !this.festivalService.isFestival(giorno)) {
       if (giorno.giornata != this.oggi && !giorno.verificata && (giorno.attivitaSvolte == null && giorno.oreSvolte == null)) {
         return '1px solid #FF667D';
       }
-    }
-    
-    return '1px solid #5C6F82';
-    
+    }    
+    return '1px solid #5C6F82';    
   }
 
   fontWeight(giorno) {
-
       if (giorno.giornata == this.oggi) {
         return 'bold';
       } else if (giorno.oreSvolte == null) {
         return 'normal';
-      }
-    
+      }    
   }
 
   viewOre(giorno) {
@@ -270,5 +261,4 @@ export class GestionePresenzeIndividualeInputPage {
     }
   }
 
- 
 }

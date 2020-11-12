@@ -1,9 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { DataService } from '../../../core/services/data.service'
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import 'moment/locale/it';
-import { PickerController, IonContent, ToastController } from '@ionic/angular';
+import { PickerController, IonContent } from '@ionic/angular';
 import { PickerOptions } from "@ionic/core";
 import { UtilsService } from 'src/app/core/services/utils.service';
 import { FestivalService } from 'src/app/core/services/festival.service';
@@ -32,8 +32,7 @@ export class GestionePresenzeGruppoPage {
     private festivalService: FestivalService,
     private utilsService: UtilsService,
     private pickerController: PickerController,
-    private route: ActivatedRoute,
-    private router: Router) {
+    private route: ActivatedRoute) {
     this.oggi = moment().format('YYYY-MM-DD');
     this.today = moment().startOf('day');
   }
@@ -124,7 +123,6 @@ export class GestionePresenzeGruppoPage {
         now.add(1, 'days');
       }
     }
-
     // sort by giornata.
     this.presenze = this.presenze.sort((a, b) => {
       return moment(a.giornata).diff(moment(b.giornata));
