@@ -39,8 +39,8 @@
         </ion-row>
         <br>
         <ion-row>
-                <ion-col size="4"><span class="titolo text-bold">Giorno</span></ion-col>
-                <ion-col size="4"><span class="titolo text-bold">Ore</span></ion-col>
+                <ion-col size="5"><span class="titolo text-bold">Giorno</span></ion-col>
+                <ion-col size="3"><span class="titolo text-bold">Ore</span></ion-col>
                 <ion-col size="4"><span class="titolo text-bold">Modalità</span></ion-col>
         </ion-row>
     </ion-grid>
@@ -50,7 +50,7 @@
                 <div id="{{giorno.giornata}}" [style.background]="bgColor(giorno)" [class.disabled]="isInfuture(giorno) || giorno.verificata || giorno.validataEnte || attivita.aa.stato=='archiviata'" class="item" *ngFor="let giorno of presenze">
                     <ion-grid>
                         <ion-row>
-                            <ion-col size="4">
+                            <ion-col size="5">
                                 <ion-row>
                                     <span [style.fontWeight]="fontWeight(giorno)" [style.color]="textColor(giorno)"
                                         class="attributes ion-text-lowercase">{{ giorno.giornata | date: 'dd MMM' }} 
@@ -67,10 +67,10 @@
                                     <span class="text-italic validato"><br>Validato da ente</span>
                                 </ion-row>
                             </ion-col>
-                            <ion-col size="4" (click)="showPickerOre(giorno)">
+                            <ion-col size="3" (click)="showPickerOre(giorno)">
                                 <span [style.fontWeight]="fontWeight(giorno)" [style.color]="textColor(giorno)" class="attributes">{{ viewOre(giorno) }}</span>
                             </ion-col>
-                            <ion-col size="4" (click)="showPickerModalita(giorno)">
+                            <ion-col size="4" *ngIf="utilsService.isModalitaVisible(giorno)" (click)="showPickerModalita(giorno)">
                                 <span [style.fontWeight]="fontWeight(giorno)" [style.color]="textColor(giorno)" class="attributes">{{ viewModalita(giorno) }}</span>
                             </ion-col>
                         </ion-row>

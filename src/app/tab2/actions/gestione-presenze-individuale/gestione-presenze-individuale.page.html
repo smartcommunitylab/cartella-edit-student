@@ -74,7 +74,7 @@
                     <br>
                     <br>
                 </ion-row>
-                <ion-row>
+                <ion-row *ngIf="utilsService.isModalitaVisible(giorno)">
                     <ion-col size="6">
                         <span [style.color]="validatoTextColor(giorno)" class="attributes-2 text-semibold">Ore inserite:&nbsp;</span><span
                         [style.color]="validatoTextColor(giorno)" class="attributes-2">{{ viewOre(giorno) }}</span>
@@ -83,6 +83,12 @@
                         <span [style.color]="validatoTextColor(giorno)" class="attributes-2 text-semibold">Modalità:&nbsp;</span><span
                         [style.color]="validatoTextColor(giorno)" class="attributes-2">{{ viewModalita(giorno) }}</span>
                     </ion-col>                    
+                </ion-row>
+                <ion-row *ngIf="!utilsService.isModalitaVisible(giorno)">
+                    <ion-col>
+                        <span [style.color]="validatoTextColor(giorno)" class="attributes-2 text-semibold">Ore inserite:&nbsp;</span><span
+                        [style.color]="validatoTextColor(giorno)" class="attributes-2">{{ viewOre(giorno) }}</span>
+                    </ion-col>
                 </ion-row>
             </ion-card-header>
             <ion-card-content>

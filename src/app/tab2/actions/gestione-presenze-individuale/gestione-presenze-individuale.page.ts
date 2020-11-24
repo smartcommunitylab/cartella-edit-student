@@ -4,7 +4,7 @@ import { DataService } from '../../../core/services/data.service'
 import { Router, ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import 'moment/locale/it';
-import { PickerController, IonContent } from '@ionic/angular';
+import { IonContent } from '@ionic/angular';
 import { FestivalService } from "../../../core/services/festival.service";
 import { UtilsService } from 'src/app/core/services/utils.service';
 
@@ -20,6 +20,7 @@ export class GestionePresenzeIndividualePage {
   presenze = [];
   events: any = [];
   oggi;
+  lastSavedDay;
   today;
   percentage;
   ore = [{ text: '1', value: '1' }, { text: '2', value: '2' }, { text: '3', value: '3' }, { text: '4', value: '4' }, { text: '5', value: '5' }, { text: '6', value: '6' }, { text: '7', value: '7' }, { text: '8', value: '8' }, { text: '9', value: '9' }, { text: '10', value: '10' }, { text: '11', value: '11' }, { text: '12', value: '12' }, { text: 'Assente', value: '0' }]
@@ -29,7 +30,6 @@ export class GestionePresenzeIndividualePage {
     private dataService: DataService,
     private festivalService: FestivalService,
     private utilsService: UtilsService,
-    private pickerController: PickerController,
     private route: ActivatedRoute,
     private router: Router) {
     this.oggi = moment().format('YYYY-MM-DD');
@@ -37,9 +37,17 @@ export class GestionePresenzeIndividualePage {
   }
 
   scrollToOggi() {
-    var x = document.getElementById(this.oggi);
-    if (x) {
-      document.getElementById(this.oggi).scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (this.utilsService.saveMap[this.attivita.es.id]) {
+      var lastSavedDay = this.utilsService.saveMap[this.attivita.es.id];
+      var x = document.getElementById(lastSavedDay);  
+      if (x) {
+        document.getElementById(lastSavedDay).scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    } else {
+      var x = document.getElementById(this.oggi);  
+      if (x) {
+        document.getElementById(this.oggi).scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     }
   }
 
@@ -49,42 +57,43 @@ export class GestionePresenzeIndividualePage {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      // let id = params['id'];
-      let paramsPassed = JSON.parse(params['data']);
-      this.backEnabled = paramsPassed.back;
-      let id = paramsPassed.id;
-      this.utilsService.presentLoading();
-      this.dataService.getAttivitaStudenteById(id).subscribe((attivita: any) => {
-        this.attivita = attivita;
-        this.percentage = (this.attivita.oreValidate / this.attivita.oreTotali).toFixed(1);
-        this.presenze = [];
-        this.events = [];
-        this.dataService.getStudenteAttivitaGiornalieraCalendario(this.attivita.es.id, this.attivita.es.studenteId, this.attivita.aa.dataInizio, this.attivita.aa.dataFine/*moment().startOf('day').format('YYYY-MM-DD')*/).subscribe((resp: any) => {
-          this.presenze = resp;
-          this.initDays();
-          for (let addedGiorno of this.presenze) {
-            this.events.push(addedGiorno);
-          }
-          setTimeout(() => {
-            this.utilsService.dismissLoading();
-            this.scrollToOggi();
-          }, 1500);
+      if (params['data']) {
+        let paramsPassed = JSON.parse(params['data']);
+        this.backEnabled = paramsPassed.back;
+        let id = paramsPassed.id;
+        this.utilsService.presentLoading();
+        this.dataService.getAttivitaStudenteById(id).subscribe((attivita: any) => {
+          this.attivita = attivita;
+          this.percentage = (this.attivita.oreValidate / this.attivita.oreTotali).toFixed(1);
+          this.presenze = [];
+          this.events = [];
+          this.dataService.getStudenteAttivitaGiornalieraCalendario(this.attivita.es.id, this.attivita.es.studenteId, this.attivita.aa.dataInizio, this.attivita.aa.dataFine/*moment().startOf('day').format('YYYY-MM-DD')*/).subscribe((resp: any) => {
+            this.presenze = resp;
+            this.initDays();
+            for (let addedGiorno of this.presenze) {
+              this.events.push(addedGiorno);
+            }
+            setTimeout(() => {
+              this.utilsService.dismissLoading();
+              this.scrollToOggi();
+            }, 1500);
+          },
+            (err: any) => {
+              this.utilsService.dismissLoading();
+              console.log(err);
+            },
+            () => {
+              console.log('get attivita giornaliera calendario by id');
+            });
         },
           (err: any) => {
             this.utilsService.dismissLoading();
             console.log(err);
           },
           () => {
-            console.log('get attivita giornaliera calendario by id');
+            console.log('get attivita student by id');
           });
-      },
-      (err: any) => {
-        this.utilsService.dismissLoading();
-        console.log(err);
-      },
-      () => {
-        console.log('get attivita student by id');
-      });
+      }
     })
   }
 
@@ -113,7 +122,6 @@ export class GestionePresenzeIndividualePage {
         now.add(1, 'days');
       }
     }
-
     // sort by giornata.
     this.presenze = this.presenze.sort((a, b) => {
       return moment(a.giornata).diff(moment(b.giornata));
@@ -122,11 +130,9 @@ export class GestionePresenzeIndividualePage {
   }
 
   textColor(giorno) {
-
     if (giorno.verificata || giorno.validataEnte) {
       return '#A2ADB8';
     }
-
     if (!this.isweekEnd(giorno)
       && !this.festivalService.isFestival(giorno)
       && !this.isInfuture(giorno)) {
@@ -136,9 +142,7 @@ export class GestionePresenzeIndividualePage {
         return '#FF667D';
       }
     }
-
     return '#5C6F82';
-
   }
 
   validatoTextColor(giorno) {
@@ -148,7 +152,6 @@ export class GestionePresenzeIndividualePage {
   }
 
   border(giorno) {
-
     if (!this.isweekEnd(giorno)
       && !this.festivalService.isFestival(giorno)
       && !this.isInfuture(giorno)) {
@@ -158,9 +161,7 @@ export class GestionePresenzeIndividualePage {
         return '1px solid #FF9700';
       }
     }
-
     return 'none';
-
   }
 
   viewOre(giorno) {

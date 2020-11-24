@@ -3,8 +3,9 @@ import { LoadingController } from '@ionic/angular';
 
 @Injectable()
 export class UtilsService {
-
+   
     isLoading;
+    saveMap = {}; //map of last saved day for each activity {id: YYYY-MM-DD}
 
     constructor(public loadingController: LoadingController) {}
 
@@ -77,4 +78,15 @@ export class UtilsService {
         })
     }
 
+    lastSaved(esperienzaSvoltaId: any, lastSavedDay) {
+        this.saveMap[esperienzaSvoltaId] = lastSavedDay;
+    }
+
+    isModalitaVisible(giorno) {
+        var visible = false;
+        if (giorno.oreSvolte != 0)
+          visible = true;
+        return visible;
+    }
+    
 }
