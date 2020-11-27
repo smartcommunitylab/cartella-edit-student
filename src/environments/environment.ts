@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   showTabs: true,
   appName: 'Cartella EDIT Studente',
+  minimumAge: 14,
   apiEndpoint: 'http://localhost:4050/cartella-asl/api',
  
   cordova_identity_client: '',
