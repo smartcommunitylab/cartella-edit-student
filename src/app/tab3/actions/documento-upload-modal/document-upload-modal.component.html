@@ -1,0 +1,40 @@
+<ion-header>
+    <ion-row class="v-center titolo text-semibold">
+        <ion-back-button (click)="dismiss()" defaultHref="dismiss()"></ion-back-button>Caricamento file
+    </ion-row>
+</ion-header>
+<ion-content padding>
+    <div *ngIf="!fileSelected">
+        <ion-grid>
+            <ion-row id="1" (click)="create(1)" class="item">
+                <span>
+                    <h5 class="card-title text-semibold">Valutazione esperienza</h5>
+                    <p class="card-text text-semibold">Carica la valutazione che tu hai fatto dell’esperienza svolta
+                        presso questo ente.</p>
+                </span>
+            </ion-row>
+            <br />
+            <ion-row id="2" (click)="create(2)" class="item">
+                <span>
+                    <h5 class="card-title text-semibold">Altro</h5>
+                    <p class="card-text text-semibold">Carica un documento associato a questa esperienza.</p>
+                </span>
+            </ion-row>
+        </ion-grid>
+        <br />
+        <div class="row" *ngIf="optionSelected">
+            <div class="button-upload">
+                <span class="label-button">
+                    <label class="btn btn-primary v-center-inline btn-icon" placement="right"
+                        ngbTooltip="Allega un nuovo documento all’attività">
+                        Scegli file da dispositivo&nbsp;&nbsp;&nbsp;
+                        <ion-icon class="icon" src="./assets/icon/it-upload.svg"></ion-icon>
+                        <input #fileInput type="file" hidden (click)="fileInput.value = null" value=""
+                            (change)="uploadDocument($event)">
+                    </label>
+                </span>
+            </div>
+        </div>
+    </div>
+
+</ion-content>

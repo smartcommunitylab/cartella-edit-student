@@ -1,0 +1,75 @@
+.titolo {
+    color: #0073E6;
+    font-size: 20px;
+}
+.item {
+    // color: #5C6F82;
+    // background-color:#F0F6FC;
+    border: 1px solid #A2ADB8;
+    padding-left: 10px;
+    padding-bottom: 5px;
+}
+.card-title {
+    font-family: Titillium Web;
+    font-size: 20px;
+    color: #7FB2E5;
+}
+.card-text {
+    font-family: Titillium Web;
+    font-size: 14px;
+    color: #A2ADB8
+}
+.active {
+    border: 1px solid #0066CC;
+    background-color: #F0F6FC;
+    .card-title{
+        color: #0066CC;
+    }
+}
+.file-title {
+    font-family: Titillium Web;
+    font-size: 25px;
+    font-weight: bold; 
+    color: #707070
+}
+.button-upload {
+    font-size: 16px;
+    background: #0073E6;
+    color: white;
+    font-weight: bold;
+    text-transform: none;
+    text-shadow: 0 0 black;
+    width: 250px;
+    height: 48px;
+    text-align: center !important;
+    padding-top: 10px;
+}
+.label-button {
+    position: relative;
+    top: 20%;
+}
+.icon {
+    font-size: 20px;
+    position: relative;
+}
+.file-selected {
+    background-color:#F0F6FC;
+    margin: 5px 0;
+}
+.attributes {
+    color: #5C6F82;
+    font-size:  14px;
+}
+.button-salva {
+    color: #0073E6;
+    --background: #CCE6FF;
+    --border-color: #0073E6;
+    --border-radius: 10px;
+}
+.button-annulla {
+    color:#FFFFFF;
+    --background: #FF667D;
+    --border-color:  #FF667D;
+    --border-radius: 10px;
+    --background-hover: #FF667D; 
+}
