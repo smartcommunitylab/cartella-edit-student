@@ -3,6 +3,9 @@ import { DataService } from '../../../core/services/data.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as Leaflet from 'leaflet';
 import { UtilsService } from 'src/app/core/services/utils.service';
+import { ModalController } from '@ionic/angular';
+import { DocumentUploadModalComponent } from '../documento-upload-modal/document-upload-modal.component';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'esperienza-dettaglio',
@@ -19,13 +22,18 @@ export class EsperienzaDettaglioComponent {
   oreTotali: any;
   tipologie;
   stati = [{ "name": "In attesa", "value": "in_attesa" }, { "name": "In corso", "value": "in_corso" }, { "name": "Giorni non compilati", "value": "revisione" }, { "name": "Archiviata", "value": "archiviata" }];
+  tipiDoc = [{ "name": "Piano formativo", "value": "piano_formativo" }, { "name": "Convenzione", "value": "convenzione" }, { "name": "Valutazione studente", "value": "valutazione_studente" }, { "name": "Valutazione esperienza", "value": "valutazione_esperienza" }, { "name": "Altro", "value": "doc_generico" }, { "name": "Pregresso", "Altro": "pregresso" }];
+  removableDoc = ["valutazione_esperienza","doc_generico"];
   individuale: boolean;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private dataService: DataService,
-    private utilsService: UtilsService) { }
+    private utilsService: UtilsService,
+    private modalCtrl: ModalController,
+    private alertController: AlertController
+  ) { }
 
   ngAfterViewInit(): void {
     this.route.params.subscribe(params => {
@@ -168,5 +176,29 @@ export class EsperienzaDettaglioComponent {
       this.router.navigate(['../../../tab2/presenze/gruppo', { data: JSON.stringify(params) }], { relativeTo: this.route });
     }
   }
+
+  // openDocumentUpload() {
+  //   const modalRef = this.modalCtrl.create(DocumentUploadModalComponent);
+  //   modalRef.componentInstance.newDocumentListener.subscribe((option) => {
+  //     console.log(option);
+  //     this.dataService.uploadDocumentToRisorsa(option, this.attivita.uuid + '').subscribe((doc) => {
+  //       this.dataService.downloadAttivitaDocumenti(this.attivita.uuid).subscribe((docs) => {
+  //         this.documenti = docs;
+  //       });
+  //     });
+  //   });
+  // }
+
+  async openDocumentUpload() {
+    const modal = await this.modalCtrl.create({
+      component: DocumentUploadModalComponent,
+      // cssClass: 'my-custom-modal-css'
+    });
+    modal.onWillDismiss().then(dataReturned => {
+      console.log('Receive: ', dataReturned);
+    });
+    return await modal.present();
+  }
+
 
 }
