@@ -36,5 +36,42 @@
             </div>
         </div>
     </div>
-
+    <div *ngIf="fileSelected">
+        <div class="file-selected">
+            <ion-grid>
+                <ion-row>
+                    <ion-col>
+                        <span class="attributes">
+                            <span class="text-semibold">Nome file:&nbsp;&nbsp;&nbsp;</span>
+                            <span>{{saveFileObj.file?.name}}</span>
+                        </span>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <span class="attributes">
+                            <span class="text-semibold">Tipologia:&nbsp;&nbsp;&nbsp;</span>
+                            <span> {{ setDocType(saveFileObj.type) }}</span>
+                        </span>
+                    </ion-col>
+                </ion-row>
+                <!-- <ion-row>
+                    <ion-col>
+                        <span class="attributes">
+                            <span class="text-semibold">Data caricamento:&nbsp;&nbsp;&nbsp;</span>
+                            <span>{{saveFileObj.file.dataUpload | date: 'dd/MM/yy' }}
+                            </span>
+                        </span>
+                    </ion-col>
+                </ion-row> -->
+            </ion-grid>
+        </div>
+        <br />
+        <br />
+        <div class="row text-center">
+            <ion-button expand="outline" (click)="carica()" class="button-salva text-bold ion-text-capitalize" size="small">Salva</ion-button>
+            &nbsp;&nbsp;
+            <ion-button expand="outline" (click)="dismiss()" class="button-annulla text-bold ion-text-capitalize" size="small">Annulla</ion-button>
+        </div>
+    </div>
 </ion-content>

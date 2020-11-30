@@ -67,5 +67,11 @@ export class DocumentUploadModalComponent implements OnInit {
     this.modalCtrl.dismiss(this.saveFileObj);;
   }
 
-
+  setDocType(type) {
+    if (this.tipiDoc) {
+      let rtn = this.tipiDoc.find(data => data.value == type);
+      if (rtn) return rtn.name;
+      return type;
+    }
+  }
 }
