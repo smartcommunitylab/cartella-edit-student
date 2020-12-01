@@ -57,7 +57,7 @@
     color: #0073E6;   
 }
 .icon-delete {
-    font-size: 20px;
+    font-size: 25px;
 }
 .link-presenze {
     color: #0066CC;
@@ -67,8 +67,14 @@
     width: 24px;
     height: 24px;
 }
-
 .disabled {
     background-color: #dddddd;
     pointer-events: none;
 }
+.item {
+    background-color:#F0F6FC;
+    margin: 5px 0;
+}
+
+
+

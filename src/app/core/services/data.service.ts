@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { forkJoin, of } from 'rxjs';
 import 'rxjs/add/operator/timeout';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
@@ -10,7 +9,7 @@ import { ToastController } from '@ionic/angular';
 
 @Injectable()
 export class DataService {
-      
+
   istitutoId: string = "";
   schoolYear: string = "";
   listIstituteIds = [];
@@ -139,7 +138,6 @@ export class DataService {
       );
   }
 
-
   getSchoolYear(istitutoId, dataInizio): Observable<any> {
     let url = this.host + '/schoolYear/' + istitutoId;
     let params = new HttpParams();
@@ -249,7 +247,7 @@ export class DataService {
     let formData: FormData = new FormData();
     formData.append('data', option.file, option.file.name);
     formData.append('tipo', option.type);
-    
+
     let headers = new Headers();
 
     return this.http.post<any>(url, formData)
@@ -263,7 +261,6 @@ export class DataService {
   }
 
   downloadRisorsaDocumenti(id: any): Observable<any> {
-
     let url = this.host + '/download/document/risorsa/' + id + '/studente/' + this.studenteId;
 
     return this.http.get<any>(url,
@@ -379,7 +376,6 @@ export class DataService {
     params = params.append('dateFrom', dataInizio);
     params = params.append('dateTo', dataFine);
 
-
     return this.http.get<any>(url,
       {
         observe: 'response',
@@ -410,8 +406,8 @@ export class DataService {
   private async handleError(error: HttpErrorResponse) {
     let errMsg = "Errore del server! Prova a ricaricare la pagina.";
 
-   if (error.error) {
-     
+    if (error.error) {
+
       if (error.error.message) {
         errMsg = error.error.message;
       } else if (error.error.ex) {
@@ -439,12 +435,10 @@ export class DataService {
       })
       toast.present();
       window.location.href = '../landing';
-      
     }
-   
-   
+
     return Observable.throw(errMsg);
 
   }
-  
+
 }

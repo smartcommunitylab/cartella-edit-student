@@ -23,7 +23,6 @@ export class EsperienzaDettaglioComponent {
   tipologie;
   stati = [{ "name": "In attesa", "value": "in_attesa" }, { "name": "In corso", "value": "in_corso" }, { "name": "Giorni non compilati", "value": "revisione" }, { "name": "Archiviata", "value": "archiviata" }];
   tipiDoc = [{ "name": "Piano formativo", "value": "piano_formativo" }, { "name": "Convenzione", "value": "convenzione" }, { "name": "Valutazione studente", "value": "valutazione_studente" }, { "name": "Valutazione esperienza", "value": "valutazione_esperienza" }, { "name": "Altro", "value": "doc_generico" }, { "name": "Pregresso", "Altro": "pregresso" }];
-  removableDoc = ["valutazione_esperienza","doc_generico"];
   individuale: boolean;
 
   constructor(
@@ -31,7 +30,8 @@ export class EsperienzaDettaglioComponent {
     private route: ActivatedRoute,
     private dataService: DataService,
     private utilsService: UtilsService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private alertController: AlertController
   ) { }
 
   ngAfterViewInit(): void {
@@ -106,7 +106,7 @@ export class EsperienzaDettaglioComponent {
   }
 
   drawMap(): void {
-    if(this.map) {
+    if (this.map) {
       this.map.remove();
     }
     this.map = Leaflet.map('map');
@@ -187,6 +187,10 @@ export class EsperienzaDettaglioComponent {
         });
       });
     }
+  }
+
+  openDocument(doc) {
+    this.dataService.openDocument(doc);
   }
 
 }
