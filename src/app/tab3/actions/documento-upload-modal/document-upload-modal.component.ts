@@ -9,19 +9,13 @@ import { ModalController } from '@ionic/angular';
 export class DocumentUploadModalComponent implements OnInit {
 
   titolo: string;
-  // annoRiferimento: any;
-  // monte3anno: number;
-  // monte4anno: number;
-  // monte5anno: number;
-  // note: string = '';
-  // fieldsError: string;
   optionSelected: boolean = false;
   optionType;
   fileSelected: boolean = false;
   selectedFileName;
   optionTypes = {
     "1": "valutazione_esperienza",
-    "2": "doc_generico"   
+    "2": "doc_generico"
   }
   tipiDoc = [{ "name": "Valutazione esperienza", "value": "valutazione_esperienza" }, { "name": "Altro", "value": "doc_generico" }];
   selectedDocType;
@@ -30,8 +24,7 @@ export class DocumentUploadModalComponent implements OnInit {
 
   constructor(public modalCtrl: ModalController) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
 
   dismiss() {
@@ -49,8 +42,6 @@ export class DocumentUploadModalComponent implements OnInit {
         x.classList.remove('active');
       }
     }
-    // this.fileSelected = false;
-    // this.selectedFileName = null;
   }
 
   uploadDocument(fileInput) {

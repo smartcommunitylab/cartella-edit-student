@@ -31,8 +31,7 @@ export class EsperienzaDettaglioComponent {
     private route: ActivatedRoute,
     private dataService: DataService,
     private utilsService: UtilsService,
-    private modalCtrl: ModalController,
-    private alertController: AlertController
+    private modalCtrl: ModalController
   ) { }
 
   ngAfterViewInit(): void {
@@ -126,28 +125,6 @@ export class EsperienzaDettaglioComponent {
     return (this.aa.latitude && this.aa.longitude);
   }
 
-  uploadDocument(fileInput) {
-    if (fileInput.target.files && fileInput.target.files[0]) {
-      this.dataService.uploadDocumentToRisorsa(fileInput.target.files[0], this.es.uuid).subscribe((doc) => {
-        this.dataService.downloadRisorsaDocumenti(this.es.uuid).subscribe((docs) => {
-          this.es.documenti = docs;
-        });
-      });
-    }
-  }
-
-  openDocument(doc) {
-    this.dataService.openDocument(doc);
-  }
-
-  deleteDocumento(doc) {
-    this.dataService.deleteDocument(doc.uuid).subscribe(response => {
-      this.dataService.downloadRisorsaDocumenti(this.es.uuid).subscribe((docs) => {
-        this.es.documenti = docs;
-      });
-    })
-  }
-
   getColor(esp) {
     if (esp.stato == "in_corso") {
       return '#00CF86';
@@ -177,18 +154,6 @@ export class EsperienzaDettaglioComponent {
     }
   }
 
-  // openDocumentUpload() {
-  //   const modalRef = this.modalCtrl.create(DocumentUploadModalComponent);
-  //   modalRef.componentInstance.newDocumentListener.subscribe((option) => {
-  //     console.log(option);
-  //     this.dataService.uploadDocumentToRisorsa(option, this.attivita.uuid + '').subscribe((doc) => {
-  //       this.dataService.downloadAttivitaDocumenti(this.attivita.uuid).subscribe((docs) => {
-  //         this.documenti = docs;
-  //       });
-  //     });
-  //   });
-  // }
-
   async openDocumentUpload() {
     const modal = await this.modalCtrl.create({
       component: DocumentUploadModalComponent,
@@ -196,9 +161,32 @@ export class EsperienzaDettaglioComponent {
     });
     modal.onWillDismiss().then(dataReturned => {
       console.log('Receive: ', dataReturned);
+      this.dataService.uploadDocumentToRisorsa(dataReturned.data, this.es.uuid + '').subscribe((doc) => {
+        this.utilsService.presentSuccessLoading('Salvataggio effettuato con successo!');
+        this.dataService.getAttivitaDocumenti(this.es.uuid).subscribe(resp => {
+          this.es.documenti = resp;
+        });
+      });
     });
     return await modal.present();
   }
 
+  setDocType(type) {
+    if (this.tipiDoc) {
+      let rtn = this.tipiDoc.find(data => data.value == type);
+      if (rtn) return rtn.name;
+      return type;
+    }
+  }
+
+  uploadDocument(fileInput) {
+    if (fileInput.target.files && fileInput.target.files[0]) {
+      this.dataService.uploadDocumentToRisorsa(fileInput.target.files[0], this.es.uuid).subscribe((doc) => {
+        this.dataService.downloadRisorsaDocumenti(this.es.uuid).subscribe((docs) => {
+          this.es.documenti = docs;
+        });
+      });
+    }
+  }
 
 }
