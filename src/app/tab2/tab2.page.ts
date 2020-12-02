@@ -53,7 +53,7 @@ export class Tab2Page {
             this.studente = resp;
             var age = moment().diff(moment(this.studente.birthdate, 'DD/MM/YYYY'), 'years');
             // logic for age above 16.
-            if (age >= 16) {            
+            if (age >= environment.minimumAge) {            
               if (!profile.authorized) {
                 this.env.showTabs = false;
                 this.router.navigate(['../../terms', profile.authorized], { relativeTo: this.route });

@@ -3,6 +3,9 @@ import { DataService } from '../../../core/services/data.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as Leaflet from 'leaflet';
 import { UtilsService } from 'src/app/core/services/utils.service';
+import { ModalController } from '@ionic/angular';
+import { DocumentUploadModalComponent } from '../documento-upload-modal/document-upload-modal.component';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'esperienza-dettaglio',
@@ -19,13 +22,18 @@ export class EsperienzaDettaglioComponent {
   oreTotali: any;
   tipologie;
   stati = [{ "name": "In attesa", "value": "in_attesa" }, { "name": "In corso", "value": "in_corso" }, { "name": "Giorni non compilati", "value": "revisione" }, { "name": "Archiviata", "value": "archiviata" }];
+  tipiDoc = [{ "name": "Piano formativo", "value": "piano_formativo" }, { "name": "Convenzione", "value": "convenzione" }, { "name": "Valutazione studente", "value": "valutazione_studente" }, { "name": "Valutazione esperienza", "value": "valutazione_esperienza" }, { "name": "Altro", "value": "doc_generico" }, { "name": "Pregresso", "Altro": "pregresso" }];
+  removableDoc = ["valutazione_esperienza", "doc_generico"];
   individuale: boolean;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private dataService: DataService,
-    private utilsService: UtilsService) { }
+    private utilsService: UtilsService,
+    private modalCtrl: ModalController,
+    private alertController: AlertController
+  ) { }
 
   ngAfterViewInit(): void {
     this.route.params.subscribe(params => {
@@ -99,7 +107,7 @@ export class EsperienzaDettaglioComponent {
   }
 
   drawMap(): void {
-    if(this.map) {
+    if (this.map) {
       this.map.remove();
     }
     this.map = Leaflet.map('map');
@@ -116,28 +124,6 @@ export class EsperienzaDettaglioComponent {
 
   hasCoordinate(): boolean {
     return (this.aa.latitude && this.aa.longitude);
-  }
-
-  uploadDocument(fileInput) {
-    if (fileInput.target.files && fileInput.target.files[0]) {
-      this.dataService.uploadDocumentToRisorsa(fileInput.target.files[0], this.es.uuid).subscribe((doc) => {
-        this.dataService.downloadRisorsaDocumenti(this.es.uuid).subscribe((docs) => {
-          this.es.documenti = docs;
-        });
-      });
-    }
-  }
-
-  openDocument(doc) {
-    this.dataService.openDocument(doc);
-  }
-
-  deleteDocumento(doc) {
-    this.dataService.deleteDocument(doc.uuid).subscribe(response => {
-      this.dataService.downloadRisorsaDocumenti(this.es.uuid).subscribe((docs) => {
-        this.es.documenti = docs;
-      });
-    })
   }
 
   getColor(esp) {
@@ -167,6 +153,87 @@ export class EsperienzaDettaglioComponent {
     } else {
       this.router.navigate(['../../../tab2/presenze/gruppo', { data: JSON.stringify(params) }], { relativeTo: this.route });
     }
+  }
+
+  async openDocumentUpload() {
+    const modal = await this.modalCtrl.create({
+      component: DocumentUploadModalComponent,
+      // cssClass: 'my-custom-modal-css'
+    });
+    modal.onWillDismiss().then(dataReturned => {
+      console.log('Receive: ', dataReturned);
+      this.dataService.uploadDocumentToRisorsa(dataReturned.data, this.es.uuid + '').subscribe((doc) => {
+        this.utilsService.presentSuccessLoading('Salvataggio effettuato con successo!');
+        this.dataService.getAttivitaDocumenti(this.es.uuid).subscribe(resp => {
+          this.es.documenti = resp;
+        });
+      });
+    });
+    return await modal.present();
+  }
+
+  setDocType(type) {
+    if (this.tipiDoc) {
+      let rtn = this.tipiDoc.find(data => data.value == type);
+      if (rtn) return rtn.name;
+      return type;
+    }
+  }
+
+  uploadDocument(fileInput) {
+    if (fileInput.target.files && fileInput.target.files[0]) {
+      this.dataService.uploadDocumentToRisorsa(fileInput.target.files[0], this.es.uuid).subscribe((doc) => {
+        this.dataService.downloadRisorsaDocumenti(this.es.uuid).subscribe((docs) => {
+          this.es.documenti = docs;
+        });
+      });
+    }
+  }
+
+  openDocument(doc) {
+    this.dataService.openDocument(doc);
+  }
+
+  deleteDocumento(doc) {
+    this.dataService.deleteDocument(doc.uuid).subscribe(response => {
+      this.dataService.downloadRisorsaDocumenti(this.es.uuid).subscribe((docs) => {
+        this.es.documenti = docs;
+      });
+    })
+  }
+
+  async showDeleteConfirmationAlert(doc) {
+    const alert = await this.alertController.create({
+      header: 'Cancella documento',
+      message: 'Sei sicuro di voler cancellare il documento?',
+      cssClass: 'my-custom-class',
+      buttons: [
+        {
+          text: 'Annulla',
+          role: 'cancel',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        },
+        {
+          text: 'Cancella',
+          cssClass: 'secondary',
+          handler: () => {
+            this.deleteDocumento(doc);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  isRemovable(doc) {
+    let removable = false;
+    if (this.removableDoc.indexOf(doc.tipo) > -1 && this.attivita.aa.stato != 'archiviata') {
+      removable = true;
+    }
+    return removable;
   }
 
 }

@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { Tab3Page } from './tab3.page';
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { Tab3PageRoutingModule } from './tab3-routing.module'
+import { DocumentUploadModalComponent } from './actions/documento-upload-modal/document-upload-modal.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,9 @@ import { Tab3PageRoutingModule } from './tab3-routing.module'
     RouterModule.forChild([{ path: '', component: Tab3Page }]),
     Tab3PageRoutingModule,
     NgCircleProgressModule.forRoot({})
+  ],
+  entryComponents: [
+    DocumentUploadModalComponent
   ],
   declarations: [Tab3PageRoutingModule.components]
 })
