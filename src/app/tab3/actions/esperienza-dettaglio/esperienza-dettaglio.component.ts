@@ -23,6 +23,7 @@ export class EsperienzaDettaglioComponent {
   tipologie;
   stati = [{ "name": "In attesa", "value": "in_attesa" }, { "name": "In corso", "value": "in_corso" }, { "name": "Giorni non compilati", "value": "revisione" }, { "name": "Archiviata", "value": "archiviata" }];
   tipiDoc = [{ "name": "Piano formativo", "value": "piano_formativo" }, { "name": "Convenzione", "value": "convenzione" }, { "name": "Valutazione studente", "value": "valutazione_studente" }, { "name": "Valutazione esperienza", "value": "valutazione_esperienza" }, { "name": "Altro", "value": "doc_generico" }, { "name": "Pregresso", "Altro": "pregresso" }];
+  removableDoc = ["valutazione_esperienza", "doc_generico"];
   individuale: boolean;
 
   constructor(
@@ -191,6 +192,48 @@ export class EsperienzaDettaglioComponent {
 
   openDocument(doc) {
     this.dataService.openDocument(doc);
+  }
+
+  deleteDocumento(doc) {
+    this.dataService.deleteDocument(doc.uuid).subscribe(response => {
+      this.dataService.downloadRisorsaDocumenti(this.es.uuid).subscribe((docs) => {
+        this.es.documenti = docs;
+      });
+    })
+  }
+
+  async showDeleteConfirmationAlert(doc) {
+    const alert = await this.alertController.create({
+      header: 'Cancella documento',
+      message: 'Sei sicuro di voler cancellare il documento?',
+      cssClass: 'my-custom-class',
+      buttons: [
+        {
+          text: 'Annulla',
+          role: 'cancel',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        },
+        {
+          text: 'Cancella',
+          cssClass: 'secondary',
+          handler: () => {
+            this.deleteDocumento(doc);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  isRemovable(doc) {
+    let removable = false;
+    if (this.removableDoc.indexOf(doc.tipo) > -1 && this.attivita.aa.stato != 'archiviata') {
+      removable = true;
+    }
+    return removable;
   }
 
 }
