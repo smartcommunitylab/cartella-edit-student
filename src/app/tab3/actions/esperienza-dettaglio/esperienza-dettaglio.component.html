@@ -84,8 +84,44 @@
             </ion-col>
         </ion-row>
         <br>
-        <ion-row class="heading-2 text-semibold">Documenti associati</ion-row>
-     
+        <ion-row class="heading-2 text-semibold">Documenti allegati:</ion-row>
+        <div class="item" *ngFor="let documento of es.documenti">
+            <ion-grid>
+                <ion-row>
+                    <ion-col class="float-right">
+                        <ion-icon *ngIf="isRemovable(documento)" name="trash" class="icon-delete float-right attributes-value"
+                            (click)="showDeleteConfirmationAlert(documento)"></ion-icon>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <span class="attributes">
+                            <span class="text-semibold">Nome file:&nbsp;&nbsp;&nbsp;</span>
+                            <a (click)="openDocument(documento)" target="_blank">
+                                {{documento?.nomeFile}}
+                            </a>
+                        </span>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <span class="attributes">
+                            <span class="text-semibold">Tipologia:&nbsp;&nbsp;&nbsp;</span>
+                            <span> {{ setDocType(documento.tipo) }}</span>
+                        </span>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <span class="attributes">
+                            <span class="text-semibold">Data caricamento:&nbsp;&nbsp;&nbsp;</span>
+                            <span>{{documento.dataUpload | date: 'dd/MM/yy' }}
+                            </span>
+                        </span>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </div>
         <div *ngIf="!es?.documenti || es?.documenti.length==0" class="attributes">
             Nessun documento attualmente caricato
         </div>
