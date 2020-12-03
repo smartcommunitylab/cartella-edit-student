@@ -186,26 +186,22 @@ export class EsperienzaDettaglioComponent {
     }
   }
 
-  // uploadDocument(fileInput) {
-  //   if (fileInput.target.files && fileInput.target.files[0]) {
-  //     this.dataService.uploadDocumentToRisorsa(fileInput.target.files[0], this.es.uuid).subscribe((doc) => {
-  //       this.dataService.downloadRisorsaDocumenti(this.es.uuid).subscribe((docs) => {
-  //         this.es.documenti = docs;
-  //       });
-  //     });
-  //   }
-  // }
-
   openDocument(doc) {
     this.dataService.openDocument(doc);
   }
 
   deleteDocumento(doc) {
+    this.utilsService.presentLoading();
     this.dataService.deleteDocument(doc.uuid).subscribe(response => {
+      this.utilsService.dismissLoading();
       this.dataService.downloadRisorsaDocumenti(this.es.uuid).subscribe((docs) => {
         this.es.documenti = docs;
       });
-    })
+    },
+      (err: any) => {
+        console.log(err);
+        this.utilsService.dismissLoading();
+      })
   }
 
   async showDeleteConfirmationAlert(doc) {
