@@ -162,12 +162,18 @@ export class EsperienzaDettaglioComponent {
     });
     modal.onWillDismiss().then(dataReturned => {
       console.log('Receive: ', dataReturned);
+      this.utilsService.presentLoading();
       this.dataService.uploadDocumentToRisorsa(dataReturned.data, this.es.uuid + '').subscribe((doc) => {
-        this.utilsService.presentSuccessLoading('Salvataggio effettuato con successo!');
+        this.utilsService.dismissLoading();
         this.dataService.getAttivitaDocumenti(this.es.uuid).subscribe(resp => {
+          this.utilsService.presentSuccessLoading('Salvataggio effettuato con successo!');
           this.es.documenti = resp;
         });
-      });
+      },
+        (err: any) => {
+          console.log(err);
+          this.utilsService.dismissLoading();
+        });
     });
     return await modal.present();
   }
@@ -180,15 +186,15 @@ export class EsperienzaDettaglioComponent {
     }
   }
 
-  uploadDocument(fileInput) {
-    if (fileInput.target.files && fileInput.target.files[0]) {
-      this.dataService.uploadDocumentToRisorsa(fileInput.target.files[0], this.es.uuid).subscribe((doc) => {
-        this.dataService.downloadRisorsaDocumenti(this.es.uuid).subscribe((docs) => {
-          this.es.documenti = docs;
-        });
-      });
-    }
-  }
+  // uploadDocument(fileInput) {
+  //   if (fileInput.target.files && fileInput.target.files[0]) {
+  //     this.dataService.uploadDocumentToRisorsa(fileInput.target.files[0], this.es.uuid).subscribe((doc) => {
+  //       this.dataService.downloadRisorsaDocumenti(this.es.uuid).subscribe((docs) => {
+  //         this.es.documenti = docs;
+  //       });
+  //     });
+  //   }
+  // }
 
   openDocument(doc) {
     this.dataService.openDocument(doc);
