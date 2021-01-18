@@ -2,7 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import { DataService } from '../core/services/data.service'
 import { Router, ActivatedRoute } from '@angular/router';
 import { IonInfiniteScroll } from '@ionic/angular';
-import { ToastController } from '@ionic/angular';
 import { UtilsService } from '../core/services/utils.service';
 
 @Component({
@@ -31,7 +30,6 @@ export class Tab3Page {
   constructor(
     private dataService: DataService,
     private utilsService: UtilsService,
-    private toastController: ToastController,
     private route: ActivatedRoute,
     private router: Router) { }
 

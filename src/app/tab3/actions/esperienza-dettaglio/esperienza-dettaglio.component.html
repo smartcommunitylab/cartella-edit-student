@@ -9,26 +9,29 @@
         <ion-row>
             <ion-col>
                 <span class="link-presenze v-center" (click)="openPresenze(aa, es)">
-                    <ion-icon class="icon-presenze" src="./assets/icon/it-calendar.svg"></ion-icon>&nbsp;Vedi presenze attività
+                    <ion-icon class="icon-presenze" src="./assets/icon/it-calendar.svg"></ion-icon>&nbsp;Vedi presenze
+                    attività
                 </span>
             </ion-col>
         </ion-row>
         <ion-row>
             <ion-col>
                 <span class="attributes text-semibold">Stato:&nbsp;<span
-                    [style.color]="getColor(aa)">{{ getStatoNome(aa.stato) }}</span></span>    
+                        [style.color]="getColor(aa)">{{ getStatoNome(aa.stato) }}</span></span>
             </ion-col>
         </ion-row>
         <br>
         <ion-row>
             <ion-col size="6">
-                <span class="attributes text-semibold ">Ore inserite:&nbsp;</span><span class="attributes-value">{{attivita.oreValidate + attivita.oreDaValidare}}</span>
+                <span class="attributes text-semibold ">Ore inserite:&nbsp;</span><span
+                    class="attributes-value">{{attivita.oreValidate + attivita.oreDaValidare}}</span>
             </ion-col>
             <ion-col size="5">
                 <span class="float-right">
-                    <span class="attributes text-semibold">Da validare:&nbsp;</span><span class="attributes-value-validare">{{attivita.oreDaValidare}}</span>
-                </span>                
-            </ion-col>        
+                    <span class="attributes text-semibold">Da validare:&nbsp;</span><span
+                        class="attributes-value-validare">{{attivita.oreDaValidare}}</span>
+                </span>
+            </ion-col>
         </ion-row>
         <br>
         <ion-row>
@@ -38,7 +41,8 @@
         </ion-row>
         <ion-row *ngIf="aa.oraInizio && aa.oraFine">
             <ion-col>
-                <span class="attributes text-semibold"><br>Orario:&nbsp;</span><span class="attributes-value">{{aa.oraInizio }} - {{aa.oraFine}}</span>
+                <span class="attributes text-semibold"><br>Orario:&nbsp;</span><span
+                    class="attributes-value">{{aa.oraInizio }} - {{aa.oraFine}}</span>
             </ion-col>
         </ion-row>
         <ion-row *ngIf="aa.nomeEnte">
@@ -54,62 +58,82 @@
             </ion-col>
         </ion-row>
         <ion-row *ngIf="aa.referenteEsterno">
-            <ion-col><span class="attributes text-semibold"><br>Tutor aziendale:&nbsp;</span><span class="attributes-value ion-text-capitalize">{{aa.referenteEsterno}}</span>
+            <ion-col><span class="attributes text-semibold"><br>Tutor aziendale:&nbsp;</span><span
+                    class="attributes-value ion-text-capitalize">{{aa.referenteEsterno}}</span>
             </ion-col>
-        </ion-row>        
+        </ion-row>
         <ion-row *ngIf="aa.referenteEsternoTelefono">
-            <ion-col><span class="attributes text-semibold"><br>Telefono tutor aziendale:&nbsp;</span><span class="attributes-value ion-text-capitalize">{{aa.referenteEsternoTelefono}}</span>
+            <ion-col><span class="attributes text-semibold"><br>Telefono tutor aziendale:&nbsp;</span><span
+                    class="attributes-value ion-text-capitalize">{{aa.referenteEsternoTelefono}}</span>
             </ion-col>
         </ion-row>
         <ion-row *ngIf="aa.referenteScuola">
-            <ion-col><span class="attributes text-semibold"><br>Tutor scolastico:&nbsp;</span><span class="attributes-value ion-text-capitalize">{{aa.referenteScuola}}</span>
+            <ion-col><span class="attributes text-semibold"><br>Tutor scolastico:&nbsp;</span><span
+                    class="attributes-value ion-text-capitalize">{{aa.referenteScuola}}</span>
             </ion-col>
         </ion-row>
         <ion-row *ngIf="aa.referenteScuolaTelefono">
-            <ion-col><span class="attributes text-semibold"><br>Telefono tutor scolastico:&nbsp;</span><span class="attributes-value ion-text-capitalize">{{aa.referenteScuolaTelefono}}</span>
+            <ion-col><span class="attributes text-semibold"><br>Telefono tutor scolastico:&nbsp;</span><span
+                    class="attributes-value ion-text-capitalize">{{aa.referenteScuolaTelefono}}</span>
             </ion-col>
         </ion-row>
- 
         <br>
         <ion-row *ngIf="hasCoordinate()">
             <ion-col>
-              <div id="map" class="map"></div>
+                <div id="map" class="map"></div>
             </ion-col>
         </ion-row>
         <br>
-        <ion-row class="heading-2 text-semibold">Documenti associati</ion-row>
-        <ion-grid>
-             <div>
-                    <ul class="files-list"
-                        *ngIf="es?.documenti && es.documenti">
-                        <li class="list-group-item" *ngFor="let documento of es.documenti">
-                            <ion-row>
-                                <ion-col size="10">
-                                    <a (click)="openDocument(documento)" target="_blank">
-                                        {{documento?.nomeFile}}
-                                    </a>
-                                </ion-col>
-                                <ion-col size="2">
-                                    <ion-icon class="icon-delete float-right attributes-value" (click)="deleteDocumento(documento)" name="close-circle-outline"></ion-icon>
-                                </ion-col>
-                            </ion-row>
-                        </li>
-                    </ul>
-                    <div *ngIf="!es?.documenti || es?.documenti.length==0" class="attributes">
-                        Nessun documento attualmente caricato
-                    </div>
-            </div>   
-        </ion-grid>
+        <ion-row class="heading-2 text-semibold">Documenti allegati:</ion-row>
+        <div class="item" *ngFor="let documento of es.documenti">
+            <ion-grid>
+                <ion-row>
+                    <ion-col class="float-right">
+                        <ion-icon *ngIf="isRemovable(documento)" name="trash"
+                            class="icon-delete float-right attributes-value"
+                            (click)="showDeleteConfirmationAlert(documento)"></ion-icon>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <span class="attributes">
+                            <span class="text-semibold">Nome file:&nbsp;&nbsp;&nbsp;</span>
+                            <a (click)="openDocument(documento)" target="_blank">
+                                {{documento?.nomeFile}}
+                            </a>
+                        </span>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <span class="attributes">
+                            <span class="text-semibold">Tipologia:&nbsp;&nbsp;&nbsp;</span>
+                            <span> {{ setDocType(documento.tipo) }}</span>
+                        </span>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <span class="attributes">
+                            <span class="text-semibold">Data caricamento:&nbsp;&nbsp;&nbsp;</span>
+                            <span>{{documento.dataUpload | date: 'dd/MM/yy' }}
+                            </span>
+                        </span>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </div>
+        <div *ngIf="!es?.documenti || es?.documenti.length==0" class="attributes">
+            Nessun documento attualmente caricato
+        </div>
         <br>
         <ion-row>
-            <div [class.disabled]="true" class="button-upload">
-                <span class="label-button">
-                    <label>Carica documento &nbsp;
+            <div *ngIf="attivita.aa.stato != 'archiviata'" class="button-upload">
+                <span class="label-button" (click)="openDocumentUpload()">
+                    <label>Carica documento &nbsp;&nbsp;&nbsp;
                         <ion-icon class="icon" src="./assets/icon/it-upload.svg"></ion-icon>
-                        <input disabled #fileInput type="file" hidden (click)="fileInput.value = null" value=""
-                            (change)="uploadDocument($event)">
                     </label>
-                </span>                
+                </span>
             </div>
         </ion-row>
     </ion-grid>

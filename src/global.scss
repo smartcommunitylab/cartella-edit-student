@@ -185,3 +185,16 @@ img.icon {
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
   }
+
+ .my-custom-modal-css .modal-wrapper {
+    // max-height: calc(100vh - 10vh);
+    max-height: calc(100vh - 50px);
+    position: absolute;
+    top: 0px;
+ }
+
+ .my-custom-class .alert-wrapper {
+     .secondary {
+        color:#eb445a;
+    }
+}
