@@ -13,6 +13,7 @@ export class UtilsService {
         this.isLoading = true;
         return await this.loadingController.create({
             'spinner': null,
+            'backdropDismiss': true,
             'cssClass': 'custom-loading',
             'message': '<div class="overlay-content"><ion-row class="v-center"><img class="animated-gif" src="assets/image/spinnerGlobal.gif">&nbsp;Caricamento in corso…</ion-row></div>',
         }).then(a => {
