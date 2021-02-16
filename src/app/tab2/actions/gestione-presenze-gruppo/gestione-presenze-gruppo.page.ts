@@ -23,9 +23,10 @@ export class GestionePresenzeGruppoPage {
   oggi;
   today;
   percentage;
-  ore = [ { text: 'Assente', value: '0' }, { text: '1', value: '1' }, { text: '2', value: '2' }, { text: '3', value: '3' }, { text: '4', value: '4' }, { text: '5', value: '5' }, { text: '6', value: '6' }, { text: '7', value: '7' }, { text: '8', value: '8' }, { text: '9', value: '9' }, { text: '10', value: '10' }, { text: '11', value: '11' }, { text: '12', value: '12' }]
+  ore = [ { text: 'Assente', value: '0' }, { text: '-', value: '-1' }, { text: '1', value: '1' }, { text: '2', value: '2' }, { text: '3', value: '3' }, { text: '4', value: '4' }, { text: '5', value: '5' }, { text: '6', value: '6' }, { text: '7', value: '7' }, { text: '8', value: '8' }, { text: '9', value: '9' }, { text: '10', value: '10' }, { text: '11', value: '11' }, { text: '12', value: '12' }]
   backEnabled: boolean;
   picker;
+  id;
   
   constructor(
     private dataService: DataService,
@@ -61,39 +62,8 @@ export class GestionePresenzeGruppoPage {
       if (params['data']) {
         let paramsPassed = JSON.parse(params['data']);
         this.backEnabled = paramsPassed.back;
-        let id = paramsPassed.id;
-        this.utilsService.presentLoading();
-        this.dataService.getAttivitaStudenteById(id).subscribe((attivita: any) => {
-          this.attivita = attivita;
-          this.percentage = (this.attivita.oreValidate / this.attivita.oreTotali).toFixed(1);
-          this.presenze = [];
-          this.events = [];
-          this.dataService.getStudenteAttivitaGiornalieraCalendario(this.attivita.es.id, this.attivita.es.studenteId, this.attivita.aa.dataInizio, this.attivita.aa.dataFine/*moment().startOf('day').format('YYYY-MM-DD')*/).subscribe((resp: any) => {
-            this.presenze = resp;
-            this.initDays();
-            for (let addedGiorno of this.presenze) {
-              this.events.push(addedGiorno);
-            }
-            setTimeout(() => {
-              this.utilsService.dismissLoading();
-              this.scrollToOggi();
-            }, 500);
-          },
-            (err: any) => {
-              console.log(err);
-              this.utilsService.dismissLoading();
-            },
-            () => {
-              console.log('get attivita giornaliera calendario by id');
-            });
-        },
-          (err: any) => {
-            console.log(err);
-            this.utilsService.dismissLoading();
-          },
-          () => {
-            console.log('get attivita studente id');
-          });
+        this.id = paramsPassed.id;
+        this.initPresenze();
       }     
     })
   }
@@ -291,7 +261,8 @@ export class GestionePresenzeGruppoPage {
     console.log('presenze gruppo array size ' + toBeSaved.length);
     this.dataService.saveAttivitaGiornaliereStudentiPresenze(toBeSaved, this.attivita.es.id).subscribe((studente: any) => {
       this.utilsService.lastSaved(this.attivita.es.id, pz.giornata);
-      this.refreshReport();
+      // this.refreshReport();
+      this.initPresenze();
     },
       (err: any) => {
         console.log(err);
@@ -313,17 +284,45 @@ export class GestionePresenzeGruppoPage {
     return toBeSaved;
   }
 
-  refreshReport() {
-    this.dataService.getAttivitaStudenteById(this.attivita.es.id).subscribe((attivita: any) => {
+  // refreshReport() {
+  //   this.dataService.getAttivitaStudenteById(this.attivita.es.id).subscribe((attivita: any) => {
+  //     this.attivita = attivita;
+  //     this.percentage = (this.attivita.oreValidate / this.attivita.oreTotali).toFixed(1);
+  //   },
+  //     (err: any) => {
+  //       console.log(err);
+  //     },
+  //     () => {
+  //       console.log('refesh report- get attivita studente id');
+  //     });
+  // }
+
+  initPresenze() {
+    this.utilsService.presentLoading();
+    this.dataService.getAttivitaStudenteById(this.id).subscribe((attivita: any) => {
       this.attivita = attivita;
       this.percentage = (this.attivita.oreValidate / this.attivita.oreTotali).toFixed(1);
-    },
-      (err: any) => {
-        console.log(err);
+      this.presenze = [];
+      this.events = [];
+      this.dataService.getStudenteAttivitaGiornalieraCalendario(this.attivita.es.id, this.attivita.es.studenteId, this.attivita.aa.dataInizio, this.attivita.aa.dataFine/*moment().startOf('day').format('YYYY-MM-DD')*/).subscribe((resp: any) => {
+        this.presenze = resp;
+        this.initDays();
+        for (let addedGiorno of this.presenze) {
+          this.events.push(addedGiorno);
+        }
+        setTimeout(() => {
+          this.utilsService.dismissLoading();
+          this.scrollToOggi();
+        }, 500);
       },
-      () => {
-        console.log('refesh report- get attivita studente id');
-      });
+        (err: any) => {
+          console.log(err);
+          this.utilsService.dismissLoading();
+        },
+        () => {
+          console.log('get attivita giornaliera calendario by id');
+        });
+    });
   }
 
 }
