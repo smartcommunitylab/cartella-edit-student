@@ -22,10 +22,9 @@ export class GestionePresenzeIndividualeInputPage {
   oggi;
   today;
   percentage;
-  ore = [ { text: 'Assente', value: '0' }, { text: '-', value: '-1' }, { text: '1', value: '1' }, { text: '2', value: '2' }, { text: '3', value: '3' }, { text: '4', value: '4' }, { text: '5', value: '5' }, { text: '6', value: '6' }, { text: '7', value: '7' }, { text: '8', value: '8' }, { text: '9', value: '9' }, { text: '10', value: '10' }, { text: '11', value: '11' }, { text: '12', value: '12' }]
+  ore = [ { text: 'Assente', value: '0' }, { text: '1', value: '1' }, { text: '2', value: '2' }, { text: '3', value: '3' }, { text: '4', value: '4' }, { text: '5', value: '5' }, { text: '6', value: '6' }, { text: '7', value: '7' }, { text: '8', value: '8' }, { text: '9', value: '9' }, { text: '10', value: '10' }, { text: '11', value: '11' }, { text: '12', value: '12' }]
   env = environment;
   picker;
-  data;
 
   constructor(
     private dataService: DataService,
@@ -40,18 +39,18 @@ export class GestionePresenzeIndividualeInputPage {
 
   ngAfterViewInit(): void {
     this.route.params.subscribe(params => {
-      this.data = params['data'];
+      let data = params['data'];
       let id = params['id'];      
       this.dataService.getAttivitaStudenteById(id).subscribe((attivita: any) => {
         this.attivita = attivita;
         this.percentage = (this.attivita.oreValidate / this.attivita.oreTotali).toFixed(1);
-        this.dataService.getStudenteAttivitaGiornalieraCalendario(this.attivita.es.id, this.attivita.es.studenteId, this.data, this.data).subscribe((resp: any) => {
+        this.dataService.getStudenteAttivitaGiornalieraCalendario(this.attivita.es.id, this.attivita.es.studenteId, data, data).subscribe((resp: any) => {
           this.giorno = resp[0];
           if (!this.giorno) {
             this.giorno = {
               "attivitaSvolta": "",
               "esperienzaSvoltaId": this.attivita.es.id,
-              "giornata": this.data,
+              "giornata": data,
               "istitutoId": this.attivita.aa.istitutoId,
               "oreSvolte": null,
               "verificata": false,
@@ -220,26 +219,7 @@ export class GestionePresenzeIndividualeInputPage {
     this.dataService.saveAttivitaGiornaliereStudentiPresenze(toBeSaved, this.giorno.esperienzaSvoltaId).subscribe((studente: any) => {
       this.utilsService.presentSuccessLoading('Salvataggio effettuato con successo!');
       this.utilsService.lastSaved(this.giorno.esperienzaSvoltaId, pz.giornata);
-      this.dataService.getStudenteAttivitaGiornalieraCalendario(this.attivita.es.id, this.attivita.es.studenteId, this.data, this.data).subscribe((resp: any) => {
-        this.giorno = resp[0];
-        if (!this.giorno) {
-          this.giorno = {
-            "attivitaSvolta": "",
-            "esperienzaSvoltaId": this.attivita.es.id,
-            "giornata": this.data,
-            "istitutoId": this.attivita.aa.istitutoId,
-            "oreSvolte": null,
-            "verificata": false,
-          }
-        }
-      },
-        (err: any) => {
-          this.utilsService.dismissLoading();
-          console.log(err);
-        },
-        () => {
-          console.log('get attivita giornaliera calendario by id');
-        });
+      // this.router.navigate(['.', { data: JSON.stringify(pz) }], { relativeTo: this.route });
     },
       (err: any) => {
         console.log(err);
