@@ -2,10 +2,11 @@
   <ion-grid class="container">
     <br>
     <div padding>
-      <label class="heading-1 text-bold">Benvenuto in EDIT</label>
+      <h1 class="heading-1 text-bold">Benvenuto in EDIT</h1>
     </div>
     <div padding>
-      <ion-icon class="icon" src="./assets/icon/landing-icon.svg"></ion-icon>
+      <!-- <div id="match">Title</div> aria-labelledby="match" -->
+      <ion-icon role="none" title="title" class="icon" src="./assets/icon/landing-icon.svg" ></ion-icon>
     </div>
     <br>
     <div padding>
@@ -20,5 +21,8 @@
       <label class="text2">Non hai un account attivo?</label><br><br>
       <label class="text3" (click)="signIn()">Crea nuovo account</label>
     </div> -->
+    <div *ngIf="errMsg" padding>
+      <label class="text error-font" [innerHTML]="errMsg"></label>
+    </div>
   </ion-grid>  
 </ion-content>
