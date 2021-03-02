@@ -36,6 +36,8 @@ export class Tab1Page {
 
   async showEmailInput() {
     const alert = await this.alertController.create({
+      // header: 'Modifica indirizzo email',
+      message: 'Modifica indirizzo email',
       inputs: [
         {
           name: 'email',
@@ -44,13 +46,6 @@ export class Tab1Page {
         }
       ],
       buttons: [
-        {
-          text: 'Annulla',
-          role: 'cancel',
-          handler: () => {
-            console.log('Confirm Cancel');
-          }
-        },
         {
           text: 'Salva',
           handler: (input: any) => {
@@ -74,6 +69,13 @@ export class Tab1Page {
             }
             console.log('Confirm Ok');
           }
+        },
+        {
+          text: 'Annulla',
+          role: 'cancel',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
         }
       ]
     });
@@ -83,6 +85,8 @@ export class Tab1Page {
 
   async showPhoneInput() {
     const alert = await this.alertController.create({
+      // header: 'Modifica indirizzo email',
+      message: 'Modifica numero di telefono',
       inputs: [
         {
           name: 'telefono',
@@ -93,13 +97,6 @@ export class Tab1Page {
         }
       ],
       buttons: [
-        {
-          text: 'Annulla',
-          role: 'cancel',
-          handler: () => {
-            console.log('Confirm Cancel');
-          }
-        },
         {
           text: 'Salva',
           handler: (input: any) => {
@@ -122,6 +119,13 @@ export class Tab1Page {
                 () => console.log('update profile telefono'));
             }
             console.log('Confirm Ok');
+          },
+        },
+        {
+          text: 'Annulla',
+          role: 'cancel',
+          handler: () => {
+            console.log('Confirm Cancel');
           }
         }
       ]
