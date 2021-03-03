@@ -14,7 +14,7 @@ export class Tab1Page {
   baseUrl;
   editEmail: boolean = false;
   editTelefono: boolean = false;
-  
+
   constructor(
     private auth: AuthService,
     public dataService: DataService,
@@ -27,7 +27,7 @@ export class Tab1Page {
   }
 
   signOut() {
-    this.auth.signOut().then(() => { window.location.href = this.baseUrl;});
+    this.auth.signOut().then(() => { window.location.href = this.baseUrl; });
   }
 
   credits() {
@@ -42,7 +42,7 @@ export class Tab1Page {
         {
           name: 'email',
           type: 'text',
-          value: this.dataService.email?this.dataService.email:'Email'
+          value: this.dataService.email ? this.dataService.email : 'Email'
         }
       ],
       buttons: [
@@ -55,7 +55,7 @@ export class Tab1Page {
               return false;
             } else {
               this.dataService.updateProfile({ email: input.email, phone: this.dataService.phone }).subscribe((studente: any) => {
-                this.dataService.setStudenteEmail(studente.email);               
+                this.dataService.setStudenteEmail(studente.email);
               },
                 (err: any) => {
                   console.log(err);
@@ -63,7 +63,7 @@ export class Tab1Page {
                     this.utlilsService.presentErrorLoading(err.error.ex);
                   } else {
                     this.utlilsService.presentErrorLoading('Errore');
-                  }        
+                  }
                 },
                 () => console.log('update profile email'));
             }
@@ -93,7 +93,7 @@ export class Tab1Page {
           type: 'number',
           min: 10,
           max: 13,
-          value: this.dataService.phone?this.dataService.phone:'Telefono'
+          value: this.dataService.phone ? this.dataService.phone : 'Telefono'
         }
       ],
       buttons: [
@@ -106,7 +106,7 @@ export class Tab1Page {
               return false;
             } else {
               this.dataService.updateProfile({ email: this.dataService.email, phone: input.telefono }).subscribe((studente: any) => {
-                this.dataService.setStudenteTelefono(studente.phone);               
+                this.dataService.setStudenteTelefono(studente.phone);
               },
                 (err: any) => {
                   console.log(err);
@@ -114,7 +114,7 @@ export class Tab1Page {
                     this.utlilsService.presentErrorLoading(err.error.ex);
                   } else {
                     this.utlilsService.presentErrorLoading('Errore');
-                  }        
+                  }
                 },
                 () => console.log('update profile telefono'));
             }
