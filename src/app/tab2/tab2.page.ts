@@ -54,12 +54,13 @@ export class Tab2Page {
             var age = moment().diff(moment(this.studente.birthdate, 'DD/MM/YYYY'), 'years');
             // logic for age above 16.
             if (age >= environment.minimumAge) {            
-              if (!profile.authorized) {
-                this.env.showTabs = false;
-                this.router.navigate(['../../terms', profile.authorized], { relativeTo: this.route });
-              } else {
-                this.env.showTabs = true;
-              } 
+              // if (!profile.authorized) {
+              //   this.env.showTabs = false;
+              //   this.router.navigate(['../../terms', profile.authorized], { relativeTo: this.route });
+              // } else {
+              //   this.env.showTabs = true;
+              // } 
+              this.env.showTabs = true;
               this.dataService.setStudenteNome(this.studente.name);
               this.dataService.setStudenteCognome(this.studente.surname);
               this.dataService.setIstitutoId(this.studente.istitutoId);
