@@ -214,6 +214,9 @@ img.icon {
 .noUnderLine {
   text-decoration: none!important;
 }
+.header-md:after {
+  background-image: none;
+}
 // .alert-radio-group::-webkit-scrollbar,
 // .alert-checkbox-group::-webkit-scrollbar {
 // width: 1em;
