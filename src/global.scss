@@ -195,8 +195,22 @@ img.icon {
 
  .my-custom-class .alert-wrapper {
     .secondary {
-        color:#eb445a;
+        color:#FAFDFF;
+        background: #F83E5A;
+        border-radius: 10px;
     }
+    .secondary:focus {
+      border: 2px solid black;
+     }
+    .primary {
+      color:#1E4C96;
+      border-radius: 10px;
+      border: 2px solid #0073E6;
+      background-color: #cce6ff;
+   }
+   .primary:focus {
+    border: 2px solid black;
+   }
     .camelcase {
       text-transform: none;
     }
@@ -206,7 +220,14 @@ img.icon {
       .alert-title {
         color: #0066CC!important;
       }
-    }    
+    }
+    .alert-button-group.sc-ion-alert-md {
+      justify-content: center;
+    }
+    .alert-radio-inner.sc-ion-alert-md {
+      background-color: #0066CC;
+    }   
+
 }
 
 // .alert-radio-group::-webkit-scrollbar, .alert-checkbox-group::-webkit-scrollbar {
@@ -237,4 +258,8 @@ img.icon {
 }
 .header-md:after {
   background-image: none;
+}
+.a:focus {
+  border: 2px solid black;
+  
 }

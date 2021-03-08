@@ -36,7 +36,7 @@ export class Tab1Page {
 
   async showEmailInput() {
     const alert = await this.alertController.create({
-      // header: 'Modifica indirizzo email',
+      cssClass: 'my-custom-class',
       message: 'Modifica indirizzo email',
       inputs: [
         {
@@ -48,6 +48,7 @@ export class Tab1Page {
       buttons: [
         {
           text: 'Salva',
+          cssClass: 'primary expanded camelcase',
           handler: (input: any) => {
             let validateObj = this.validateEmail(input);
             if (!validateObj.isValid) {
@@ -72,6 +73,7 @@ export class Tab1Page {
         },
         {
           text: 'Annulla',
+          cssClass: 'secondary camelcase',
           role: 'cancel',
           handler: () => {
             console.log('Confirm Cancel');
@@ -85,7 +87,7 @@ export class Tab1Page {
 
   async showPhoneInput() {
     const alert = await this.alertController.create({
-      // header: 'Modifica indirizzo email',
+      cssClass: 'my-custom-class',
       message: 'Modifica numero di telefono',
       inputs: [
         {
@@ -99,6 +101,7 @@ export class Tab1Page {
       buttons: [
         {
           text: 'Salva',
+          cssClass: 'primary camelcase',
           handler: (input: any) => {
             let validateObj = this.validateTelefono(input);
             if (!validateObj.isValid) {
@@ -123,6 +126,7 @@ export class Tab1Page {
         },
         {
           text: 'Annulla',
+          cssClass: 'secondary camelcase',
           role: 'cancel',
           handler: () => {
             console.log('Confirm Cancel');
