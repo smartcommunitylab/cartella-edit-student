@@ -1,28 +1,23 @@
-<ion-content fullscreen="true">
+ <ion-content padding>
   <ion-grid class="container">
     <br>
     <div padding>
       <h1 class="heading-1 text-bold">Scopri EDIT</h1>
     </div>
     <div padding>
-      <!-- <div id="match">Title</div> aria-labelledby="match" -->
-      <ion-icon role="none" title="titolo" class="icon" src="./assets/icon/landing-icon.svg" ></ion-icon>
+      <ion-icon role="none" title="titolo" class="icon" src="./assets/icon/landing-icon.svg"></ion-icon>
+    </div>
+    <div *ngIf="errMsg" class="error-div text-center" padding>
+      <span class="error-titolo">Errore</span><br />
+      <label class="text error-text font-13" [innerHTML]="errMsg"></label>
     </div>
     <br>
     <div padding>
-      <label class="text">EDIT - Studente è l’app ufficiale della Provincia Autonoma di Trento per accompagnarti nel tuo percorso di Alternanza Scuola-Lavoro</label>
+      <label class="text">EDIT - Studente è l’app ufficiale della Provincia Autonoma di Trento per accompagnarti nel tuo
+        percorso di Alternanza Scuola-Lavoro</label>
     </div>
     <br>
     <br>
-    <ion-button class="button text2" expand="full" fill="clear" (click)="signIn()">Login</ion-button>
-    <!-- <br> -->
-    <!-- <br> -->
-    <!-- <div padding>
-      <label class="text2">Non hai un account attivo?</label><br><br>
-      <label class="text3" (click)="signIn()">Crea nuovo account</label>
-    </div> -->
-    <div *ngIf="errMsg" padding>
-      <label class="text error-font" [innerHTML]="errMsg"></label>
-    </div>
-  </ion-grid>  
+    <ion-button *ngIf="!errMsg" class="button text2" expand="full" fill="clear" (click)="signIn()">Login</ion-button>
+  </ion-grid>
 </ion-content>

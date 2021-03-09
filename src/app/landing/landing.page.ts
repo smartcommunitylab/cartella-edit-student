@@ -25,7 +25,7 @@ export class LandingPage implements OnInit {
       if (params['errMsg']) {
         let errMsg = params['errMsg'].replace(/(^'|'$)/g, '');
         errMsg = errMsg.replace(/(^"|"$)/g, '');
-        this.errMsg = 'Attenzione: ' + errMsg;
+        this.errMsg = errMsg;
       } else {
         this.auth.authObservable.subscribe((action) => {
           this.action = action;
