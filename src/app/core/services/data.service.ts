@@ -121,7 +121,7 @@ export class DataService {
         map(res => {
           return res.body;
         }),
-        catchError(this.handleError)
+        // catchError(this.handleError)
       );
   }
 
@@ -427,15 +427,15 @@ export class DataService {
 
     console.error('server error:', errMsg);
 
-    if ((error.status == 401) || (error.status == 403)) {
-      const toast = await DataService.toastCtrl.create({
-        message: errMsg,
-        duration: 2000,
-        position: 'middle'
-      })
-      toast.present();
-      window.location.href = '../landing';
-    }
+    // if ((error.status == 401) || (error.status == 403)) {
+    //   const toast = await DataService.toastCtrl.create({
+    //     message: errMsg,
+    //     duration: 2000,
+    //     position: 'middle'
+    //   })
+    //   toast.present();
+    //   window.location.href = '../landing';
+    // }
 
     return Observable.throw(errMsg);
 
