@@ -1,7 +1,7 @@
 <ion-header class="header">
   <ion-row *ngIf="summary">
     <ion-col class="attributes-value" size="8">
-      <ion-row><span class="heading text-semibold">Le mie attività</span></ion-row>
+      <ion-row><h1 class="heading text-semibold">Le mie attività</h1></ion-row>
       <br>
       <ion-row><span>Ore totali validate:&nbsp;</span><span>{{summary.oreValidate}}</span></ion-row><br>
       <span *ngIf="summary.pianoId">
@@ -9,12 +9,12 @@
         <br>
       </span>
       <span *ngIf="summary.esperienzeInCorso > 0">
-        <ion-row><span>{{summary.esperienzeInCorso}}&nbsp;attività <span [style.color]="'#00CF86'">in
+        <ion-row><span>{{summary.esperienzeInCorso}}&nbsp;attività <span [style.color]="'#007A50'">in
               corso</span></span></ion-row>
         <br>
       </span>
       <span *ngIf="esperienzeNoncompleta > 0">
-        <ion-row><span>{{esperienzeNoncompleta}}&nbsp;attività <span [style.color]="'#F83E5A'">non
+        <ion-row><span>{{esperienzeNoncompleta}}&nbsp;attività <span [style.color]="'#D1344C'">non
               complete</span></span><br></ion-row>
         <br>
       </span>
@@ -51,38 +51,42 @@
     <ion-list>
       <div class="item" *ngFor="let esp of attivitaStudente">
         <ion-grid>
-          <ion-row (click)="openDetail(esp)">
-            <ion-col size="8"><span class="titolo ion-text-capitalize text-bold">{{esp.titolo}}</span></ion-col>
-            <ion-col size="4">
-              <span class="float-right stato">
-                <span class="text-semibold">Stato:&nbsp;</span>
-                <span [style.color]="getColor(esp)">{{ getStatoNome(esp) }}</span>
-              </span>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col size="8">
-              <span class="link-presenze v-center" (click)="openPresenze(esp)">
-                <ion-icon class="icon" src="./assets/icon/it-calendar.svg"></ion-icon>&nbsp;Vedi presenze attività
-              </span>
-            </ion-col>
-            <ion-col size="4" (click)="openDetail(esp)">
-            </ion-col>
-          </ion-row>
-          <ion-row (click)="openDetail(esp)">
-            <ion-col><span class="attributes text-semibold">Ore inserite:&nbsp;</span><span
-                class="attributes-value">{{esp.oreValidate + esp.oreDaValidare}}</span></ion-col>
-          </ion-row>
-          <ion-row (click)="openDetail(esp)">
-            <ion-col><span class="attributes text-semibold">Periodo:&nbsp;</span><span
-                class="attributes-value">{{esp.dataInizio | date: 'dd/MM/yyyy' }} -
-                {{esp.dataFine | date: 'dd/MM/yyyy' }}</span></ion-col>
-          </ion-row>
-          <ion-row *ngIf="esp.nomeEnte" (click)="openDetail(esp)">
-            <ion-col><span class="attributes text-semibold">Presso:&nbsp;</span><span
-                class="attributes-value ion-text-capitalize">{{esp.nomeEnte}}</span>
-            </ion-col>
-          </ion-row>
+          <a [routerLink]="['../detail', esp.esperienzaSvoltaId]" class="noUnderLine">
+            <ion-row (click)="openDetail(esp)">
+              <ion-col size="8"><span class="titolo ion-text-capitalize text-bold">{{esp.titolo}}</span></ion-col>
+              <ion-col size="4">
+                <span class="float-right stato">
+                  <span class="text-semibold">Stato:&nbsp;</span>
+                  <span [style.color]="getColor(esp)">{{ getStatoNome(esp) }}</span>
+                </span>
+              </ion-col>
+            </ion-row>
+          </a>
+          <a class="noUnderLine" href="javascript:void(0);" (click)="openPresenze(esp)">
+            <ion-row>
+              <ion-col size="8">
+                <span class="link-presenze v-center">
+                  <ion-icon class="icon" src="./assets/icon/it-calendar.svg"></ion-icon>&nbsp;Vedi presenze attività
+                </span>
+              </ion-col>
+              <ion-col size="4" (click)="openDetail(esp)">
+              </ion-col>
+            </ion-row>
+          </a> 
+            <ion-row (click)="openDetail(esp)">
+              <ion-col><span class="attributes text-semibold">Ore inserite:&nbsp;</span><span
+                  class="attributes-value">{{esp.oreValidate + esp.oreDaValidare}}</span></ion-col>
+            </ion-row>
+            <ion-row (click)="openDetail(esp)">
+              <ion-col><span class="attributes text-semibold">Periodo:&nbsp;</span><span class="attributes-value">{{esp.dataInizio
+                  | date: 'dd/MM/yyyy' }} -
+                  {{esp.dataFine | date: 'dd/MM/yyyy' }}</span></ion-col>
+            </ion-row>
+            <ion-row *ngIf="esp.nomeEnte" (click)="openDetail(esp)">
+              <ion-col><span class="attributes text-semibold">Presso:&nbsp;</span><span
+                  class="attributes-value ion-text-capitalize">{{esp.nomeEnte}}</span>
+              </ion-col>
+            </ion-row>
         </ion-grid>
       </div>
     </ion-list>
