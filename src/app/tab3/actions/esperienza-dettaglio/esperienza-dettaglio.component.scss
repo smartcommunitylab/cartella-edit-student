@@ -5,6 +5,7 @@
 .titolo {
     color: #0073E6;
     font-size: 20px;
+    margin: 0px;
 }
 .attributes {
     color: #5C6F82;
@@ -15,7 +16,7 @@
     font-size:  14px;
 }
 .attributes-value-validare {
-    color:orange;
+    color:#5C6F82;
     font-size:  14px;
 }
 .map {
@@ -41,6 +42,7 @@
 .label-button {
     position: relative;
     top: 20%;
+    color: white;
 }
 .icon {
     font-size: 18px;
