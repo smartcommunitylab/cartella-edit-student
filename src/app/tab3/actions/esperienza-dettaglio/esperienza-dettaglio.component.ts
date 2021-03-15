@@ -128,7 +128,7 @@ export class EsperienzaDettaglioComponent {
 
   getColor(esp) {
     if (esp.stato == "in_corso") {
-      return '#00CF86';
+      return '#007A50';
     } else if (esp.stato == "in_attesa") {
       return '#7FB2E5';
     } else if (esp.stato == 'revisione') {

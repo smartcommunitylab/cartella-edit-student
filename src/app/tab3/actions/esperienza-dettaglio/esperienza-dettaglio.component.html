@@ -16,8 +16,8 @@
         </ion-row>
         <ion-row>
             <ion-col>
-                <span class="attributes text-semibold">Stato:&nbsp;<span
-                        [style.color]="getColor(aa)">{{ getStatoNome(aa.stato) }}</span></span>
+                <span class="attributes text-semibold">Stato:&nbsp;<span [style.color]="getColor(aa)">{{
+                        getStatoNome(aa.stato) }}</span></span>
             </ion-col>
         </ion-row>
         <br>
@@ -89,17 +89,19 @@
             <ion-grid>
                 <ion-row>
                     <ion-col class="float-right">
-                        <a class="noUnderLine" href="javascript:void(0);" (click)="showDeleteConfirmationAlert(documento)">
+                        <a class="noUnderLine" href="javascript:void(0);"
+                            (click)="showDeleteConfirmationAlert(documento)">
                             <ion-icon *ngIf="isRemovable(documento)" name="trash"
-                            class="icon-delete float-right attributes-value"></ion-icon>
-                        </a>                        
+                                class="icon-delete float-right attributes-value"></ion-icon>
+                        </a>
                     </ion-col>
                 </ion-row>
                 <ion-row>
                     <ion-col>
                         <span class="attributes">
                             <span class="text-semibold">Nome file:&nbsp;&nbsp;&nbsp;</span>
-                            <a class="noUnderLine" href="javascript:void(0);" (click)="openDocument(documento)" target="_blank">
+                            <a class="noUnderLine" href="javascript:void(0);" (click)="openDocument(documento)"
+                                target="_blank">
                                 {{documento?.nomeFile}}
                             </a>
                         </span>
