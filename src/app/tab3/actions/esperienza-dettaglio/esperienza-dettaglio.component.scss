@@ -39,6 +39,21 @@
     height: 48px;
     text-align: center !important;
 }
+.button-delete {
+    // font-size: 16px;
+    background: #F83E5A;
+    border-color: #D1344C;
+    color: white;
+    font-weight: bold;
+    text-transform: none;
+    text-shadow: 0 0 black;
+    width: 128px;
+    height: 32px;
+    border-radius: 5px;
+}
+.delete-label-button {
+    color: white;
+}
 .label-button {
     position: relative;
     top: 20%;
@@ -50,6 +65,12 @@
     position: relative;
     top: 3px;
 }
+.icon-delete {
+    font-size: 25px;
+    color: white;
+    position: relative;
+    top: 3px;
+}
 .files-list {
     list-style: none;
     padding: 0em;
@@ -57,9 +78,6 @@
 }
 .list-group-item {
     color: #0073E6;   
-}
-.icon-delete {
-    font-size: 25px;
 }
 .link-presenze {
     color: #0066CC;
