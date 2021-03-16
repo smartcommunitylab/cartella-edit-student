@@ -87,15 +87,15 @@
         <ion-row class="heading-2 text-semibold">Documenti allegati:</ion-row>
         <div class="item" *ngFor="let documento of es.documenti">
             <ion-grid>
-                <ion-row>
-                    <ion-col class="float-right">
-                        <a class="noUnderLine" href="javascript:void(0);"
-                            (click)="showDeleteConfirmationAlert(documento)">
-                            <ion-icon *ngIf="isRemovable(documento)" name="trash"
-                                class="icon-delete float-right attributes-value"></ion-icon>
+                <!-- <ion-row>
+                    <ion-col size="11"></ion-col>
+                    <ion-col size="1" (click)="showDeleteConfirmationAlert(documento)">
+                        <a class="noUnderLine" href="javascript:void(0);">
+                            <ion-icon *ngIf="isRemovable(documento)" name="trash" class="icon-delete attributes-value">
+                            </ion-icon>
                         </a>
                     </ion-col>
-                </ion-row>
+                </ion-row> -->
                 <ion-row>
                     <ion-col>
                         <span class="attributes">
@@ -123,6 +123,15 @@
                             </span>
                         </span>
                     </ion-col>
+                </ion-row>
+                <ion-row>
+                    <div class="button-delete">
+                        <a class="delete-label-button noUnderLine" href="javascript:void(0);"
+                            (click)="showDeleteConfirmationAlert(documento)">
+                            <ion-icon class="icon-delete" src="./assets/icon/it-delete.svg"></ion-icon>
+                        </a>&nbsp;&nbsp;&nbsp;
+                        <label class="font-14">Elimina file</label>
+                    </div>
                 </ion-row>
             </ion-grid>
         </div>
