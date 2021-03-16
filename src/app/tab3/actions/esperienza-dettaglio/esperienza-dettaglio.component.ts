@@ -160,20 +160,24 @@ export class EsperienzaDettaglioComponent {
       component: DocumentUploadModalComponent,
       // cssClass: 'my-custom-modal-css'
     });
+    modal.lastElementChild.setAttribute('aria-label','documento upload modal');
+    modal.lastElementChild.setAttribute('role','none');
     modal.onWillDismiss().then(dataReturned => {
       console.log('Receive: ', dataReturned);
-      this.utilsService.presentLoading();
-      this.dataService.uploadDocumentToRisorsa(dataReturned.data, this.es.uuid + '').subscribe((doc) => {
-        this.utilsService.dismissLoading();
-        this.dataService.getAttivitaDocumenti(this.es.uuid).subscribe(resp => {
-          this.utilsService.presentSuccessLoading('Salvataggio effettuato con successo!');
-          this.es.documenti = resp;
-        });
-      },
-        (err: any) => {
-          console.log(err);
+      if (dataReturned.data) {
+        this.utilsService.presentLoading();
+        this.dataService.uploadDocumentToRisorsa(dataReturned.data, this.es.uuid + '').subscribe((doc) => {
           this.utilsService.dismissLoading();
-        });
+          this.dataService.getAttivitaDocumenti(this.es.uuid).subscribe(resp => {
+            this.utilsService.presentSuccessLoading('Salvataggio effettuato con successo!');
+            this.es.documenti = resp;
+          });
+        },
+          (err: any) => {
+            console.log(err);
+            this.utilsService.dismissLoading();
+          });
+      }
     });
     return await modal.present();
   }
