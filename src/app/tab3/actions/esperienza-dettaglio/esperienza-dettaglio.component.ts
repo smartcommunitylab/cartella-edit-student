@@ -160,8 +160,6 @@ export class EsperienzaDettaglioComponent {
       component: DocumentUploadModalComponent,
       // cssClass: 'my-custom-modal-css'
     });
-    modal.lastElementChild.setAttribute('aria-label','documento upload modal');
-    modal.lastElementChild.setAttribute('role','none');
     modal.onWillDismiss().then(dataReturned => {
       console.log('Receive: ', dataReturned);
       if (dataReturned.data) {
