@@ -41,12 +41,14 @@ export class GestionePresenzeIndividualePage {
       var lastSavedDay = this.utilsService.saveMap[this.attivita.es.id];
       var x = document.getElementById(lastSavedDay);  
       if (x) {
-        document.getElementById(lastSavedDay).scrollIntoView({ behavior: 'smooth', block: 'center' });
+        x.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        x.focus();
       }
     } else {
       var x = document.getElementById(this.oggi);  
       if (x) {
-        document.getElementById(this.oggi).scrollIntoView({ behavior: 'smooth', block: 'center' });
+        x.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        x.focus();
       }
     }
   }
@@ -131,7 +133,7 @@ export class GestionePresenzeIndividualePage {
 
   textColor(giorno) {
     if (giorno.verificata || giorno.validataEnte) {
-      return '#A2ADB8';
+      return '#5C6F82';
     }
     if (!this.isweekEnd(giorno)
       && !this.festivalService.isFestival(giorno)
@@ -139,7 +141,7 @@ export class GestionePresenzeIndividualePage {
       if (giorno.giornata == this.oggi && !giorno.verificata) {
         return '#0073E6';
       } else if (giorno.oreSvolte == null) {
-        return '#FF667D';
+        return '#D1344C';
       }
     }
     return '#5C6F82';
@@ -207,10 +209,14 @@ export class GestionePresenzeIndividualePage {
   }
 
   input(pz) {
-    if (!pz.verificata && !pz.validataEnte) {
-      // this.router.navigate(['modifica', { data: JSON.stringify(pz) }], { relativeTo: this.route });
-      this.router.navigate(['modifica', { data: pz.giornata, id: pz.esperienzaSvoltaId }], { relativeTo: this.route });
-    }
+    if (this.isInfuture(pz) || this.attivita.aa.stato=='archiviata') {
+      return false;
+    } else {
+      if (!pz.verificata && !pz.validataEnte) {
+        // this.router.navigate(['modifica', { data: JSON.stringify(pz) }], { relativeTo: this.route });
+        this.router.navigate(['modifica', { data: pz.giornata, id: pz.esperienzaSvoltaId }], { relativeTo: this.route });
+      }
+    }   
   }
 
   getColumnOptions() {
