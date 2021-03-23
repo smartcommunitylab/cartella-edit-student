@@ -179,57 +179,63 @@ export class GestionePresenzeIndividualeInputPage {
 
   async showPickerModalita(pz) {
     if (!pz.verificata && !pz.validataEnte) {
-      let options: PickerOptions = {
+      const alert = await this.alertController.create({
+        cssClass: 'my-custom-class',
+        header: 'Seleziona modalità',
+        inputs: [ 
+          { label: 'Presenza', value: 'presenza', type: 'radio', checked: true },
+          { label: 'Remoto', value: 'remoto', type: 'radio', checked: false },
+        ],
         buttons: [
           {
-            text: "Annulla",
-            role: 'cancel'
-          },
-          {
             text: 'Salva',
-            handler: (picked: any) => {
-              if (picked.Modalità.value == 'remoto') {
+            cssClass: 'primary camelcase',
+            handler: (selected) => {
+              if (selected == 'remoto') {
                 pz.smartWorking = true; 
               } else {
                 pz.smartWorking = false;
               }
               this.savePresenze(pz);
             }
+          },
+          {
+            text: 'Annulla',
+            role: 'cancel',
+            cssClass: 'secondary camelcase',
+            handler: () => {
+              console.log('Confirm Cancel');
+            }
           }
-        ],
-        columns: [{
-          name: 'Modalità',
-          options: this.getColumnOptionsModalita(),
-        }]
-      };
-
-      this.picker = await this.pickerController.create(options);
-      this.picker.present();
+        ]
+      });
+      await alert.present();
     }
   }
 
-  ionViewWillLeave() {
-    if (this.picker) {
-      this.picker.dismiss();
-    }
-  }
 
-  getColumnOptionsOre() {
-    let options = [];
-    this.ore.forEach(x => {
-      options.push({ text: x.text, value: x.value });
-    });
-    return options;
-  }
+  // ionViewWillLeave() {
+  //   if (this.picker) {
+  //     this.picker.dismiss();
+  //   }
+  // }
 
-  getColumnOptionsModalita() {
-    let options = [];
-    options.push(
-      { text: 'Presenza', value: 'presenza' },
-      { text: 'Remoto', value: 'remoto' }
-    );
-    return options;
-  }
+  // getColumnOptionsOre() {
+  //   let options = [];
+  //   this.ore.forEach(x => {
+  //     options.push({ text: x.label, value: x.value });
+  //   });
+  //   return options;
+  // }
+
+  // getColumnOptionsModalita() {
+  //   let options = [];
+  //   options.push(
+  //     { text: 'Presenza', value: 'presenza' },
+  //     { text: 'Remoto', value: 'remoto' }
+  //   );
+  //   return options;
+  // }
 
   savePresenze(pz) {
     let toBeSaved = this.prepareSaveArray(pz);
