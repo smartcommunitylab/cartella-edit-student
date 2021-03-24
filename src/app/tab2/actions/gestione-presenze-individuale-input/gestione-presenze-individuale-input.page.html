@@ -33,13 +33,13 @@
         </ion-row>
         <ion-row class="v-center">
             <span class="attributes-2">Ore inserite:</span>
-            <span (click)="showPickerOre(giorno)" [style.color]="textColor(giorno)" class="attributes-ore"
-                padding>{{ viewOre(giorno) }}</span>
+            <a aria-label="Ore inserite" (click)="showPickerOre(giorno)" [style.color]="textColor(giorno)" class="attributes-ore noUnderLine" href="javascript:void(0);"
+            padding>{{ viewOre(giorno) }}</a>
         </ion-row>
         <ion-row *ngIf="utilsService.isModalitaVisible(giorno)" class="v-center">
             <span class="attributes-2">Modalità:</span>
-            <span (click)="showPickerModalita(giorno)" [style.color]="textColor(giorno)" class="attributes-ore"
-                padding>{{ viewModalita(giorno) }}</span>
+            <a aria-label="Modalita" (click)="showPickerModalita(giorno)" [style.color]="textColor(giorno)" class="attributes-ore noUnderLine" href="javascript:void(0);"
+            padding>{{ viewModalita(giorno) }}</a>
         </ion-row>
         <br>
         <ion-row>
