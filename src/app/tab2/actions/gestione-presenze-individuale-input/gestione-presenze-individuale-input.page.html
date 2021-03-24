@@ -34,25 +34,24 @@
         <ion-row class="v-center">
             <span class="attributes-2">Ore inserite:</span>
             <a aria-label="Ore inserite" (click)="showPickerOre(giorno)" [style.color]="textColor(giorno)" class="attributes-ore noUnderLine" href="javascript:void(0);"
-            padding>{{ viewOre(giorno) }}</a>
+                padding>{{ viewOre(giorno) }}</a>
         </ion-row>
         <ion-row *ngIf="utilsService.isModalitaVisible(giorno)" class="v-center">
             <span class="attributes-2">Modalità:</span>
             <a aria-label="Modalita" (click)="showPickerModalita(giorno)" [style.color]="textColor(giorno)" class="attributes-ore noUnderLine" href="javascript:void(0);"
-            padding>{{ viewModalita(giorno) }}</a>
+                padding>{{ viewModalita(giorno) }}</a>
         </ion-row>
         <br>
         <ion-row>
             <span class="attributes-2">Diario di bordo</span>
         </ion-row>
         <ion-row>
-            <ion-textarea (ionInput)=checkLimit() (ionFocus)="onFocus()" (ionBlur)="onBlur()" [style.border]="border(giorno)" class="text-area"
-                [(ngModel)]="giorno.attivitaSvolta" name="note" autocomplete="on" autocorrect="on"></ion-textarea> <!--(keyup.enter)="savePresenze(giorno)"-->
-            
+            <textarea aria-label="Diario di bordo" (ionInput)=checkLimit() [style.border]="border(giorno)" class="text-area"
+                [(ngModel)]="giorno.attivitaSvolta" name="note" autocomplete="on" autocorrect="on"></textarea> <!--(keyup.enter)="savePresenze(giorno)" (ionFocus)="onFocus()" (ionBlur)="onBlur()"-->
         </ion-row>
         <br>
         <ion-row>
-            <ion-button expand="outline" class="button-salva text-bold ion-text-capitalize center-horizontally" [hidden]="env.showTabs" size="small" (mouseout)="savePresenze(giorno)">Salva</ion-button> <!--fill="outline"-->
+            <ion-button expand="outline" class="button-salva text-bold ion-text-capitalize center-horizontally" size="small" (click)="savePresenze(giorno)">Salva</ion-button> <!--fill="outline" [hidden]="env.showTabs"-->
         </ion-row>
     </div>
 </ion-content>
