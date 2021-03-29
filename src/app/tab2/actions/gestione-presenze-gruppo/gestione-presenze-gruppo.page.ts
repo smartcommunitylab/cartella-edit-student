@@ -226,34 +226,69 @@ export class GestionePresenzeGruppoPage {
   }
 
   async showPickerModalita(pz) {
-    if (!pz.verificata && !pz.validataEnte) {
-      let options: PickerOptions = {
-        buttons: [
-          {
-            text: "Annulla",
-            role: 'cancel'
-          },
-          {
-            text: 'Salva',
-            handler: (picked: any) => {
-              if (picked.Modalità.value == 'remoto') {
-                pz.smartWorking = true; 
-              } else {
-                pz.smartWorking = false;
+    if (this.isInfuture(pz) || pz.verificata || pz.validataEnte || this.attivita.aa.stato=='archiviata') {
+      return false;
+    } else {
+      if (!pz.verificata && !pz.validataEnte) {
+        const alert = await this.alertController.create({
+          cssClass: 'my-custom-class',
+          header: 'Seleziona modalità',
+          inputs: [ 
+            { label: 'Presenza', value: 'presenza', type: 'radio', checked: true },
+            { label: 'Remoto', value: 'remoto', type: 'radio', checked: false },
+          ],
+          buttons: [
+            {
+              text: 'Salva',
+              cssClass: 'primary camelcase',
+              handler: (selected) => {
+                if (selected == 'remoto') {
+                  pz.smartWorking = true; 
+                } else {
+                  pz.smartWorking = false;
+                }
+                this.savePresenze(pz);
               }
-              this.savePresenze(pz);
+            },
+            {
+              text: 'Annulla',
+              role: 'cancel',
+              cssClass: 'secondary camelcase',
+              handler: () => {
+                console.log('Confirm Cancel');
+              }
             }
-          }
-        ],
-        columns: [{
-          name: 'Modalità',
-          options: this.getColumnOptionsModalita(),
-        }]
-      };
-
-      this.picker = await this.pickerController.create(options);
-      this.picker.present();
-    }
+          ]
+        });
+        await alert.present();
+        // let options: PickerOptions = {
+        //   buttons: [
+        //     {
+        //       text: "Annulla",
+        //       role: 'cancel'
+        //     },
+        //     {
+        //       text: 'Salva',
+        //       handler: (picked: any) => {
+        //         if (picked.Modalità.value == 'remoto') {
+        //           pz.smartWorking = true; 
+        //         } else {
+        //           pz.smartWorking = false;
+        //         }
+        //         this.savePresenze(pz);
+        //       }
+        //     }
+        //   ],
+        //   columns: [{
+        //     name: 'Modalità',
+        //     options: this.getColumnOptionsModalita(),
+        //   }]
+        // };
+  
+        // this.picker = await this.pickerController.create(options);
+        // this.picker.present();
+      }
+    }    
   }
 
   ionViewWillLeave() {
