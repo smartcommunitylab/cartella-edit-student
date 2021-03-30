@@ -5,9 +5,9 @@
         </ion-buttons>
     </ion-toolbar> -->
     <ion-grid class="top-bar">
-        <ion-row class="v-center top-bar-titolo text-semibold" *ngIf="backEnabled">
+        <h1 class="v-center top-bar-titolo text-semibold" *ngIf="backEnabled">
             <ion-back-button defaultHref="home"></ion-back-button>{{attivita.aa.titolo}}
-        </ion-row>
+        </h1>
         <ion-row *ngIf="!backEnabled">
             <span class="top-bar-titolo text-semibold">{{attivita.aa.titolo}}</span>
         </ion-row>
@@ -67,11 +67,11 @@
                                     <span class="text-italic validato"><br>Validato da ente</span>
                                 </ion-row>
                             </ion-col>
-                            <ion-col size="3" (click)="showPickerOre(giorno)">
-                                <span [style.fontWeight]="fontWeight(giorno)" [style.color]="textColor(giorno)" class="attributes">{{ viewOre(giorno) }}</span>
+                            <ion-col size="3">
+                                <a href="javascript:void(0);" [style.fontWeight]="fontWeight(giorno)" [style.color]="textColor(giorno)" class="attributes noUnderLine" (click)="showPickerOre(giorno)">{{ viewOre(giorno) }}</a>
                             </ion-col>
-                            <ion-col size="4" *ngIf="utilsService.isModalitaVisible(giorno)" (click)="showPickerModalita(giorno)">
-                                <span [style.fontWeight]="fontWeight(giorno)" [style.color]="textColor(giorno)" class="attributes">{{ viewModalita(giorno) }}</span>
+                            <ion-col size="4" *ngIf="utilsService.isModalitaVisible(giorno)">
+                                <a href="javascript:void(0);" [style.fontWeight]="fontWeight(giorno)" [style.color]="textColor(giorno)" class="attributes noUnderLine" (click)="showPickerModalita(giorno)">{{ viewModalita(giorno) }}</a>
                             </ion-col>
                         </ion-row>
                     </ion-grid>
