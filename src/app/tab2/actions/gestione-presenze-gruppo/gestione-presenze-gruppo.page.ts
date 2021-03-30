@@ -3,8 +3,7 @@ import { DataService } from '../../../core/services/data.service'
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import 'moment/locale/it';
-import { PickerController, IonContent, AlertController } from '@ionic/angular';
-import { PickerOptions } from "@ionic/core";
+import { IonContent, AlertController } from '@ionic/angular';
 import { UtilsService } from 'src/app/core/services/utils.service';
 import { FestivalService } from 'src/app/core/services/festival.service';
 
@@ -13,7 +12,7 @@ import { FestivalService } from 'src/app/core/services/festival.service';
   templateUrl: 'gestione-presenze-gruppo.page.html',
   styleUrls: ['gestione-presenze-gruppo.page.scss']
 })
-  
+
 export class GestionePresenzeGruppoPage {
   @ViewChild(IonContent) content: IonContent;
 
@@ -26,8 +25,8 @@ export class GestionePresenzeGruppoPage {
   backEnabled: boolean;
   picker;
   id;
-  
-  ore: any[] = [ 
+
+  ore: any[] = [
     { label: '-', value: '-1', type: 'radio', checked: true },
     { label: 'Assente', value: '0', type: 'radio', checked: false },
     { label: '1', value: '1', type: 'radio', checked: false },
@@ -42,13 +41,12 @@ export class GestionePresenzeGruppoPage {
     { label: '10', value: '10', type: 'radio', checked: false },
     { label: '11', value: '11', type: 'radio', checked: false },
     { label: '12', value: '12', type: 'radio', checked: false }
-   ]
+  ]
 
   constructor(
     private dataService: DataService,
     private festivalService: FestivalService,
     private utilsService: UtilsService,
-    private pickerController: PickerController,
     private alertController: AlertController,
     private route: ActivatedRoute) {
     this.oggi = moment().format('YYYY-MM-DD');
@@ -58,18 +56,18 @@ export class GestionePresenzeGruppoPage {
   scrollToOggi() {
     if (this.utilsService.saveMap[this.attivita.es.id]) {
       var lastSavedDay = this.utilsService.saveMap[this.attivita.es.id];
-      var x = document.getElementById(lastSavedDay);  
+      var x = document.getElementById(lastSavedDay);
       if (x) {
         document.getElementById(lastSavedDay).scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     } else {
-      var x = document.getElementById(this.oggi);  
+      var x = document.getElementById(this.oggi);
       if (x) {
         document.getElementById(this.oggi).scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     }
   }
-  
+
   ionViewDidEnter() {
     this.scrollToOggi();
   }
@@ -81,7 +79,7 @@ export class GestionePresenzeGruppoPage {
         this.backEnabled = paramsPassed.back;
         this.id = paramsPassed.id;
         this.initPresenze();
-      }     
+      }
     })
   }
 
@@ -166,7 +164,7 @@ export class GestionePresenzeGruppoPage {
         return 'Remoto';
       } else {
         return 'Presenza';
-      }      
+      }
     } else {
       return '-'
     }
@@ -181,7 +179,7 @@ export class GestionePresenzeGruppoPage {
       && (giorno.oreSvolte == null)
     )
   }
-  
+
   isweekEnd(giorno) {
     var day = moment(giorno.giornata).day();
     return (day === 6) || (day === 0);
@@ -193,7 +191,7 @@ export class GestionePresenzeGruppoPage {
   }
 
   async showPickerOre(pz) {
-    if (this.isInfuture(pz) || pz.verificata || pz.validataEnte || this.attivita.aa.stato=='archiviata') {
+    if (this.isInfuture(pz) || pz.verificata || pz.validataEnte || this.attivita.aa.stato == 'archiviata') {
       return false;
     } else {
       if (!pz.verificata && !pz.validataEnte) {
@@ -226,14 +224,14 @@ export class GestionePresenzeGruppoPage {
   }
 
   async showPickerModalita(pz) {
-    if (this.isInfuture(pz) || pz.verificata || pz.validataEnte || this.attivita.aa.stato=='archiviata') {
+    if (this.isInfuture(pz) || pz.verificata || pz.validataEnte || this.attivita.aa.stato == 'archiviata') {
       return false;
     } else {
       if (!pz.verificata && !pz.validataEnte) {
         const alert = await this.alertController.create({
           cssClass: 'my-custom-class',
           header: 'Seleziona modalità',
-          inputs: [ 
+          inputs: [
             { label: 'Presenza', value: 'presenza', type: 'radio', checked: true },
             { label: 'Remoto', value: 'remoto', type: 'radio', checked: false },
           ],
@@ -243,7 +241,7 @@ export class GestionePresenzeGruppoPage {
               cssClass: 'primary camelcase',
               handler: (selected) => {
                 if (selected == 'remoto') {
-                  pz.smartWorking = true; 
+                  pz.smartWorking = true;
                 } else {
                   pz.smartWorking = false;
                 }
@@ -261,34 +259,8 @@ export class GestionePresenzeGruppoPage {
           ]
         });
         await alert.present();
-        // let options: PickerOptions = {
-        //   buttons: [
-        //     {
-        //       text: "Annulla",
-        //       role: 'cancel'
-        //     },
-        //     {
-        //       text: 'Salva',
-        //       handler: (picked: any) => {
-        //         if (picked.Modalità.value == 'remoto') {
-        //           pz.smartWorking = true; 
-        //         } else {
-        //           pz.smartWorking = false;
-        //         }
-        //         this.savePresenze(pz);
-        //       }
-        //     }
-        //   ],
-        //   columns: [{
-        //     name: 'Modalità',
-        //     options: this.getColumnOptionsModalita(),
-        //   }]
-        // };
-  
-        // this.picker = await this.pickerController.create(options);
-        // this.picker.present();
       }
-    }    
+    }
   }
 
   ionViewWillLeave() {
@@ -327,7 +299,7 @@ export class GestionePresenzeGruppoPage {
           this.utilsService.presentErrorLoading(err.error.ex);
         } else {
           this.utilsService.presentErrorLoading('Errore');
-        }        
+        }
       },
       () => console.log('save attivita giornaliera presenze'));
   }
