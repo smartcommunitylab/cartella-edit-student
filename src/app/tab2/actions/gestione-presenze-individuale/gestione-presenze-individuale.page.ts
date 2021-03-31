@@ -39,13 +39,13 @@ export class GestionePresenzeIndividualePage {
   scrollToOggi() {
     if (this.utilsService.saveMap[this.attivita.es.id]) {
       var lastSavedDay = this.utilsService.saveMap[this.attivita.es.id];
-      var x = document.getElementById(lastSavedDay);  
+      var x = document.getElementById(lastSavedDay);
       if (x) {
         x.scrollIntoView({ behavior: 'smooth', block: 'center' });
         x.focus();
       }
     } else {
-      var x = document.getElementById(this.oggi);  
+      var x = document.getElementById(this.oggi);
       if (x) {
         x.scrollIntoView({ behavior: 'smooth', block: 'center' });
         x.focus();
@@ -183,7 +183,7 @@ export class GestionePresenzeIndividualePage {
         return 'Remoto';
       } else {
         return 'Presenza';
-      }      
+      }
     } else {
       return '-'
     }
@@ -209,14 +209,14 @@ export class GestionePresenzeIndividualePage {
   }
 
   input(pz) {
-    if (this.isInfuture(pz) || this.attivita.aa.stato=='archiviata') {
+    if (this.isInfuture(pz) || this.attivita.aa.stato == 'archiviata') {
       return false;
     } else {
       if (!pz.verificata && !pz.validataEnte) {
         // this.router.navigate(['modifica', { data: JSON.stringify(pz) }], { relativeTo: this.route });
         this.router.navigate(['modifica', { data: pz.giornata, id: pz.esperienzaSvoltaId }], { relativeTo: this.route });
       }
-    }   
+    }
   }
 
   getColumnOptions() {
