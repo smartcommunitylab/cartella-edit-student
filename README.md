@@ -36,3 +36,6 @@ if ng is installed, one can run
 ng build --base-href /edit-studente/
 
 Note: --base-href is ignored by ionic build command
+
+## Importante:
+Accessibility in ionic framework: <https://justinnoel.dev/2019/07/06/accessibility-in-ionic-framework-apps>

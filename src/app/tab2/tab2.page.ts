@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { DataService } from '../core/services/data.service'
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { AuthActions } from 'ionic-appauth';
 import { NavController } from '@ionic/angular';
@@ -102,8 +102,16 @@ export class Tab2Page {
         }
       },
         (err: any) => {
-          console.log(err);
+          this.env.showTabs = false;
           this.utilsService.dismissLoading();
+          if ((err.status == 401) || (err.status == 403)) {
+            let navigationExtras: NavigationExtras = {
+              queryParams: {
+                errMsg: JSON.stringify(err.error.ex)
+              }
+            };
+            this.router.navigate(['landing'], navigationExtras);
+          }
         })
     });
   }

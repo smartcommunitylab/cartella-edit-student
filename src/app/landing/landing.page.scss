@@ -1,7 +1,7 @@
 ion-content {
     --background: #0073E6;
     .container {
-        color: white;
+        color: #FFFFFF;
         text-align: center;
        .heading-1 {
             font-size: 30px;
@@ -14,7 +14,7 @@ ion-content {
             height: 90px;
         }
         .button {
-            background-color: white;
+            background-color: #FFFFFF;
             color: #0073E6;
             font-weight: bold;
             text-transform: none;
@@ -26,10 +26,20 @@ ion-content {
             font-size: large;
             text-decoration: underline;
         }
-    
+        .error-div {
+            border: 2px solid #D1344C;
+            background: #FFFFFF;
+        }
+        .error-titolo {
+            // font: normal 20px/42px Titillium Web;
+            letter-spacing: 0;
+            color: #D1344C;
+            opacity: 1;
+            font-size: 20px!important;
+        }
+        .error-text {
+            color: #D1344C;
+        }
     }
-    
-    
-
 }
 

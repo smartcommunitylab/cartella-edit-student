@@ -1,25 +1,26 @@
 .titolo {
     color: #0073E6;
     font-size: 20px;
+    margin: 0!important
 }
 .item {
-    border: 1px solid #A2ADB8;
+    border: 1px dashed #A2ADB8;
     padding-left: 10px;
     padding-bottom: 5px;
 }
 .card-title {
     font-size: 20px;
-    color: #7FB2E5;
+    color: #0066CC;
 }
 .card-text {
     font-size: 14px;
-    color: #A2ADB8
+    color: #5C6F82
 }
 .active {
-    border: 1px solid #0066CC;
-    background-color: #F0F6FC;
+    border: 2px solid #606E81;
+    background-color: #FFFFFF;
     .card-title{
-        color: #0066CC;
+        color: 0073E6;
     }
 }
 .file-title {
@@ -41,7 +42,7 @@
 }
 .label-button {
     position: relative;
-    top: 10%;
+    // top: 10%;
 }
 .icon {
     font-size: 20px;
@@ -56,15 +57,15 @@
     font-size:  14px;
 }
 .button-salva {
-    color: #0073E6;
+    color: #1E4C96;
     --background: #CCE6FF;
-    --border-color: #0073E6;
+    --border-color: #1E4C96;
     --border-radius: 10px;
 }
 .button-annulla {
-    color:#FFFFFF;
-    --background: #FF667D;
-    --border-color:  #FF667D;
+    color:#FAFDFF;
+    --background: #F83E5A;
+    --border-color:  #F83E5A;
     --border-radius: 10px;
-    --background-hover: #FF667D; 
+    --background-hover: #F83E5A; 
 }

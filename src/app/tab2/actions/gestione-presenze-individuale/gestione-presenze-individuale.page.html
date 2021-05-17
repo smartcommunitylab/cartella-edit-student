@@ -5,9 +5,9 @@
         </ion-buttons>
     </ion-toolbar> -->
     <ion-grid class="top-bar">
-        <ion-row class="v-center top-bar-titolo text-semibold" *ngIf="backEnabled">
+        <h1 class="v-center top-bar-titolo text-semibold" *ngIf="backEnabled">
             <ion-back-button defaultHref="home"></ion-back-button>{{attivita.aa.titolo}}
-        </ion-row>
+        </h1>
         <ion-row *ngIf="!backEnabled">
             <span class="top-bar-titolo text-semibold">{{attivita.aa.titolo}}</span>
         </ion-row>
@@ -23,8 +23,9 @@
             </ion-col>
             <ion-col size="6">
                 <span class="float-right">
-                    <span class="top-bar-attributes text-semibold">Da validare:&nbsp;</span><span class="attributes-value-validare">{{attivita.oreDaValidare}}</span>
-                </span>                
+                    <span class="top-bar-attributes text-semibold">Da validare:&nbsp;</span><span
+                        class="attributes-value-validare">{{attivita.oreDaValidare}}</span>
+                </span>
             </ion-col>
         </ion-row>
         <br>
@@ -44,63 +45,78 @@
 </ion-header>
 <ion-content *ngIf="attivita && presenze">
     <ion-list class="item-container">
-        <ion-card id="{{giorno.giornata}}" [style.border]="border(giorno)" [disabled]="isInfuture(giorno) || attivita.aa.stato=='archiviata'" class="item"
-            *ngFor="let giorno of presenze" (click)="input(giorno)">
-            <ion-card-header>
-                <ion-row>
-                    <ion-col>
-                        <span [style.color]="textColor(giorno)"
-                            class="attributes-1 text-bold ion-text-lowercase">{{ giorno.giornata | date: 'dd MMMM yyyy' }}
-                            <span [style.color]="textColor(giorno)" class="attributes-1 text-bold ion-text-capitalize"> -
-                                {{ giorno.giornata | date: 'EEEE' }}</span>
-                        </span>
-                    </ion-col>                    
-                </ion-row>
-                <ion-row *ngIf="giorno.verificata">
-                    <ion-col>
-                        <span  class="text-italic validato">Validato da scuola</span>
-                    </ion-col>   
-                </ion-row>
-                <ion-row *ngIf="!giorno.verificata && giorno.validataEnte">
-                    <ion-col>
-                        <span class="text-italic validato">Validato da ente</span>
-                    </ion-col>                    
-                </ion-row>
-                <br>
-                <ion-row *ngIf="isError(giorno)">
-                    <ion-col>
-                        <span class="error">Attenzione: giornata non compilata</span>
-                    </ion-col>
+        <a id="{{giorno.giornata}}" class="noUnderLine" href="javascript:void(0);" (click)="input(giorno)" *ngFor="let giorno of presenze">
+            <ion-card [style.border]="border(giorno)"
+                [disabled]="isInfuture(giorno) || attivita.aa.stato=='archiviata'" class="item" autofocus="true">
+                <ion-card-header>
+                    <ion-row>
+                        <ion-col>
+                            <span [style.color]="textColor(giorno)" class="attributes-1 text-bold ion-text-lowercase">{{
+                                giorno.giornata | date: 'dd MMMM yyyy' }}
+                                <span [style.color]="textColor(giorno)"
+                                    class="attributes-1 text-bold ion-text-capitalize">
+                                    -
+                                    {{ giorno.giornata | date: 'EEEE' }}</span>
+                            </span>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row *ngIf="giorno.verificata">
+                        <ion-col>
+                            <span class="text-italic validato">Validato da scuola</span>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row *ngIf="!giorno.verificata && giorno.validataEnte">
+                        <ion-col>
+                            <span class="text-italic validato">Validato da ente</span>
+                        </ion-col>
+                    </ion-row>
                     <br>
-                    <br>
-                </ion-row>
-                <ion-row *ngIf="utilsService.isModalitaVisible(giorno)">
-                    <ion-col size="6">
-                        <span [style.color]="validatoTextColor(giorno)" class="attributes-2 text-semibold">Ore inserite:&nbsp;</span><span
-                        [style.color]="validatoTextColor(giorno)" class="attributes-2">{{ viewOre(giorno) }}</span>
-                    </ion-col>
-                    <ion-col size="6">
-                        <span [style.color]="validatoTextColor(giorno)" class="attributes-2 text-semibold">Modalità:&nbsp;</span><span
-                        [style.color]="validatoTextColor(giorno)" class="attributes-2">{{ viewModalita(giorno) }}</span>
-                    </ion-col>                    
-                </ion-row>
-                <ion-row *ngIf="!utilsService.isModalitaVisible(giorno)">
-                    <ion-col>
-                        <span [style.color]="validatoTextColor(giorno)" class="attributes-2 text-semibold">Ore inserite:&nbsp;</span><span
-                        [style.color]="validatoTextColor(giorno)" class="attributes-2">{{ viewOre(giorno) }}</span>
-                    </ion-col>
-                </ion-row>
-            </ion-card-header>
-            <ion-card-content>
-                <ion-row>
-                    <ion-col>
-                        <p class="para" *ngIf="giorno.verificata || giorno.validataEnte">{{giorno.attivitaSvolta}}</p>
-                        <ion-textarea class="text-area" sytle="placeholder-font-style:italic"
-                            *ngIf="!giorno.verificata && !giorno.validataEnte" [(ngModel)]="giorno.attivitaSvolta"
-                            placeholder="inserisci diario di bordo."></ion-textarea>
-                    </ion-col>                    
-                </ion-row>
-            </ion-card-content>
-        </ion-card>
+                    <ion-row *ngIf="isError(giorno)">
+                        <ion-col>
+                            <span class="error">Attenzione: giornata non compilata</span>
+                        </ion-col>
+                        <br>
+                        <br>
+                    </ion-row>
+                    <ion-row *ngIf="utilsService.isModalitaVisible(giorno)">
+                        <ion-col size="6">
+                            <span [style.color]="validatoTextColor(giorno)" class="attributes-2 text-semibold">Ore
+                                inserite:&nbsp;</span><span [style.color]="validatoTextColor(giorno)"
+                                class="attributes-2">{{ viewOre(giorno) }}</span>
+                        </ion-col>
+                        <ion-col size="6">
+                            <span [style.color]="validatoTextColor(giorno)"
+                                class="attributes-2 text-semibold">Modalità:&nbsp;</span><span
+                                [style.color]="validatoTextColor(giorno)" class="attributes-2">{{ viewModalita(giorno)
+                                }}</span>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row *ngIf="!utilsService.isModalitaVisible(giorno)">
+                        <ion-col>
+                            <span [style.color]="validatoTextColor(giorno)" class="attributes-2 text-semibold">Ore
+                                inserite:&nbsp;</span><span [style.color]="validatoTextColor(giorno)"
+                                class="attributes-2">{{ viewOre(giorno) }}</span>
+                        </ion-col>
+                    </ion-row>
+                </ion-card-header>
+                <ion-card-content>
+                    <ion-row *ngIf="giorno.verificata || giorno.validataEnte">
+                        <ion-col>
+                            <p class="para">{{giorno.attivitaSvolta}}</p>
+                            <!-- <ion-textarea class="text-area" sytle="placeholder-font-style:italic"
+                                *ngIf="!giorno.verificata && !giorno.validataEnte" [(ngModel)]="giorno.attivitaSvolta"
+                                placeholder="inserisci diario di bordo."></ion-textarea> -->
+                        </ion-col>
+                    </ion-row>
+                    <ion-row *ngIf="!giorno.verificata && !giorno.validataEnte">
+                        <ion-col size="12">
+                            <div class="text-area">
+                                <span class="text-italic">&nbsp;inserisci diario di bordo.</span>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                </ion-card-content>
+            </ion-card>
+        </a>
     </ion-list>
 </ion-content>

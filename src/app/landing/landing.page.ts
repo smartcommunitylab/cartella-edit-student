@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { IAuthAction, AuthActions } from 'ionic-appauth';
 import { NavController } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-landing',
@@ -10,19 +11,31 @@ import { NavController } from '@ionic/angular';
 })
 export class LandingPage implements OnInit {
   action: IAuthAction;
+  errMsg;
 
   constructor(
     private auth: AuthService,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
-    this.auth.authObservable.subscribe((action) => {
-      this.action = action;
-      if (action.action === AuthActions.SignInSuccess) {
-        this.navCtrl.navigateRoot('home');
+
+    this.route.queryParams.subscribe(params => {
+      if (params['errMsg']) {
+        let errMsg = params['errMsg'].replace(/(^'|'$)/g, '');
+        errMsg = errMsg.replace(/(^"|"$)/g, '');
+        this.errMsg = errMsg;
+      } else {
+        this.auth.authObservable.subscribe((action) => {
+          this.action = action;
+          if (action.action === AuthActions.SignInSuccess) {
+            this.navCtrl.navigateRoot('home');
+          }
+        });
       }
     });
+
   }
 
   signIn() {

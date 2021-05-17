@@ -2,10 +2,10 @@
   <ion-grid *ngIf="aa && env.showTabs" class="container">
     <br>
     <div class="ion-padding">
-      <ion-icon class="icon" src="./assets/icon/landing-icon.svg"></ion-icon>
+      <ion-icon role="none" title="titolo" class="icon" src="./assets/icon/landing-icon.svg"></ion-icon>
     </div>
     <div class="ion-padding">
-      <label class="heading-1">Ciao {{dataService.studenteNome }} {{ dataService.studenteCognome}}</label>
+      <h1 class="heading-1">Ciao {{dataService.studenteNome }} {{ dataService.studenteCognome}}</h1>
     </div>
     <br>
     <div>
@@ -23,7 +23,7 @@
       <br>
       <div class="item-container">
         <div class="item" *ngFor="let esp of aa" (click)="openPresenze(esp)">
-          <span class="titolo text-bold">{{esp.titolo}}</span>
+          <a class="titolo text-bold noUnderLine" href="javascript:void(0);" (click)="openPresenze(esp)">{{esp.titolo}}</a>
           <span *ngIf="esp.nomeEnte" class="attributes text-bold">
             <br><br>Presso:&nbsp;</span>
           <span class="attributes-value ion-text-capitalize">{{esp.nomeEnte}}</span>

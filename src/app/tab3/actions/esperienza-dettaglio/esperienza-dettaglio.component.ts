@@ -128,7 +128,7 @@ export class EsperienzaDettaglioComponent {
 
   getColor(esp) {
     if (esp.stato == "in_corso") {
-      return '#00CF86';
+      return '#007A50';
     } else if (esp.stato == "in_attesa") {
       return '#7FB2E5';
     } else if (esp.stato == 'revisione') {
@@ -160,20 +160,24 @@ export class EsperienzaDettaglioComponent {
       component: DocumentUploadModalComponent,
       // cssClass: 'my-custom-modal-css'
     });
+    modal.lastElementChild.setAttribute('aria-label', 'documento upload modal');
+    modal.lastElementChild.setAttribute('role', 'none');
     modal.onWillDismiss().then(dataReturned => {
       console.log('Receive: ', dataReturned);
-      this.utilsService.presentLoading();
-      this.dataService.uploadDocumentToRisorsa(dataReturned.data, this.es.uuid + '').subscribe((doc) => {
-        this.utilsService.dismissLoading();
-        this.dataService.getAttivitaDocumenti(this.es.uuid).subscribe(resp => {
-          this.utilsService.presentSuccessLoading('Salvataggio effettuato con successo!');
-          this.es.documenti = resp;
-        });
-      },
-        (err: any) => {
-          console.log(err);
+      if (dataReturned.data) {
+        this.utilsService.presentLoading();
+        this.dataService.uploadDocumentToRisorsa(dataReturned.data, this.es.uuid + '').subscribe((doc) => {
           this.utilsService.dismissLoading();
-        });
+          this.dataService.getAttivitaDocumenti(this.es.uuid).subscribe(resp => {
+            this.utilsService.presentSuccessLoading('Salvataggio effettuato con successo!');
+            this.es.documenti = resp;
+          });
+        },
+          (err: any) => {
+            console.log(err);
+            this.utilsService.dismissLoading();
+          });
+      }
     });
     return await modal.present();
   }

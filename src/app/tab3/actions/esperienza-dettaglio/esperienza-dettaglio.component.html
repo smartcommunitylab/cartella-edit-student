@@ -1,23 +1,23 @@
 <ion-header *ngIf="aa && es">
-    <ion-row class="v-center titolo text-semibold">
+    <h1 class="v-center titolo text-semibold">
         <ion-back-button defaultHref="home"></ion-back-button>{{aa.titolo}}
-    </ion-row>
+    </h1>
 </ion-header>
 <br>
 <ion-content>
     <ion-grid *ngIf="aa && es">
         <ion-row>
             <ion-col>
-                <span class="link-presenze v-center" (click)="openPresenze(aa, es)">
+                <a class="link-presenze v-center noUnderLine" href="javascript:void(0);" (click)="openPresenze(aa, es)">
                     <ion-icon class="icon-presenze" src="./assets/icon/it-calendar.svg"></ion-icon>&nbsp;Vedi presenze
                     attività
-                </span>
+                </a>
             </ion-col>
         </ion-row>
         <ion-row>
             <ion-col>
-                <span class="attributes text-semibold">Stato:&nbsp;<span
-                        [style.color]="getColor(aa)">{{ getStatoNome(aa.stato) }}</span></span>
+                <span class="attributes text-semibold">Stato:&nbsp;<span [style.color]="getColor(aa)">{{
+                        getStatoNome(aa.stato) }}</span></span>
             </ion-col>
         </ion-row>
         <br>
@@ -88,17 +88,11 @@
         <div class="item" *ngFor="let documento of es.documenti">
             <ion-grid>
                 <ion-row>
-                    <ion-col class="float-right">
-                        <ion-icon *ngIf="isRemovable(documento)" name="trash"
-                            class="icon-delete float-right attributes-value"
-                            (click)="showDeleteConfirmationAlert(documento)"></ion-icon>
-                    </ion-col>
-                </ion-row>
-                <ion-row>
                     <ion-col>
                         <span class="attributes">
                             <span class="text-semibold">Nome file:&nbsp;&nbsp;&nbsp;</span>
-                            <a (click)="openDocument(documento)" target="_blank">
+                            <a class="noUnderLine" href="javascript:void(0);" (click)="openDocument(documento)"
+                                target="_blank">
                                 {{documento?.nomeFile}}
                             </a>
                         </span>
@@ -121,6 +115,16 @@
                         </span>
                     </ion-col>
                 </ion-row>
+                <ion-row>
+                    <div class="button-delete">
+                        <a class="delete-label-button noUnderLine" href="javascript:void(0);"
+                            (click)="showDeleteConfirmationAlert(documento)">
+                            <ion-icon class="icon-delete" src="./assets/icon/it-delete.svg"></ion-icon>
+                            &nbsp;&nbsp;&nbsp;
+                            <label class="font-14">Elimina file</label>
+                        </a>
+                    </div>
+                </ion-row>
             </ion-grid>
         </div>
         <div *ngIf="!es?.documenti || es?.documenti.length==0" class="attributes">
@@ -129,11 +133,11 @@
         <br>
         <ion-row>
             <div *ngIf="attivita.aa.stato != 'archiviata'" class="button-upload">
-                <span class="label-button" (click)="openDocumentUpload()">
+                <a class="label-button noUnderLine" href="javascript:void(0);" (click)="openDocumentUpload()">
                     <label>Carica documento &nbsp;&nbsp;&nbsp;
                         <ion-icon class="icon" src="./assets/icon/it-upload.svg"></ion-icon>
                     </label>
-                </span>
+                </a>
             </div>
         </ion-row>
     </ion-grid>

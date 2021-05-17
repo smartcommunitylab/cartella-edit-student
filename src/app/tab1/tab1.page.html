@@ -1,51 +1,80 @@
-  <ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true">
+  <br>
+  <br>
+  <ion-grid class="container">
+    <ion-row>
+      <ion-col>
+        <span>
+          <ion-row>
+            <h1 class="font-24 text-bold ion-text-capitalize">{{dataService.studenteNome}}
+              {{dataService.studenteCognome}}</h1>
+          </ion-row>
+          <ion-row><span class="font-24 text-bold ion-text-capitalize">{{dataService.classe}}</span></ion-row>
+        </span>
+      </ion-col>
+    </ion-row>
+    <br>
+    <ion-row>
+      <ion-col>
+        <span>
+          <ion-row><span class="font-14 ion-text-capitalize">{{dataService.istituto}}</span></ion-row>
+        </span>
+      </ion-col>
+    </ion-row>
+    <br>
+    <ion-row *ngIf="dataService.phone">
+      <ion-col>
+        <span class="font-18">{{dataService.phone}}</span>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <span class="font-13">
+        <a class="noUnderLine v-center blue" href="javascript:void(0);" (click)="showPhoneInput()">
+          <ion-icon role="none" title="titolo" class="icon-edit" src="./assets/icon/it-pencil.svg"></ion-icon>
+          &nbsp;&nbsp;
+          Modifica numero di telefono
+        </a>
+      </span>
+    </ion-row>
+    <br>
+    <ion-row *ngIf="dataService.email">
+      <ion-col>
+        <span class="font-18">{{dataService.email}}</span>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <span class="font-13">
+        <a class="noUnderLine v-center blue" href="javascript:void(0);" (click)="showEmailInput()">
+          <ion-icon role="none" title="titolo" class="icon-edit" src="./assets/icon/it-pencil.svg"></ion-icon>
+          &nbsp;&nbsp;
+          Modifica indirizzo email
+        </a>
+      </span>
+    </ion-row>
     <br>
     <br>
-    <ion-grid class="container">
-      <ion-row class="v-center">
-        <ion-col size="5">
-          <ion-icon class="icon" name="md-contact"></ion-icon>
-        </ion-col>
-        <ion-col size="7">
-          <span class="float-right">
-            <ion-row><span class="titolo text-bold ion-text-capitalize">{{dataService.studenteNome}} {{dataService.studenteCognome}}</span></ion-row>
-            <ion-row><span class="titolo text-bold ion-text-capitalize">{{dataService.classe}}</span></ion-row>
-            <ion-row><span class="istituto ion-text-capitalize">{{dataService.istituto}}</span></ion-row>
-            <ion-row>
-              <span *ngIf="!dataService.email" class="blue istituto v-center text-italic">Inserisci email<ion-icon (click)="showEmailInput()" class="blue icon-edit" src="./assets/icon/it-pencil.svg"></ion-icon></span>
-              <span *ngIf="dataService.email"class="istituto v-center">{{dataService.email}}<ion-icon (click)="showEmailInput()" class="blue icon-edit" src="./assets/icon/it-pencil.svg"></ion-icon></span>
-            </ion-row>
-            <ion-row>
-              <span *ngIf="!dataService.phone" class="blue istituto v-center text-italic">Inserisci numero di telefono<ion-icon (click)="showPhoneInput()" class="icon-edit" src="./assets/icon/it-pencil.svg"></ion-icon></span>
-              <span *ngIf="dataService.phone" class="istituto v-center">{{dataService.phone}}<ion-icon (click)="showPhoneInput()" class="blue icon-edit" src="./assets/icon/it-pencil.svg"></ion-icon></span>
-            </ion-row>
-          </span>          
-        </ion-col>
-      </ion-row>
-      <br>
-      <ion-row>
-        <ion-col size="5"></ion-col>
-        <ion-col size="7">
-          <span>
-            <ion-button fill="outline" class="button-logout text-semibold ion-text-capitalize" (click)="signOut()">Logout</ion-button>
-          </span>
-        </ion-col>
-        
-      </ion-row>
-      <br>
-      <br>
-      <br>
-      <ion-row>
-        <span class="link text-semibold">
-        <a href="mailto:cartella-help@smartcommunitylab.it">Assistenza</a>
+    <br>
+    <ion-row>
+      <span class="font-18">
+        <a class="blue" href="mailto:cartella-help@smartcommunitylab.it">Assistenza</a>
+      </span>
+    </ion-row>
+    <br>
+    <br>
+    <ion-row>
+      <span class="font-18">
+        <a class="blue" [routerLink]="['../credits']">Credits</a>
+      </span>
+    </ion-row>
+    <ion-row>
+      <ion-col size="4"></ion-col>
+      <ion-col size="4" class="text-center">
+        <span>
+          <ion-button fill="outline" class="button-logout text-semibold ion-text-capitalize" (click)="signOut()">Logout
+          </ion-button>
         </span>
-      </ion-row>
-      <br>
-      <br>
-      <ion-row>
-        <span class="link text-semibold text-underline">
-          <a (click)="credits()">Credits</a>
-        </span>
-      </ion-row>     
-     </ion-grid>
-  </ion-content>
+      </ion-col>
+      <ion-col size="4"></ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

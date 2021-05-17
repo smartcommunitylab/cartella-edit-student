@@ -14,7 +14,7 @@ export class Tab1Page {
   baseUrl;
   editEmail: boolean = false;
   editTelefono: boolean = false;
-  
+
   constructor(
     private auth: AuthService,
     public dataService: DataService,
@@ -27,7 +27,7 @@ export class Tab1Page {
   }
 
   signOut() {
-    this.auth.signOut().then(() => { window.location.href = this.baseUrl;});
+    this.auth.signOut().then(() => { window.location.href = this.baseUrl; });
   }
 
   credits() {
@@ -36,23 +36,19 @@ export class Tab1Page {
 
   async showEmailInput() {
     const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      message: 'Modifica indirizzo email',
       inputs: [
         {
           name: 'email',
           type: 'text',
-          value: this.dataService.email?this.dataService.email:'Email'
+          value: this.dataService.email ? this.dataService.email : 'Email'
         }
       ],
       buttons: [
         {
-          text: 'Annulla',
-          role: 'cancel',
-          handler: () => {
-            console.log('Confirm Cancel');
-          }
-        },
-        {
           text: 'Salva',
+          cssClass: 'primary expanded camelcase',
           handler: (input: any) => {
             let validateObj = this.validateEmail(input);
             if (!validateObj.isValid) {
@@ -60,7 +56,7 @@ export class Tab1Page {
               return false;
             } else {
               this.dataService.updateProfile({ email: input.email, phone: this.dataService.phone }).subscribe((studente: any) => {
-                this.dataService.setStudenteEmail(studente.email);               
+                this.dataService.setStudenteEmail(studente.email);
               },
                 (err: any) => {
                   console.log(err);
@@ -68,11 +64,19 @@ export class Tab1Page {
                     this.utlilsService.presentErrorLoading(err.error.ex);
                   } else {
                     this.utlilsService.presentErrorLoading('Errore');
-                  }        
+                  }
                 },
                 () => console.log('update profile email'));
             }
             console.log('Confirm Ok');
+          }
+        },
+        {
+          text: 'Annulla',
+          cssClass: 'secondary camelcase',
+          role: 'cancel',
+          handler: () => {
+            console.log('Confirm Cancel');
           }
         }
       ]
@@ -83,25 +87,21 @@ export class Tab1Page {
 
   async showPhoneInput() {
     const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      message: 'Modifica numero di telefono',
       inputs: [
         {
           name: 'telefono',
           type: 'number',
           min: 10,
           max: 13,
-          value: this.dataService.phone?this.dataService.phone:'Telefono'
+          value: this.dataService.phone ? this.dataService.phone : 'Telefono'
         }
       ],
       buttons: [
         {
-          text: 'Annulla',
-          role: 'cancel',
-          handler: () => {
-            console.log('Confirm Cancel');
-          }
-        },
-        {
           text: 'Salva',
+          cssClass: 'primary camelcase',
           handler: (input: any) => {
             let validateObj = this.validateTelefono(input);
             if (!validateObj.isValid) {
@@ -109,7 +109,7 @@ export class Tab1Page {
               return false;
             } else {
               this.dataService.updateProfile({ email: this.dataService.email, phone: input.telefono }).subscribe((studente: any) => {
-                this.dataService.setStudenteTelefono(studente.phone);               
+                this.dataService.setStudenteTelefono(studente.phone);
               },
                 (err: any) => {
                   console.log(err);
@@ -117,11 +117,19 @@ export class Tab1Page {
                     this.utlilsService.presentErrorLoading(err.error.ex);
                   } else {
                     this.utlilsService.presentErrorLoading('Errore');
-                  }        
+                  }
                 },
                 () => console.log('update profile telefono'));
             }
             console.log('Confirm Ok');
+          },
+        },
+        {
+          text: 'Annulla',
+          cssClass: 'secondary camelcase',
+          role: 'cancel',
+          handler: () => {
+            console.log('Confirm Cancel');
           }
         }
       ]

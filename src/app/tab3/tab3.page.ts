@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { DataService } from '../core/services/data.service'
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { IonInfiniteScroll } from '@ionic/angular';
 import { UtilsService } from '../core/services/utils.service';
 
@@ -68,6 +68,14 @@ export class Tab3Page {
         (err: any) => {
           console.log(err);
           this.utilsService.dismissLoading();
+          if ((err.status == 401) || (err.status == 403)) {
+            let navigationExtras: NavigationExtras = {
+              queryParams: {
+                errMsg: JSON.stringify(err.error.ex)
+              }
+            };
+            this.router.navigate(['landing'], navigationExtras);
+          }
         },
       );
     },
@@ -132,12 +140,12 @@ export class Tab3Page {
 
   getColor(esp) {
     if (esp.stato == "in_corso") {
-      return '#00CF86';
+      return '#007A50';
     } else if (esp.stato == "in_attesa") {
       return '#7FB2E5';
     } else if (esp.stato == 'revisione') {
       if (esp.oreValidate < esp.oreTotali) {
-        return '#F83E5A';
+        return '#D1344C';
       }
       return '#707070';      
     } else if (esp.stato == 'archiviata') {
