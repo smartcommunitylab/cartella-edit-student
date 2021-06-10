@@ -119,6 +119,8 @@ export class Tab2Page {
   gestioneStudenteAttivita(page) {
     this.dataService.getAttivitaStudenteList(this.stato, page - 1, this.pageSize).subscribe(resp => { 
       this.aa = resp.content;
+      // filter here activity rendicontazioneCorpo
+      this.aa = this.aa.filter(item => !item.rendicontazioneCorpo);
       this.aa.forEach(esp => {
         this.tipologie.filter(tipo => {
           if (tipo.id == esp.tipologia) {

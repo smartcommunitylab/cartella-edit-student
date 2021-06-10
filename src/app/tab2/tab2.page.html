@@ -23,7 +23,7 @@
       <br>
       <div class="item-container">
         <div class="item" *ngFor="let esp of aa" (click)="openPresenze(esp)">
-          <a class="titolo text-bold noUnderLine" href="javascript:void(0);" (click)="openPresenze(esp)">{{esp.titolo}}</a>
+          <a class="titolo text-bold noUnderLine" *ngIf="!esp.rendicontazioneCorpo" href="javascript:void(0);" (click)="openPresenze(esp)">{{esp.titolo}}</a>
           <span *ngIf="esp.nomeEnte" class="attributes text-bold">
             <br><br>Presso:&nbsp;</span>
           <span class="attributes-value ion-text-capitalize">{{esp.nomeEnte}}</span>
