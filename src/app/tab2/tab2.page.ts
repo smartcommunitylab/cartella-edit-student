@@ -117,7 +117,7 @@ export class Tab2Page {
   }
 
   gestioneStudenteAttivita(page) {
-    this.dataService.getAttivitaStudenteList(this.stato, page - 1, this.pageSize).subscribe(resp => { 
+    this.dataService.getAttivitaStudenteList(this.stato, page - 1, this.pageSize).subscribe(resp => {
       this.aa = resp.content;
       // filter here activity rendicontazioneCorpo
       this.aa = this.aa.filter(item => !item.rendicontazioneCorpo);
@@ -127,7 +127,7 @@ export class Tab2Page {
             esp.individuale = tipo.individuale;
           }
         });
-      });      
+      });
       if (resp.totalElements == 1) {
         let params = {
           'id': this.aa[0].esperienzaSvoltaId,
@@ -137,10 +137,8 @@ export class Tab2Page {
           this.router.navigate(['../presenze/individuale', { data: JSON.stringify(params) }], { relativeTo: this.route });
         } else {
           this.router.navigate(['../presenze/gruppo', { data: JSON.stringify(params) }], { relativeTo: this.route });
-          }
-      } else {
-        this.aa = resp.content;
-      }    
+        }
+      }
     },
       (err: any) => console.log(err),
       () => console.log('getAttivitaIncorso'));
