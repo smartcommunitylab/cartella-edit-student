@@ -27,7 +27,9 @@ export class Tab1Page {
   }
 
   signOut() {
-    this.auth.signOut().then(() => { window.location.href = this.baseUrl; });
+    this.auth.signOut().then(() => { 
+      // window.location.href = this.baseUrl; 
+    });
   }
 
   credits() {
