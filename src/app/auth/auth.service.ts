@@ -35,9 +35,9 @@ export class AuthService extends IonicAuth  {
       (platform.is('cordova')) ? secureStorage : storage,
       (platform.is('cordova')) ? cordovaRequestor : requestor,
       undefined, undefined,
-      (platform.is('cordova')) ? new IonicAuthorizationRequestHandler(browser, secureStorage)
-                               : new IonicImplicitRequestHandler(new DefaultBrowser(), storage)
-      // new IonicAuthorizationRequestHandler(new DefaultBrowser(), storage)
+      // (platform.is('cordova')) ? new IonicAuthorizationRequestHandler(browser, secureStorage)
+                              //  : new IonicImplicitRequestHandler(new DefaultBrowser(), storage)
+      new IonicAuthorizationRequestHandler(new DefaultBrowser(), storage)
     );
 
     this.addConfig();
@@ -78,7 +78,7 @@ export class AuthService extends IonicAuth  {
    */
   public async signOut() {
     await super.signOut();
-    this.EndSessionCallBack();
+    // this.EndSessionCallBack();
     // this.storage.removeItem('token_response');
     // this.authSubject.next(AuthActionBuilder.SignOutSuccess());
   }
@@ -99,6 +99,7 @@ export class AuthService extends IonicAuth  {
         identity_server: environment.implicit_identity_server,
         redirect_url: environment.implicit_redirect_url,
         scopes: environment.implicit_scopes,
+        response_type: 'code',
         usePkce: true,
         end_session_redirect_url: environment.implicit_end_session_redirect_url,
       };
