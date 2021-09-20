@@ -63,7 +63,7 @@
             </ion-row>
           </a>
           <a class="noUnderLine" href="javascript:void(0);" (click)="openPresenze(esp)">
-            <ion-row>
+            <ion-row *ngIf="!esp.rendicontazioneCorpo">
               <ion-col size="8">
                 <span class="link-presenze v-center">
                   <ion-icon class="icon" src="./assets/icon/it-calendar.svg"></ion-icon>&nbsp;Vedi presenze attività

@@ -8,7 +8,7 @@ export const environment = {
   appName: 'Cartella EDIT Studente',
   minimumAge: 14,
 	
-  apiEndpoint: 'http://localhost:4040/cartella-asl/api',
+  apiEndpoint: 'https://dev.smartcommunitylab.it/cartella-asl/api',
 
   cordova_identity_client: 'c_37b06a4d-9ca5-47bb-8630-283249916cdd',
   cordova_identity_server: 'https://aac-adc.platform.smartcommunitylab.it/',
@@ -18,9 +18,9 @@ export const environment = {
 
   implicit_identity_client: 'c_37b06a4d-9ca5-47bb-8630-283249916cdd',
   implicit_identity_server: 'https://aac-adc.platform.smartcommunitylab.it/',
-  implicit_redirect_url: 'http://localhost:4200/implicit/authcallback',
+  implicit_redirect_url: 'https://dev.smartcommunitylab.it/edit-studente/implicit/authcallback',
   implicit_scopes: 'openid profile email',
-  implicit_end_session_redirect_url: 'http://localhost:4200/implicit/endsession',
+  implicit_end_session_redirect_url: 'https://dev.smartcommunitylab.it/edit-studente/implicit/endsession',
 
 };
 /*

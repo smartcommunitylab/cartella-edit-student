@@ -154,19 +154,23 @@ export class Tab3Page {
   }
 
   openPresenze(aa) {
-    this.tipologie.filter(tipo => {
-      if (tipo.id == aa.tipologia) {
-        aa.individuale = tipo.individuale;
-      }
-    });
-    let params = {
-      'id': aa.esperienzaSvoltaId,
-      'back': true
-    }
-    if (aa.individuale) {
-      this.router.navigate(['../../tab2/presenze/individuale', { data: JSON.stringify(params) }], { relativeTo: this.route });
+    if (aa.rendicontazioneCorpo) {
+      this.openDetail(aa);
     } else {
-      this.router.navigate(['../../tab2/presenze/gruppo', { data: JSON.stringify(params) }], { relativeTo: this.route });
+      this.tipologie.filter(tipo => {
+        if (tipo.id == aa.tipologia) {
+          aa.individuale = tipo.individuale;
+        }
+      });
+      let params = {
+        'id': aa.esperienzaSvoltaId,
+        'back': true
+      }
+      if (aa.individuale) {
+        this.router.navigate(['../../tab2/presenze/individuale', { data: JSON.stringify(params) }], { relativeTo: this.route });
+      } else {
+        this.router.navigate(['../../tab2/presenze/gruppo', { data: JSON.stringify(params) }], { relativeTo: this.route });
+      }
     }
   }
 

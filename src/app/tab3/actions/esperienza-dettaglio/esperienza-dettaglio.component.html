@@ -6,7 +6,7 @@
 <br>
 <ion-content>
     <ion-grid *ngIf="aa && es">
-        <ion-row>
+        <ion-row *ngIf="!aa.rendicontazioneCorpo">
             <ion-col>
                 <a class="link-presenze v-center noUnderLine" href="javascript:void(0);" (click)="openPresenze(aa, es)">
                     <ion-icon class="icon-presenze" src="./assets/icon/it-calendar.svg"></ion-icon>&nbsp;Vedi presenze
