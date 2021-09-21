@@ -17,7 +17,7 @@ export const environment = {
   cordova_end_session_redirect_url: 'cartellaeditstudente://endSession',
 
   implicit_identity_client: 'c_37b06a4d-9ca5-47bb-8630-283249916cdd',
-  implicit_identity_server: 'https://aac-adc.platform.smartcommunitylab.it/',
+  implicit_identity_server: 'https://aac-adc.platform.smartcommunitylab.it',
   implicit_redirect_url: 'https://dev.smartcommunitylab.it/edit-studente/implicit/authcallback',
   implicit_scopes: 'openid profile email',
   implicit_end_session_redirect_url: 'https://dev.smartcommunitylab.it/edit-studente/implicit/endsession',
