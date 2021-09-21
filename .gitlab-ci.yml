@@ -50,7 +50,7 @@ container_scanning:
     DOCKER_USER: ""
     DOCKER_PASSWORD: ""
   rules:
-    - if: '$$CI_COMMIT_REF_NAME == "demo"'
+    - if: '$CI_COMMIT_REF_NAME == "demo"'
       when: always
 
 frontend-deploy:
