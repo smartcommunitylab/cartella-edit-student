@@ -37,5 +37,17 @@ ng build --base-href /edit-studente/
 
 Note: --base-href is ignored by ionic build command
 
+
+## Depoloyment Environments
+
+Exist different environment deployments (DEMO, DEV, PRODUCTION, LOCAL). One can run of the following commands to perform build for corresponding environment. 
+
+ionic build --configuration=demo
+ionic build --configuration=dev
+ionic build --prod
+ionic build
+
+Note: It is possible to add new deployment profile extending the angular.json file followed by the addition of new environment-{profile}.ts file inside environment folder. 
+
 ## Importante:
 Accessibility in ionic framework: <https://justinnoel.dev/2019/07/06/accessibility-in-ionic-framework-apps>
