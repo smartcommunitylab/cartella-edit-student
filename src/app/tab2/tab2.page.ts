@@ -99,6 +99,7 @@ export class Tab2Page {
           })
         } else {
           this.utilsService.dismissLoading();
+          this.router.navigate(['../../tab3'], { relativeTo: this.route });
         }
       },
         (err: any) => {
@@ -128,7 +129,9 @@ export class Tab2Page {
           }
         });
       });
-      if (resp.totalElements == 1) {
+      if (resp.totalElements < 1) {
+        this.router.navigate(['../../tab3'], { relativeTo: this.route });
+      } else if (resp.totalElements == 1) {
         let params = {
           'id': this.aa[0].esperienzaSvoltaId,
           'back': false
