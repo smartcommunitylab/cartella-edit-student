@@ -2,7 +2,7 @@
 .container {
     color: #5C6F82;
     .icon {
-        font-size: 128px;
+        font-size: 138px;
         color: #E9E9E9;
     }
     .button-logout {
@@ -16,6 +16,10 @@
     }
     .blue {
         color: #0066CC;
+    }
+    .divider {
+        --background: #7FB2E5;
+        border: 1px solid #7FB2E5
     }
 }
 
