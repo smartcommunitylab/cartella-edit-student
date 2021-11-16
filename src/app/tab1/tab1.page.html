@@ -4,10 +4,8 @@
   <ion-grid class="container">
     <ion-row>
       <ion-col size="3"></ion-col>
-      <ion-col size="6">
-        <span class="text-center">
+      <ion-col size="6" class="text-center">
           <ion-icon role="none" class="icon" src="./assets/icon/placeholder_studenti.svg"></ion-icon>
-        </span>        
       </ion-col>
       <ion-col size="3"></ion-col>
     </ion-row>
@@ -51,12 +49,12 @@
       <ion-col size="4"><span class="font-14">Email:</span></ion-col>
       <ion-col size="6">
         <span *ngIf="dataService.email" class="font-14">{{dataService.email}}</span>
-        <a *ngIf="!dataService.email" class="noUnderLine v-center blue" href="javascript:void(0);" (click)="showEmailInput()">
+        <a *ngIf="!dataService.email" class="font-14 noUnderLine v-center blue" href="javascript:void(0);" (click)="showEmailInput()">
           Inserisci indirizzo email
         </a>
       </ion-col>
       <ion-col size="2">
-        <a class="noUnderLine v-center blue" *ngIf="dataService.email" href="javascript:void(0);" (click)="showEmailInput()">
+        <a class="font-14 noUnderLine v-center blue" *ngIf="dataService.email" href="javascript:void(0);" (click)="showEmailInput()">
           <ion-icon role="none" title="email" class="icon-edit" src="./assets/icon/it-pencil.svg"></ion-icon>
         </a>
       </ion-col>
