@@ -3,6 +3,8 @@ import { DataService } from '../core/services/data.service'
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { IonInfiniteScroll } from '@ionic/angular';
 import { UtilsService } from '../core/services/utils.service';
+import * as moment from 'moment';
+import 'moment/locale/it';
 
 @Component({
   selector: 'app-tab3',
@@ -26,12 +28,15 @@ export class Tab3Page {
   ];
   tipologie;
   esperienzeNoncompleta: number = 0;
+  today;
 
   constructor(
     private dataService: DataService,
     private utilsService: UtilsService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router) { 
+      this.today = moment().startOf('day');
+    }
 
   ionViewWillEnter(): void {
     this.resetCounter();
@@ -57,6 +62,14 @@ export class Tab3Page {
             if (this.attivitaStudente.length < this.pageSize) {
               this.maybeMore = false;
             }
+            this.attivitaStudente.forEach(aa => {
+              if (aa.tipologia == 7 && moment(aa.dataFine).isBefore(this.today)) {
+                this.dataService.getValutazioneAttivita(aa.esperienzaSvoltaId).subscribe((res) => {
+                  aa.valutazioneEsperienza = res;
+                },
+                  (err: any) => {console.log(err);});
+              }
+            });           
             this.utilsService.dismissLoading();
           },
             (err: any) => {
@@ -172,6 +185,6 @@ export class Tab3Page {
         this.router.navigate(['../../tab2/presenze/gruppo', { data: JSON.stringify(params) }], { relativeTo: this.route });
       }
     }
-  }
-
+  }  
+  
 }
