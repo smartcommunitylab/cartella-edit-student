@@ -72,21 +72,36 @@
               <ion-col size="4" (click)="openDetail(esp)">
               </ion-col>
             </ion-row>
-          </a> 
+          </a>
+          <a class="noUnderLine" *ngIf="esp.valutazioneEsperienza" href="javascript:void(0);" (click)="openValutazioneEsp(esp)">
             <ion-row (click)="openDetail(esp)">
-              <ion-col><span class="attributes text-semibold">Ore inserite:&nbsp;</span><span
-                  class="attributes-value">{{esp.oreValidate + esp.oreDaValidare}}</span></ion-col>
+              <ion-col><span class="attributes text-semibold">Valutazione:&nbsp;</span><span
+                [ngStyle]="styleStatoVal(esp)">{{setValStatus(esp)}}</span></ion-col>
             </ion-row>
-            <ion-row (click)="openDetail(esp)">
-              <ion-col><span class="attributes text-semibold">Periodo:&nbsp;</span><span class="attributes-value">{{esp.dataInizio
-                  | date: 'dd/MM/yyyy' }} -
-                  {{esp.dataFine | date: 'dd/MM/yyyy' }}</span></ion-col>
-            </ion-row>
-            <ion-row *ngIf="esp.nomeEnte" (click)="openDetail(esp)">
-              <ion-col><span class="attributes text-semibold">Presso:&nbsp;</span><span
-                  class="attributes-value ion-text-capitalize">{{esp.nomeEnte}}</span>
+            <ion-row>
+              <ion-col size="8">
+                <span class="link-presenze v-center">
+                  <ion-icon class="icon" src="./assets/icon/valutazione_studente.svg"></ion-icon>&nbsp;Vedi valutazione attività
+                </span>
+              </ion-col>
+              <ion-col size="4" (click)="openDetail(esp)">
               </ion-col>
             </ion-row>
+          </a>
+          <ion-row (click)="openDetail(esp)">
+            <ion-col><span class="attributes text-semibold">Ore inserite:&nbsp;</span><span
+                class="attributes-value">{{esp.oreValidate + esp.oreDaValidare}}</span></ion-col>
+          </ion-row>
+          <ion-row (click)="openDetail(esp)">
+            <ion-col><span class="attributes text-semibold">Periodo:&nbsp;</span><span class="attributes-value">{{esp.dataInizio
+                | date: 'dd/MM/yyyy' }} -
+                {{esp.dataFine | date: 'dd/MM/yyyy' }}</span></ion-col>
+          </ion-row>
+          <ion-row *ngIf="esp.nomeEnte" (click)="openDetail(esp)">
+            <ion-col><span class="attributes text-semibold">Presso:&nbsp;</span><span
+                class="attributes-value ion-text-capitalize">{{esp.nomeEnte}}</span>
+            </ion-col>
+          </ion-row>
         </ion-grid>
       </div>
     </ion-list>

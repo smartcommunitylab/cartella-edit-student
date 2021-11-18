@@ -28,14 +28,14 @@ export class Tab3Page {
   ];
   tipologie;
   esperienzeNoncompleta: number = 0;
-  today;
+  now;
 
   constructor(
     private dataService: DataService,
     private utilsService: UtilsService,
     private route: ActivatedRoute,
     private router: Router) { 
-      this.today = moment().startOf('day');
+      this.now = moment();
     }
 
   ionViewWillEnter(): void {
@@ -49,7 +49,6 @@ export class Tab3Page {
 
   getAttivitaPage(page: number) {
     this.utilsService.presentLoading();
-
     this.dataService.getAttivitaTipologie().subscribe((res) => {
       this.tipologie = res;
       this.dataService.getStudenteSummary().subscribe(resp => {
@@ -63,8 +62,9 @@ export class Tab3Page {
               this.maybeMore = false;
             }
             this.attivitaStudente.forEach(aa => {
-              if (aa.tipologia == 7 && moment(aa.dataFine).isBefore(this.today)) {
-                this.dataService.getValutazioneAttivita(aa.esperienzaSvoltaId).subscribe((res) => {
+              let dayBeforeFine = moment(aa.dataFine).subtract(1, "days").startOf('day');
+              if (aa.tipologia == 7 && dayBeforeFine.isBefore(this.now)) {
+                 this.dataService.getValutazioneAttivita(aa.esperienzaSvoltaId).subscribe((res) => {
                   aa.valutazioneEsperienza = res;
                 },
                   (err: any) => {console.log(err);});
@@ -185,6 +185,36 @@ export class Tab3Page {
         this.router.navigate(['../../tab2/presenze/gruppo', { data: JSON.stringify(params) }], { relativeTo: this.route });
       }
     }
-  }  
+  }
+
+  openValutazioneEsp(aa) {
+    this.router.navigate(['../valutazione/esperiezna', aa.esperienzaSvoltaId], { relativeTo: this.route });
+  }
   
+  styleStatoVal(aa) {
+    var style = {
+      'color': '#007A50',//green
+      'font-size': '14px'
+    };
+    if (aa.stato == 'archiviata') {
+      style['color'] = '#707070'; // grey
+      return style;
+    } else if (aa.valutazioneEsperienza.stato == 'incompleta') {
+      style['color'] = '#707070'; // grey
+    } else if (aa.valutazioneEsperienza.stato == 'non_compilata') {
+      style['color'] = '#F83E5A'; // red      
+    }    
+    return style;
+  }
+
+  setValStatus(aa) {
+    let stato = 'Completata';
+    if (aa.valutazioneEsperienza.stato == 'incompleta') {
+      stato = 'Da completare';
+    } else if (aa.valutazioneEsperienza.stato == 'non_compilata') {
+      stato = 'Non compilata';
+    }
+    return stato;
+  }
+
 }
