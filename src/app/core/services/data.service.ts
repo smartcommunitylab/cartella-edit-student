@@ -403,6 +403,27 @@ export class DataService {
       );
   }
 
+  getValutazioneAttivita(idEsperienza) {
+    let url = this.host + '/valutazione/attivita/studente';
+    let params = new HttpParams();
+    params = params.append('studenteId', this.studenteId);
+    params = params.append('esperienzaSvoltaId', idEsperienza);
+
+    return this.http.get<any>(url,
+      {
+        observe: 'response',
+        params: params
+      })
+      .timeout(this.timeout)
+      .pipe(
+        map(resp => {
+          return resp.body
+        },
+          catchError(this.handleError)
+        )
+      );
+  }
+
   private async handleError(error: HttpErrorResponse) {
     let errMsg = "Errore del server! Prova a ricaricare la pagina.";
 
