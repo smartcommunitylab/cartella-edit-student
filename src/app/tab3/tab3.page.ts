@@ -217,4 +217,12 @@ export class Tab3Page {
     return stato;
   }
 
+  action(aa) {
+    let action = 'Compila';
+    if (aa.valutazioneEsperienza.stato == 'compilata') {
+      action = 'Vedi'
+    }
+    return action;
+  }
+
 }
