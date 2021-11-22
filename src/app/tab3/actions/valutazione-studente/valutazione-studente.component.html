@@ -2,8 +2,33 @@
     <h1 class="v-center titolo text-semibold">
         <ion-back-button defaultHref="home"></ion-back-button>{{aa.titolo}}
     </h1>
+    
 </ion-header>
 <br>
 <ion-content>
-
+    <div padding>
+        <ion-grid class="valutazione" *ngIf="aa && es">
+            <ion-row class="heading text-semibold">
+                <ion-col size="3"></ion-col>
+                <ion-col size="6" class="text-center">Valutazione attività</ion-col>
+                <ion-col size="3"></ion-col>            
+            </ion-row>
+            <ion-list>
+                <ion-item lines="none" *ngFor="let d of domande, let i=index">
+                    <ion-radio-group [value]="true" [(ngModel)]="d.punteggio">
+                        <ion-label class="domande" text-wrap>{{i+1}}.&nbsp;{{d.descrizione}}</ion-label>
+                        <span *ngIf="d.rispostaChiusa">                            
+                            <ion-item lines="none" *ngFor="let v of valutazione">
+                                <ion-label class="domande">{{v.titolo}}</ion-label>
+                                <ion-radio class="domande" slot="start" [value]="v.punteggio"></ion-radio>
+                              </ion-item>
+                        </span>
+                        <span *ngIf="!d.rispostaChiusa">
+                            <textarea (ionInput)=checkLimit() class="text-area" [(ngModel)]="d.risposta" name="note"></textarea>
+                        </span>
+                    </ion-radio-group>
+                </ion-item>            
+              </ion-list>        
+        </ion-grid>
+    </div>
 </ion-content>
