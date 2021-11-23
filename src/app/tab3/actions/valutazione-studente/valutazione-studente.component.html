@@ -2,6 +2,26 @@
     <h1 class="v-center titolo text-semibold">
         <ion-back-button defaultHref="home"></ion-back-button>{{aa.titolo}}
     </h1>
+    <ion-row *ngIf="buttonShow">
+        <ion-col size="1"></ion-col>
+        <ion-col size="5">
+            <ion-button expand="outline" class="button-annulla text-bold ion-text-capitalize" size="small" (click)="cancel()">Annulla</ion-button>
+        </ion-col>
+        <ion-col size="5">
+            <ion-button expand="outline" class="button-salva text-bold ion-text-capitalize float-right" size="small" (click)="save()">Salva</ion-button>
+        </ion-col>
+        <ion-col size="1"></ion-col>
+    </ion-row>
+    <!--
+    &nbsp;&nbsp;&nbsp;
+    <ion-col size="2">
+        <ion-button expand="outline" class="button-annulla text-bold ion-text-capitalize" size="small" (click)="cancel()">Annulla</ion-button>
+    </ion-col>
+    <ion-col size="4"></ion-col>&nbsp;&nbsp;
+    <ion-col size="5">
+        <ion-button expand="outline" class="button-salva text-bold ion-text-capitalize float-right" size="small" (click)="save()">Salva</ion-button>
+    </ion-col>
+    -->
 </ion-header>
 <br>
 <ion-content [scrollEvents]="true" (ionScroll)="onScroll($event)">
