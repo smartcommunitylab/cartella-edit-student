@@ -271,7 +271,8 @@ export class DataService {
       .pipe(
         map(res => {
           return res.body;
-        }),
+        },
+        ),
         catchError(this.handleError)
       );
   }
@@ -307,8 +308,9 @@ export class DataService {
       .pipe(
         map(res => {
           return res.body;
-        }),
+        },
         catchError(this.handleError)
+        ),        
       );
 
   }
@@ -405,6 +407,27 @@ export class DataService {
 
   getValutazioneAttivita(idEsperienza) {
     let url = this.host + '/valutazione/attivita/studente';
+    let params = new HttpParams();
+    params = params.append('studenteId', this.studenteId);
+    params = params.append('esperienzaSvoltaId', idEsperienza);
+
+    return this.http.get<any>(url,
+      {
+        observe: 'response',
+        params: params
+      })
+      .timeout(this.timeout)
+      .pipe(
+        map(resp => {
+          return resp.body
+        },
+          catchError(this.handleError)
+        )
+      );
+  }
+
+  getValutazioneCompetenze(idEsperienza) {
+    let url = this.host + '/valutazione/competenze/studente';
     let params = new HttpParams();
     params = params.append('studenteId', this.studenteId);
     params = params.append('esperienzaSvoltaId', idEsperienza);

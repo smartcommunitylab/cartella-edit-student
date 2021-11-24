@@ -33,6 +33,13 @@
                 </a>
            </ion-col> 
         </ion-row>
+        <ion-row *ngIf="es.valutazioneCompetenze">
+            <ion-col>
+                <a class="link-presenze v-center noUnderLine" href="javascript:void(0);" (click)="openValutazioneCompetenze(es)">
+                    <ion-icon class="icon-presenze" src="./assets/icon/competenze.svg"></ion-icon>&nbsp;Visualizza valutazione competenze
+                </a>
+           </ion-col> 
+        </ion-row>        
         <br />
         <ion-row>
             <ion-col size="6">
