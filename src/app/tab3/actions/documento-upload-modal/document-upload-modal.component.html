@@ -7,7 +7,7 @@
     <span>dimensione massima 10MB</span>
     <div *ngIf="!fileSelected">
         <ion-grid>
-            <a class="noUnderLine" href="javascript:void(0);" (click)="create(1)">
+            <a *ngIf="tipologiaId != 7" class="noUnderLine" href="javascript:void(0);" (click)="create(1)">
                 <ion-row id="1" class="item">
                     <h5 class="card-title text-semibold">Valutazione esperienza</h5>
                     <p class="card-text text-semibold">Carica la valutazione che tu hai fatto dell’esperienza svolta
