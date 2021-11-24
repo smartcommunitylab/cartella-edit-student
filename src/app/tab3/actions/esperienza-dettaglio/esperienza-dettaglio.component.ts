@@ -6,6 +6,8 @@ import { UtilsService } from 'src/app/core/services/utils.service';
 import { ModalController } from '@ionic/angular';
 import { DocumentUploadModalComponent } from '../documento-upload-modal/document-upload-modal.component';
 import { AlertController } from '@ionic/angular';
+import * as moment from 'moment';
+import 'moment/locale/it';
 
 @Component({
   selector: 'esperienza-dettaglio',
@@ -25,6 +27,7 @@ export class EsperienzaDettaglioComponent {
   tipiDoc = [{ "name": "Piano formativo", "value": "piano_formativo" }, { "name": "Convenzione", "value": "convenzione" }, { "name": "Valutazione studente", "value": "valutazione_studente" }, { "name": "Valutazione esperienza", "value": "valutazione_esperienza" }, { "name": "Altro", "value": "doc_generico" }, { "name": "Pregresso", "Altro": "pregresso" }];
   removableDoc = ["valutazione_esperienza", "doc_generico"];
   individuale: boolean;
+  now;
 
   constructor(
     private router: Router,
@@ -33,7 +36,9 @@ export class EsperienzaDettaglioComponent {
     private utilsService: UtilsService,
     private modalCtrl: ModalController,
     private alertController: AlertController
-  ) { }
+  ) {
+    this.now = moment();
+  }
 
   ngAfterViewInit(): void {
     this.route.params.subscribe(params => {
@@ -54,6 +59,13 @@ export class EsperienzaDettaglioComponent {
 
           this.dataService.getAttivitaDocumenti(this.es.uuid).subscribe(resp => {
             this.es.documenti = resp;
+            let dayBeforeFine = moment(this.aa.dataFine).subtract(1, "days").startOf('day');
+            if (this.aa.tipologia == 7 && dayBeforeFine.isBefore(this.now)) {
+              this.dataService.getValutazioneAttivita(this.es.id).subscribe((res) => {
+                this.es.valutazioneEsperienza = res;
+              },
+                (err: any) => { console.log(err); });
+            }
             this.utilsService.dismissLoading();
           },
             (err: any) => {
@@ -158,6 +170,9 @@ export class EsperienzaDettaglioComponent {
   async openDocumentUpload() {
     const modal = await this.modalCtrl.create({
       component: DocumentUploadModalComponent,
+      componentProps: {
+        tipologiaId : this.aa.tipologia
+      }
       // cssClass: 'my-custom-modal-css'
     });
     modal.lastElementChild.setAttribute('aria-label', 'documento upload modal');
@@ -203,9 +218,31 @@ export class EsperienzaDettaglioComponent {
       });
     },
       (err: any) => {
-        console.log(err);
         this.utilsService.dismissLoading();
+        this.handleError(err);        
       })
+  }
+
+  handleError(error) {
+    let errMsg = "Errore del server! Prova a ricaricare la pagina.";
+    if (error.error) {
+      if (error.error.message) {
+        errMsg = error.error.message;
+      } else if (error.error.ex) {
+        errMsg = error.error.ex;
+      } else if (typeof error.error === "string") {
+        try {
+          let errore = JSON.parse(error.error);
+          if (errore.ex) {
+            errMsg = errore.ex;
+          }
+        }
+        catch (e) {
+          console.error('server error:', errMsg);
+        }
+      }
+    }
+    this.utilsService.presentErrorLoading(errMsg);
   }
 
   async showDeleteConfirmationAlert(doc) {
@@ -241,5 +278,5 @@ export class EsperienzaDettaglioComponent {
     }
     return removable;
   }
-
+ 
 }
