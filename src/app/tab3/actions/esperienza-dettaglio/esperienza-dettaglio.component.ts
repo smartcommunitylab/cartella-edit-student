@@ -63,6 +63,9 @@ export class EsperienzaDettaglioComponent {
             if (this.aa.tipologia == 7 && dayBeforeFine.isBefore(this.now)) {
               this.dataService.getValutazioneAttivita(this.es.id).subscribe((res) => {
                 this.es.valutazioneEsperienza = res;
+                this.dataService.getValutazioneCompetenze(this.es.id).subscribe((res) => {
+                  this.es.valutazioneCompetenze = res;
+                })
               },
                 (err: any) => { console.log(err); });
             }
@@ -224,7 +227,7 @@ export class EsperienzaDettaglioComponent {
   }
 
   handleError(error) {
-    let errMsg = "Errore del server! Prova a ricaricare la pagina.";
+    let errMsg = "Errore del server!";
     if (error.error) {
       if (error.error.message) {
         errMsg = error.error.message;
@@ -278,5 +281,30 @@ export class EsperienzaDettaglioComponent {
     }
     return removable;
   }
- 
+
+  openValutazioneEsp(es) {
+    this.router.navigate(['../../valutazione/esperiezna', es.id], { relativeTo: this.route });
+  }
+
+  openValutazioneCompetenze(es) {
+  } 
+  
+  setValStatus(aa) {
+    let stato = 'Completata';
+    if (aa.valutazioneEsperienza.stato == 'incompleta') {
+      stato = 'Da completare';
+    } else if (aa.valutazioneEsperienza.stato == 'non_compilata') {
+      stato = 'Non compilata';
+    }
+    return stato;
+  }
+
+  action(aa) {
+    let action = 'Compila';
+    if (aa.valutazioneEsperienza.stato == 'compilata') {
+      action = 'Vedi'
+    }
+    return action;
+  }
+
 }
