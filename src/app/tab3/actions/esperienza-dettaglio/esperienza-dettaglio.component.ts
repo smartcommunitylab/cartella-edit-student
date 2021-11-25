@@ -50,26 +50,31 @@ export class EsperienzaDettaglioComponent {
           this.attivita = attivita;
           this.aa = attivita.aa;
           this.es = attivita.es;
-
           if (this.hasCoordinate()) {
             setTimeout(() => { //ensure that map div is rendered
               this.drawMap();
-            }, 0);
-          }
-
+            }, 0);}
           this.dataService.getAttivitaDocumenti(this.es.uuid).subscribe(resp => {
             this.es.documenti = resp;
-            let dayBeforeFine = moment(this.aa.dataFine).subtract(1, "days").startOf('day');
-            if (this.aa.tipologia == 7 && dayBeforeFine.isBefore(this.now)) {
+            if (this.isValutazioneActive()) {
               this.dataService.getValutazioneAttivita(this.es.id).subscribe((res) => {
                 this.es.valutazioneEsperienza = res;
                 this.dataService.getValutazioneCompetenze(this.es.id).subscribe((res) => {
                   this.es.valutazioneCompetenze = res;
-                })
+                  this.utilsService.dismissLoading(); 
+                },
+                  (err: any) => {
+                    this.utilsService.dismissLoading();
+                    console.log(err);
+                  })
               },
-                (err: any) => { console.log(err); });
+                (err: any) => {
+                  this.utilsService.dismissLoading();
+                  console.log(err);
+                });
+            } else {
+              this.utilsService.dismissLoading();             
             }
-            this.utilsService.dismissLoading();
           },
             (err: any) => {
               console.log(err);
@@ -226,6 +231,17 @@ export class EsperienzaDettaglioComponent {
       })
   }
 
+  isValutazioneActive() {
+    let active = false;
+    if (this.aa.tipologia == 7) {
+      let dayBeforeFine = moment(this.aa.dataFine).subtract(1, "days").startOf('day');
+      if (dayBeforeFine.isBefore(this.now)) {
+        active = true;
+      }
+      return active;
+    }
+  }
+
   handleError(error) {
     let errMsg = "Errore del server!";
     if (error.error) {
@@ -287,8 +303,25 @@ export class EsperienzaDettaglioComponent {
   }
 
   openValutazioneCompetenze(es) {
+    this.router.navigate(['../../valutazione/competenze', es.id], { relativeTo: this.route });
   } 
   
+  styleStatoVal(aa) {
+    var style = {
+      'color': '#007A50',//green
+      'font-size': '14px'
+    };
+    if (aa.stato == 'archiviata') {
+      style['color'] = '#707070'; // grey
+      return style;
+    } else if (aa.valutazioneEsperienza.stato == 'incompleta') {
+      style['color'] = '#707070'; // grey
+    } else if (aa.valutazioneEsperienza.stato == 'non_compilata') {
+      style['color'] = '#F83E5A'; // red      
+    }    
+    return style;
+  }
+
   setValStatus(aa) {
     let stato = 'Completata';
     if (aa.valutazioneEsperienza.stato == 'incompleta') {
