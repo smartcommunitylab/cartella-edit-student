@@ -12,20 +12,10 @@
         </ion-col>
         <ion-col size="1"></ion-col>
     </ion-row>
-    <!--
-    &nbsp;&nbsp;&nbsp;
-    <ion-col size="2">
-        <ion-button expand="outline" class="button-annulla text-bold ion-text-capitalize" size="small" (click)="cancel()">Annulla</ion-button>
-    </ion-col>
-    <ion-col size="4"></ion-col>&nbsp;&nbsp;
-    <ion-col size="5">
-        <ion-button expand="outline" class="button-salva text-bold ion-text-capitalize float-right" size="small" (click)="save()">Salva</ion-button>
-    </ion-col>
-    -->
 </ion-header>
 <br>
 <ion-content [scrollEvents]="true" (ionScroll)="onScroll($event)">
-    <div padding>
+    <div class="ion-padding">
         <ion-grid class="valutazione" *ngIf="aa && es">
             <ion-row class="heading text-semibold">
                 <ion-col size="3"></ion-col>
@@ -44,7 +34,7 @@
             <ion-list>
                 <ion-item lines="none" *ngFor="let d of domande, let i=index">
                     <ion-radio-group [value]="true" [(ngModel)]="d.punteggio">
-                        <ion-label class="domande" text-wrap>{{i+1}}.&nbsp;{{d.descrizione}}</ion-label>
+                        <ion-label class="domande ion-text-wrap">{{i+1}}.&nbsp;{{d.descrizione}}</ion-label>
                         <span *ngIf="d.rispostaChiusa">                            
                             <ion-item lines="none" *ngFor="let v of valutazione">
                                 <ion-label class="domande">{{v.titolo}}</ion-label>

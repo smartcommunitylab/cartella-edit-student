@@ -109,13 +109,6 @@ export class Tab3Page {
         this.utilsService.dismissLoading();
       });
   }
-  
-  getValutazione(aa: any) {
-    this.dataService.getValutazioneAttivita(aa.esperienzaSvoltaId).subscribe((res) => {
-      aa.valutazioneEsperienza = res;
-    },
-      (err: any) => { console.log(err); });
-  }
 
   updateNonCompletaState() {
    this.attivitaStudente.forEach(element => {
