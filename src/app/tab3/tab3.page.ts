@@ -61,16 +61,28 @@ export class Tab3Page {
             if (this.attivitaStudente.length < this.pageSize) {
               this.maybeMore = false;
             }
-            this.attivitaStudente.forEach(aa => {
-              let dayBeforeFine = moment(aa.dataFine).subtract(1, "days").startOf('day');
-              if (aa.tipologia == 7 && dayBeforeFine.isBefore(this.now)) {
-                 this.dataService.getValutazioneAttivita(aa.esperienzaSvoltaId).subscribe((res) => {
-                  aa.valutazioneEsperienza = res;
-                },
-                  (err: any) => {console.log(err);});
+            // this.attivitaStudente.forEach(aa => {
+            //   if (this.isValutazioneActive(aa)) {
+            //     this.dataService.getValutazioneAttivita(aa.esperienzaSvoltaId).subscribe((res) => {
+            //       aa.valutazioneEsperienza = res;
+            //     },
+            //       (err: any) => {console.log(err);});
+            //   }
+            // });             
+            // this.utilsService.dismissLoading();
+            let promises = [];
+            for (let aa of this.attivitaStudente) {
+              if (this.isValutazioneActive(aa)) {
+                promises.push(
+                  this.dataService.getValutazioneAttivita(aa.esperienzaSvoltaId).toPromise().then((res) => {
+                    aa.valutazioneEsperienza = res;
+                  })
+                );
               }
-            });           
-            this.utilsService.dismissLoading();
+            }
+            Promise.all(promises).then(values => {
+              this.utilsService.dismissLoading();
+            })
           },
             (err: any) => {
               console.log(err);
@@ -96,6 +108,13 @@ export class Tab3Page {
         console.log(err);
         this.utilsService.dismissLoading();
       });
+  }
+  
+  getValutazione(aa: any) {
+    this.dataService.getValutazioneAttivita(aa.esperienzaSvoltaId).subscribe((res) => {
+      aa.valutazioneEsperienza = res;
+    },
+      (err: any) => { console.log(err); });
   }
 
   updateNonCompletaState() {
@@ -184,6 +203,17 @@ export class Tab3Page {
       } else {
         this.router.navigate(['../../tab2/presenze/gruppo', { data: JSON.stringify(params) }], { relativeTo: this.route });
       }
+    }
+  }
+
+  isValutazioneActive(aa) {
+    let active = false;
+    if (aa.tipologia == 7) {
+      let dayBeforeFine = moment(aa.dataFine).subtract(1, "days").startOf('day');
+      if (dayBeforeFine.isBefore(this.now)) {
+        active = true;
+      }
+      return active;
     }
   }
 

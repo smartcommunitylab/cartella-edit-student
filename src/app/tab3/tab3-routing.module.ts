@@ -4,11 +4,13 @@ import { Tab3Page } from './tab3.page';
 import { EsperienzaDettaglioComponent } from './actions/esperienza-dettaglio/esperienza-dettaglio.component';
 import { DocumentUploadModalComponent } from './actions/documento-upload-modal/document-upload-modal.component';
 import { ValutazioneStudenteComponent } from './actions/valutazione-studente/valutazione-studente.component';
+import { ValutazioneCompetenzeComponent } from './actions/valutazione-competenze/valutazione-competenze.component';
 
 const routes: Routes = [
   { path: '', component: Tab3Page },
   { path: 'detail/:id', component: EsperienzaDettaglioComponent },
   { path: 'valutazione/esperiezna/:id', component: ValutazioneStudenteComponent },
+  { path: 'valutazione/competenze/:id', component: ValutazioneCompetenzeComponent },
 ];
 
 @NgModule({
@@ -21,5 +23,6 @@ export class Tab3PageRoutingModule {
     EsperienzaDettaglioComponent,
     DocumentUploadModalComponent,
     ValutazioneStudenteComponent,
+    ValutazioneCompetenzeComponent
   ];
 }
