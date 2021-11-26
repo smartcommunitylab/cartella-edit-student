@@ -33,53 +33,62 @@ export class ValutazioneCompetenzeComponent {
     private utilsService: UtilsService,
     private modalCtrl: ModalController,
     private alertController: AlertController
-  ) { 
-    
-   this.domande[0] = {
-      id: 1,
-      competenzaTitolo: 'Valutare le caratteristiche contestuali dell’ambiente per svolgere le proprie mansioni in maniera corretta e non fuori luogo ',
-      punteggio: 5,
-      rispostaChiusa: true
-    }
-
-    this.domande[1] = {
-      id: 2,
-      competenzaTitolo: 'Valutare le caratteristiche contestuali dell’ambiente per svolgere le proprie mansioni in maniera corretta e non fuori luogo',
-      punteggio: 4,
-      rispostaChiusa: true
-    }
-
-    this.domande[2] = {
-      id: 3,
-      competenzaTitolo: 'Valutare le caratteristiche contestuali dell’ambiente per svolgere le proprie mansioni in maniera corretta e non fuori luogo',
-      punteggio: 3,
-      rispostaChiusa: true
-    }
-
-    this.domande[3] = {
-      id: 4,
-      competenzaTitolo: 'Valutare le caratteristiche contestuali dell’ambiente per svolgere le proprie mansioni in maniera corretta e non fuori luogo. Valutare le caratteristiche contestuali dell’ambiente per svolgere le proprie mansioni in maniera corretta e non fuori luogo',
-      risposta: 2,
-      rispostaChiusa: false
-    }
-
-    this.domande[4] = {
-      id: 5,
-      competenzaTitolo: 'Valutare le caratteristiche contestuali dell’ambiente per svolgere le proprie mansioni in maniera corretta e non fuori luogo',
-      punteggio: 0,
-      rispostaChiusa: true
-    }
-
-  }
+  ) {}
 
   ngAfterViewInit(): void {
-
+    this.route.params.subscribe(params => {
+      let id = params['id'];
+      this.utilsService.presentLoading();
+        this.dataService.getAttivitaStudenteById(id).subscribe((attivita: any) => {
+          this.attivita = attivita;
+          this.aa = attivita.aa;
+          this.es = attivita.es;
+          this.dataService.getValutazioneCompetenze(this.es.id).subscribe((res) => {
+            this.domande = res.valutazioni;
+            this.utilsService.dismissLoading();
+          },
+          (err: any) => {
+            console.log(err);
+            this.utilsService.dismissLoading();
+          })
+        },
+          (err: any) => {
+            console.log(err);
+            this.utilsService.dismissLoading();
+          });        
+    });
   }
 
   cancel() {
     this.router.navigate(['../../../'], { relativeTo: this.route });
   }
 
- 
+  styleReport() {
+    var style = {
+      'color': '#707070',
+      'font-size': '14px'
+    };
+    if (this.domandeCompilati == this.domanteTotale && this.domandeCompilati > 0) {
+      style['color'] = '#007A50'; // green
+    }
+    return style;
+  }
+
+  setValue(punteggio) {
+    let titolo = '-'
+    let rtn = this.valutazioni.find(data => data.punteggio == punteggio);
+    if (rtn) titolo = rtn.titolo;
+    return titolo;
+  }
+
+  styleValueColor(value) {
+    var style = {
+      'color': '#5C6F82'      
+    };
+    if (value == 1) {
+      style['color'] = '#F83E5A'; // red   
+    }
+    return style;
+  }
 
 }
