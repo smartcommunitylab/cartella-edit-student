@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UtilsService } from 'src/app/core/services/utils.service';
 import { ModalController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
+import { Location } from "@angular/common";
 
 @Component({
   selector: 'valutazione-studente',
@@ -33,7 +34,7 @@ export class ValutazioneStudenteComponent {
     private route: ActivatedRoute,
     private dataService: DataService,
     private utilsService: UtilsService,
-    private modalCtrl: ModalController,
+    private location: Location,
     private alertController: AlertController
   ) { }
 
@@ -76,7 +77,7 @@ export class ValutazioneStudenteComponent {
   }
   
   cancel() {
-    this.router.navigate(['../../../'], { relativeTo: this.route });
+    this.location.back();
   }
 
   save() {
