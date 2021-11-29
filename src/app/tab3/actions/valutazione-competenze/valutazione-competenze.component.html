@@ -8,21 +8,25 @@
     <div class="ion-padding">
         <ion-grid class="valutazione" *ngIf="aa && es">
             <ion-row class="heading text-semibold">
-                <ion-col size="3"></ion-col>
-                <ion-col size="6" class="text-center">Valutazione competenze</ion-col>
-                <ion-col size="3"></ion-col>            
+                <ion-col size="2"></ion-col>
+                <ion-col size="8" class="text-center">Valutazione competenze</ion-col>
+                <ion-col size="2"></ion-col>            
             </ion-row>
             <ion-row class="heading-text">
                 <ion-col>Il seguente questionario serve per valutare la pertinenza di questa esperienza Alternanza Scuola-Lavoro con il tuo percorso formativo. Rispondi alle seguenti domande selezionando l’opzione che ti sembra adeguata. 
                 </ion-col>
             </ion-row>
+            <ion-row class="grey-line-divider"></ion-row>
+            <ion-row class="report" [ngStyle]="styleReport(es)">
+                <ion-col><span class="text-semibold">{{ domandeCompilati }}</span><span class="text-italic"> item compilati su </span><span class="text-semibold">{{ domanteTotale }}</span><span class="text-italic"> complessive</span></ion-col>
+            </ion-row>    
             <ion-list>
                 <ion-item lines="full" class="domande" *ngFor="let d of domande">
                     <span>
                         <ion-row class="text-semibold font-14">Nome</ion-row>
                         <ion-row class="font-13">{{d.competenzaTitolo}}</ion-row><br />
                         <ion-row class="text-semibold font-14">Valutazione</ion-row>
-                        <ion-row class="text-semibold font-13" >{{ d.punteggio }}</ion-row><br/>
+                        <ion-row class="text-semibold font-13" [ngStyle]="styleValueColor(d.punteggio)">{{ setValue(d.punteggio) }}</ion-row><br/>
                     </span>
                 </ion-item>            
               </ion-list>        
