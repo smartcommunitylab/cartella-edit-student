@@ -19,7 +19,7 @@ export class ValutazioneStudenteComponent {
   valutazione = [
     { titolo: 'Moltissimo', punteggio: 5 }, 
     { titolo: 'Molto', punteggio: 4 }, 
-    { titolo: 'Abbastanze', punteggio: 3 }, 
+    { titolo: 'Abbastanza', punteggio: 3 }, 
     { titolo: 'Poco', punteggio: 2 }, 
     { titolo: 'Per nulla', punteggio: 1 }
   ];
