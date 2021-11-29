@@ -38,6 +38,7 @@ export class ValutazioneCompetenzeComponent {
   ngAfterViewInit(): void {
     this.route.params.subscribe(params => {
       let id = params['id'];
+      this.initCounter();
       this.utilsService.presentLoading();
         this.dataService.getAttivitaStudenteById(id).subscribe((attivita: any) => {
           this.attivita = attivita;
@@ -45,6 +46,12 @@ export class ValutazioneCompetenzeComponent {
           this.es = attivita.es;
           this.dataService.getValutazioneCompetenze(this.es.id).subscribe((res) => {
             this.domande = res.valutazioni;
+            this.domande.forEach(d=> {
+              this.domanteTotale++;
+              if (d.punteggio > 0) {
+                this.domandeCompilati++;
+              }
+            })
             this.utilsService.dismissLoading();
           },
           (err: any) => {
@@ -57,6 +64,11 @@ export class ValutazioneCompetenzeComponent {
             this.utilsService.dismissLoading();
           });        
     });
+  }
+
+  initCounter() {
+    this.domanteTotale = 0;
+    this.domandeCompilati = 0;
   }
 
   cancel() {
