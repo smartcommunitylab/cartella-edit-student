@@ -29,8 +29,16 @@
                         <ion-row class="text-semibold font-14">Valutazione</ion-row>
                         <ion-row class="text-semibold font-13" [ngStyle]="styleValueColor(d.punteggio)">{{ setValue(d.punteggio) }}</ion-row><br/>
                     </span>
-                </ion-item>            
-              </ion-list>        
+                </ion-item>               
+            </ion-list>
+            <ion-row *ngIf="!domande || domande?.length==0" class="text-center">
+                <ion-col size="2"></ion-col>
+                <ion-col size="8">
+                    <span class="attributes">Non ci sono competenze associate a quest’attività</span>
+                </ion-col>
+                <ion-col size="2"></ion-col>
+                
+            </ion-row>
         </ion-grid>
     </div>
 </ion-content>
