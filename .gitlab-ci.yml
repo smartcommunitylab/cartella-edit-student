@@ -57,7 +57,7 @@ frontend-deploy:
   stage: deploy
   image: smartcommunitylab/kubectl-alpine:latest
   environment:
-    name: develop
+    name: platform-new
   script:
     - echo "deploy frontend"
     - kubectl -n cartella set image deployments/cartella-studente-$CI_COMMIT_REF_NAME cartella-studente-$CI_COMMIT_REF_NAME=$CONTAINER_IMAGE_FRONTEND --record=true
