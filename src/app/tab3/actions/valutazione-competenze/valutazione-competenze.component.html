@@ -1,0 +1,44 @@
+<ion-header *ngIf="aa && es">
+    <h1 class="v-center titolo text-semibold">
+        <ion-back-button defaultHref="home"></ion-back-button>{{aa.titolo}}
+    </h1>
+</ion-header>
+<br>
+<ion-content>
+    <div class="ion-padding">
+        <ion-grid class="valutazione" *ngIf="aa && es">
+            <ion-row class="heading text-semibold">
+                <ion-col size="2"></ion-col>
+                <ion-col size="8" class="text-center">Valutazione competenze</ion-col>
+                <ion-col size="2"></ion-col>            
+            </ion-row>
+            <ion-row class="heading-text">
+                <ion-col>Di seguito trovi la valutazione che l’ente ha 
+                    fatto sul livello della tua tua acquisizione delle competenze messe in campo durante questa attività. 
+                </ion-col>
+            </ion-row>
+            <ion-row class="grey-line-divider"></ion-row>
+            <ion-row class="report" [ngStyle]="styleReport(es)">
+                <ion-col><span class="text-semibold">{{ domandeCompilati }}</span><span class="text-italic"> item compilati su </span><span class="text-semibold">{{ domanteTotale }}</span><span class="text-italic"> complessive</span></ion-col>
+            </ion-row>    
+            <ion-list>
+                <ion-item lines="full" class="domande" *ngFor="let d of domande">
+                    <span>
+                        <ion-row class="text-semibold font-14">Nome</ion-row>
+                        <ion-row class="font-13">{{d.competenzaTitolo}}</ion-row><br />
+                        <ion-row class="text-semibold font-14">Valutazione</ion-row>
+                        <ion-row class="text-semibold font-13" [ngStyle]="styleValueColor(d.punteggio)">{{ setValue(d.punteggio) }}</ion-row><br/>
+                    </span>
+                </ion-item>               
+            </ion-list>
+            <ion-row *ngIf="!domande || domande?.length==0" class="text-center">
+                <ion-col size="2"></ion-col>
+                <ion-col size="8">
+                    <span class="attributes">Non ci sono competenze associate a quest’attività</span>
+                </ion-col>
+                <ion-col size="2"></ion-col>
+                
+            </ion-row>
+        </ion-grid>
+    </div>
+</ion-content>

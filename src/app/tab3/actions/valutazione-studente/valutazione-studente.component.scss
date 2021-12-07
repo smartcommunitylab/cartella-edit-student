@@ -1,0 +1,64 @@
+.header-titolo {
+    color: #5C6F82;
+    font-size: 24px;
+}
+.titolo {
+    color: #0066CC;
+    font-size: 20px;
+    margin: 0px;
+}
+.button-salva {
+    color: #1E4C96;
+    --background: #CCE6FF;
+    --border-color: #1E4C96;
+    --border-radius: 10px;
+}
+.button-annulla {
+    color:#FAFDFF;
+    --background: #F83E5A;
+    --border-color:  #F83E5A;
+    --border-radius: 10px;
+    --background-hover: #F83E5A; 
+}
+.valutazione {
+    border: 2px solid #7FB2E5;
+    box-sizing: border-box;    
+}
+.heading {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 30px;    
+    color: #5C6F82;
+}
+.heading-text {
+    font-style: italic;
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 20px;
+    text-align: center;
+    color: #5C6F82;
+}
+.report {
+    font-size: 10px;
+    line-height: 15px;
+    text-align: center;
+    color: #5C6F82;
+}
+.domande {
+    font-size: 14px;
+    line-height: 21px;
+    color: #5C6F82;
+    justify-content: center;
+}
+.item-radio-checked {
+    font-weight: bold;
+}
+.text-area {
+    align-content: left;
+    width: 100%;
+    height: 100px;
+    color: #5C6F82;
+    font-size: 14px;
+    font-family: 'Titillium Web';
+}

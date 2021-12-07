@@ -6,6 +6,8 @@ import { UtilsService } from 'src/app/core/services/utils.service';
 import { ModalController } from '@ionic/angular';
 import { DocumentUploadModalComponent } from '../documento-upload-modal/document-upload-modal.component';
 import { AlertController } from '@ionic/angular';
+import * as moment from 'moment';
+import 'moment/locale/it';
 
 @Component({
   selector: 'esperienza-dettaglio',
@@ -25,6 +27,7 @@ export class EsperienzaDettaglioComponent {
   tipiDoc = [{ "name": "Piano formativo", "value": "piano_formativo" }, { "name": "Convenzione", "value": "convenzione" }, { "name": "Valutazione studente", "value": "valutazione_studente" }, { "name": "Valutazione esperienza", "value": "valutazione_esperienza" }, { "name": "Altro", "value": "doc_generico" }, { "name": "Pregresso", "Altro": "pregresso" }];
   removableDoc = ["valutazione_esperienza", "doc_generico"];
   individuale: boolean;
+  now;
 
   constructor(
     private router: Router,
@@ -33,7 +36,9 @@ export class EsperienzaDettaglioComponent {
     private utilsService: UtilsService,
     private modalCtrl: ModalController,
     private alertController: AlertController
-  ) { }
+  ) {
+    this.now = moment();
+  }
 
   ngAfterViewInit(): void {
     this.route.params.subscribe(params => {
@@ -45,16 +50,31 @@ export class EsperienzaDettaglioComponent {
           this.attivita = attivita;
           this.aa = attivita.aa;
           this.es = attivita.es;
-
           if (this.hasCoordinate()) {
             setTimeout(() => { //ensure that map div is rendered
               this.drawMap();
-            }, 0);
-          }
-
+            }, 0);}
           this.dataService.getAttivitaDocumenti(this.es.uuid).subscribe(resp => {
             this.es.documenti = resp;
-            this.utilsService.dismissLoading();
+            if (this.isValutazioneActive()) {
+              this.dataService.getValutazioneAttivita(this.es.id).subscribe((res) => {
+                this.es.valutazioneEsperienza = res;
+                this.dataService.getValutazioneCompetenze(this.es.id).subscribe((res) => {
+                  this.es.valutazioneCompetenze = res;
+                  this.utilsService.dismissLoading(); 
+                },
+                  (err: any) => {
+                    this.utilsService.dismissLoading();
+                    console.log(err);
+                  })
+              },
+                (err: any) => {
+                  this.utilsService.dismissLoading();
+                  console.log(err);
+                });
+            } else {
+              this.utilsService.dismissLoading();             
+            }
           },
             (err: any) => {
               console.log(err);
@@ -158,6 +178,9 @@ export class EsperienzaDettaglioComponent {
   async openDocumentUpload() {
     const modal = await this.modalCtrl.create({
       component: DocumentUploadModalComponent,
+      componentProps: {
+        tipologiaId : this.aa.tipologia
+      }
       // cssClass: 'my-custom-modal-css'
     });
     modal.lastElementChild.setAttribute('aria-label', 'documento upload modal');
@@ -203,9 +226,42 @@ export class EsperienzaDettaglioComponent {
       });
     },
       (err: any) => {
-        console.log(err);
         this.utilsService.dismissLoading();
+        this.handleError(err);        
       })
+  }
+
+  isValutazioneActive() {
+    let active = false;
+    if (this.aa.tipologia == 7) {
+      let dayBeforeFine = moment(this.aa.dataFine).subtract(1, "days").startOf('day');
+      if (dayBeforeFine.isBefore(this.now)) {
+        active = true;
+      }
+      return active;
+    }
+  }
+
+  handleError(error) {
+    let errMsg = "Errore del server!";
+    if (error.error) {
+      if (error.error.message) {
+        errMsg = error.error.message;
+      } else if (error.error.ex) {
+        errMsg = error.error.ex;
+      } else if (typeof error.error === "string") {
+        try {
+          let errore = JSON.parse(error.error);
+          if (errore.ex) {
+            errMsg = errore.ex;
+          }
+        }
+        catch (e) {
+          console.error('server error:', errMsg);
+        }
+      }
+    }
+    this.utilsService.presentErrorLoading(errMsg);
   }
 
   async showDeleteConfirmationAlert(doc) {
@@ -240,6 +296,48 @@ export class EsperienzaDettaglioComponent {
       removable = true;
     }
     return removable;
+  }
+
+  openValutazioneEsp(es) {
+    this.router.navigate(['../../valutazione/esperiezna', es.id], { relativeTo: this.route });
+  }
+
+  openValutazioneCompetenze(es) {
+    this.router.navigate(['../../valutazione/competenze', es.id], { relativeTo: this.route });
+  } 
+  
+  styleStatoVal(aa) {
+    var style = {
+      'color': '#007A50',//green
+      'font-size': '14px'
+    };
+    if (aa.stato == 'archiviata') {
+      style['color'] = '#707070'; // grey
+      return style;
+    } else if (aa.valutazioneEsperienza.stato == 'incompleta') {
+      style['color'] = '#707070'; // grey
+    } else if (aa.valutazioneEsperienza.stato == 'non_compilata') {
+      style['color'] = '#F83E5A'; // red      
+    }    
+    return style;
+  }
+
+  setValStatus(aa) {
+    let stato = 'Completata';
+    if (aa.valutazioneEsperienza.stato == 'incompleta') {
+      stato = 'Da completare';
+    } else if (aa.valutazioneEsperienza.stato == 'non_compilata') {
+      stato = 'Non compilata';
+    }
+    return stato;
+  }
+
+  action(aa) {
+    let action = 'Compila';
+    if (aa.valutazioneEsperienza.stato == 'compilata') {
+      action = 'Vedi'
+    }
+    return action;
   }
 
 }
