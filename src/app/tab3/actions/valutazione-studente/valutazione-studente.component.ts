@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { DataService } from '../../../core/services/data.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UtilsService } from 'src/app/core/services/utils.service';
-import { ModalController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { Location } from "@angular/common";
 
@@ -30,13 +29,11 @@ export class ValutazioneStudenteComponent {
   domandeCompilati = 0;
   
   constructor(
-    private router: Router,
     private route: ActivatedRoute,
     private dataService: DataService,
     private utilsService: UtilsService,
-    private location: Location,
-    private alertController: AlertController
-  ) { }
+    private location: Location
+  ) {}
 
   ngAfterViewInit(): void {
     this.route.params.subscribe(params => {

@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { DataService } from '../../../core/services/data.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UtilsService } from 'src/app/core/services/utils.service';
-import { ModalController } from '@ionic/angular';
-import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'valutazione-competenze',
@@ -30,10 +28,8 @@ export class ValutazioneCompetenzeComponent {
     private router: Router,
     private route: ActivatedRoute,
     private dataService: DataService,
-    private utilsService: UtilsService,
-    private modalCtrl: ModalController,
-    private alertController: AlertController
-  ) {}
+    private utilsService: UtilsService
+    ) {}
 
   ngAfterViewInit(): void {
     this.route.params.subscribe(params => {
