@@ -2,7 +2,7 @@
     <h1 class="v-center titolo text-semibold">
         <ion-back-button defaultHref="home"></ion-back-button>{{aa.titolo}}
     </h1>
-    <ion-row *ngIf="buttonShow">
+    <ion-row *ngIf="buttonShow && !archiviata">
         <ion-col size="1"></ion-col>
         <ion-col size="5">
             <ion-button expand="outline" class="button-annulla text-bold ion-text-capitalize" size="small" (click)="cancel()">Annulla</ion-button>
@@ -23,7 +23,7 @@
                 <ion-col size="3"></ion-col>            
             </ion-row>
             <ion-row class="heading-text">
-                <ion-col>Il seguente questionario serve per valutare la pertinenza di questa esperienza Alternanza Scuola-Lavoro con il tuo percorso formativo. Rispondi alle seguenti domande selezionando l’opzione che ti sembra adeguata. 
+                <ion-col>Il seguente questionario serve per valutare la pertinenza di questa esperienza con il tuo percorso formativo. Rispondi alle seguenti domande selezionando l’opzione che ti sembra adeguata. 
                 </ion-col>
             </ion-row>
             <ion-row class="blue-line-divider"></ion-row>
@@ -38,11 +38,11 @@
                         <span *ngIf="d.rispostaChiusa">                            
                             <ion-item lines="none" *ngFor="let v of valutazione">
                                 <ion-label class="domande">{{v.titolo}}</ion-label>
-                                <ion-radio class="domande" slot="start" [value]="v.punteggio"></ion-radio>
+                                <ion-radio class="domande" slot="start" [value]="v.punteggio" [disabled]="archiviata"></ion-radio>
                               </ion-item>
                         </span>
                         <span *ngIf="!d.rispostaChiusa">
-                            <textarea (ionInput)=checkLimit() class="text-area" [(ngModel)]="d.risposta" name="note"></textarea>
+                            <textarea (ionInput)=checkLimit() class="text-area" [(ngModel)]="d.risposta" name="note" [disabled]="archiviata"></textarea>
                         </span>
                     </ion-radio-group>
                 </ion-item>            

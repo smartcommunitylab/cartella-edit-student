@@ -15,7 +15,8 @@ export class ValutazioneStudenteComponent {
   attivita;
   aa;
   es;
-  domande= []
+  domande= [];
+  archiviata = false;
   valutazione = [
     { titolo: 'Moltissimo', punteggio: 5 }, 
     { titolo: 'Molto', punteggio: 4 }, 
@@ -43,6 +44,7 @@ export class ValutazioneStudenteComponent {
         this.dataService.getAttivitaStudenteById(id).subscribe((attivita: any) => {
           this.attivita = attivita;
           this.aa = attivita.aa;
+          this.archiviata = this.aa.stato == 'archiviata';
           this.es = attivita.es;
           this.dataService.getValutazioneAttivita(this.es.id).subscribe((res) => {
             this.domande = res.valutazioni;
