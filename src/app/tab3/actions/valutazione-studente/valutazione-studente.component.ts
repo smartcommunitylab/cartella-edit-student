@@ -107,6 +107,16 @@ export class ValutazioneStudenteComponent {
     }
   }
 
+  getDomandeCompilate() {
+    var count = 0;
+    this.domande.forEach(d=> {
+      if (d.punteggio > 0) {
+        count++;
+      }
+    });
+    return count;    
+  }
+
   styleReport() {
     var style = {
       'color': '#707070',
