@@ -103,15 +103,12 @@
                     <ion-row *ngIf="giorno.verificata || giorno.validataEnte">
                         <ion-col>
                             <p class="para">{{giorno.attivitaSvolta}}</p>
-                            <!-- <ion-textarea class="text-area" sytle="placeholder-font-style:italic"
-                                *ngIf="!giorno.verificata && !giorno.validataEnte" [(ngModel)]="giorno.attivitaSvolta"
-                                placeholder="inserisci diario di bordo."></ion-textarea> -->
                         </ion-col>
                     </ion-row>
                     <ion-row *ngIf="!giorno.verificata && !giorno.validataEnte">
                         <ion-col size="12">
                             <div class="text-area">
-                                <span class="text-italic">&nbsp;inserisci diario di bordo.</span>
+                                <span [ngStyle]="styleDiario(giorno)">&nbsp;{{ getDiarioText(giorno) }}</span>
                             </div>
                         </ion-col>
                     </ion-row>

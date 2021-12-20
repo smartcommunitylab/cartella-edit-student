@@ -227,4 +227,21 @@ export class GestionePresenzeIndividualePage {
     return options;
   }
 
+  getDiarioText(giorno) {
+    let text = 'inserisci diario di bordo.';
+    if (giorno.attivitaSvolta != '') {
+      text = giorno.attivitaSvolta;
+    }
+    return text;
+  }
+
+  styleDiario(giorno) {
+    var style = {};
+    if (giorno.attivitaSvolta == '') {
+      style['font-style'] = 'italic'
+    }
+    return style;
+  }
+  
+
 }
