@@ -34,7 +34,7 @@
       <ion-col size="4"><span class="font-14">Telefono:</span></ion-col>
       <ion-col size="6">
         <span *ngIf="dataService.phone" class="font-14">{{dataService.phone}}</span>
-        <a *ngIf="!dataService.phone" class="noUnderLine v-center blue" href="javascript:void(0);" (click)="showPhoneInput()">
+        <a *ngIf="!dataService.phone" class="font-14 noUnderLine v-center blue" href="javascript:void(0);" (click)="showPhoneInput()">
           Inserisci numero
         </a>
       </ion-col>
