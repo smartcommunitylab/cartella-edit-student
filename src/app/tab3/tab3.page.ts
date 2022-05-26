@@ -3,6 +3,8 @@ import { DataService } from '../core/services/data.service'
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { IonInfiniteScroll } from '@ionic/angular';
 import { UtilsService } from '../core/services/utils.service';
+import * as moment from 'moment';
+import 'moment/locale/it';
 
 @Component({
   selector: 'app-tab3',
@@ -26,12 +28,15 @@ export class Tab3Page {
   ];
   tipologie;
   esperienzeNoncompleta: number = 0;
+  now;
 
   constructor(
     private dataService: DataService,
     private utilsService: UtilsService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router) { 
+      this.now = moment();
+    }
 
   ionViewWillEnter(): void {
     this.resetCounter();
@@ -44,7 +49,6 @@ export class Tab3Page {
 
   getAttivitaPage(page: number) {
     this.utilsService.presentLoading();
-
     this.dataService.getAttivitaTipologie().subscribe((res) => {
       this.tipologie = res;
       this.dataService.getStudenteSummary().subscribe(resp => {
@@ -57,7 +61,28 @@ export class Tab3Page {
             if (this.attivitaStudente.length < this.pageSize) {
               this.maybeMore = false;
             }
-            this.utilsService.dismissLoading();
+            // this.attivitaStudente.forEach(aa => {
+            //   if (this.isValutazioneActive(aa)) {
+            //     this.dataService.getValutazioneAttivita(aa.esperienzaSvoltaId).subscribe((res) => {
+            //       aa.valutazioneEsperienza = res;
+            //     },
+            //       (err: any) => {console.log(err);});
+            //   }
+            // });             
+            // this.utilsService.dismissLoading();
+            let promises = [];
+            for (let aa of this.attivitaStudente) {
+              if (this.isValutazioneActive(aa)) {
+                promises.push(
+                  this.dataService.getValutazioneAttivita(aa.esperienzaSvoltaId).toPromise().then((res) => {
+                    aa.valutazioneEsperienza = res;
+                  })
+                );
+              }
+            }
+            Promise.all(promises).then(values => {
+              this.utilsService.dismissLoading();
+            })
           },
             (err: any) => {
               console.log(err);
@@ -172,6 +197,55 @@ export class Tab3Page {
         this.router.navigate(['../../tab2/presenze/gruppo', { data: JSON.stringify(params) }], { relativeTo: this.route });
       }
     }
+  }
+
+  isValutazioneActive(aa) {
+    let active = false;
+    if (aa.tipologia == 7) {
+      let dayBeforeFine = moment(aa.dataFine).subtract(1, "days").startOf('day');
+      if (dayBeforeFine.isBefore(this.now)) {
+        active = true;
+      }
+      return active;
+    }
+  }
+
+  openValutazioneEsp(aa) {
+    this.router.navigate(['../valutazione/esperiezna', aa.esperienzaSvoltaId], { relativeTo: this.route });
+  }
+  
+  styleStatoVal(aa) {
+    var style = {
+      'color': '#007A50',//green
+      'font-size': '14px'
+    };
+    if (aa.stato == 'archiviata') {
+      style['color'] = '#707070'; // grey
+      return style;
+    } else if (aa.valutazioneEsperienza.stato == 'incompleta') {
+      style['color'] = '#707070'; // grey
+    } else if (aa.valutazioneEsperienza.stato == 'non_compilata') {
+      style['color'] = '#F83E5A'; // red      
+    }    
+    return style;
+  }
+
+  setValStatus(aa) {
+    let stato = 'Completata';
+    if (aa.valutazioneEsperienza.stato == 'incompleta') {
+      stato = 'Da completare';
+    } else if (aa.valutazioneEsperienza.stato == 'non_compilata') {
+      stato = 'Non compilata';
+    }
+    return stato;
+  }
+
+  action(aa) {
+    let action = 'Compila';
+    if (aa.valutazioneEsperienza.stato == 'compilata') {
+      action = 'Vedi'
+    }
+    return action;
   }
 
 }

@@ -20,6 +20,7 @@ export class DocumentUploadModalComponent implements OnInit {
   tipiDoc = [{ "name": "Valutazione esperienza", "value": "valutazione_esperienza" }, { "name": "Altro", "value": "doc_generico" }];
   selectedDocType;
   saveFileObj = { type: null, file: null };
+  @Input() tipologiaId;
   @Output() newDocumentListener = new EventEmitter<Object>();
 
   constructor(public modalCtrl: ModalController) { }
